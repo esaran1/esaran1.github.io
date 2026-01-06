@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AccentCoach | Your Name</title>
+    <meta
+      name="description"
+      content="AccentCoach is a privacy-friendly web app that provides word-by-word pronunciation coaching with audio comparisons."
+    />
+    <meta property="og:title" content="AccentCoach" />
+    <meta
+      property="og:description"
+      content="A full-stack speech ML app that delivers supportive, word-level pronunciation feedback."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../index.html">Home</a>
+          <a class="hover:text-white" href="../blog/index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Speech ML</span>
+            <span class="badge badge-muted">Product</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">AccentCoach</h1>
+          <p class="text-[color:var(--muted)]">Project overview</p>
+        </header>
+
+        <section class="space-y-5" text-lg text-[color:var(--muted)]">
+          <p>
+            AccentCoach is a production-quality MVP I built to turn speech ML into something genuinely usable: a
+            privacy-friendly web app that analyzes spoken English and provides supportive, word-by-word clarity coaching
+            for accented speakers. Instead of generic advice, it gives actionable feedback at the exact moment a
+            pronunciation issue likely occurred, and it pairs that feedback with audio so users can immediately compare
+            what they said against a clear example. The product tone is intentionally encouraging, with messaging like
+            "Accents aren't wrong. This is optional clarity coaching," and the UI is designed to feel modern and
+            approachable rather than clinical.
+          </p>
+          <p>
+            Under the hood, AccentCoach is an end-to-end full-stack ML system that runs locally without paid APIs. On the
+            backend (FastAPI + Uvicorn, Python 3.11), the app accepts either an uploaded audio file or a browser-recorded
+            take. The audio is normalized using ffmpeg into a consistent mono 16 kHz WAV format to improve reliability
+            across devices and file types. A background job system persists state to disk as JSON ("processing / done /
+            error"), which keeps the experience responsive and resilient while making the pipeline reproducible and easy
+            to debug. All artifacts including uploads, job metadata, word clips, and example audio are stored locally
+            under a structured data directory.
+          </p>
+          <p>
+            The speech pipeline goes beyond basic transcription. The system transcribes speech and then aligns word
+            timings to audio more precisely (using WhisperX alignment) so each word has reliable start and end
+            timestamps. From those timestamps, AccentCoach slices the user's audio into per-word clips and attaches them
+            to the transcript for interactive playback. For scoring, I implemented a phoneme-aware approach. The app
+            derives an expected pronunciation (phoneme sequence) for each word and compares it against an observed
+            phoneme estimate from the user's clipped audio. That comparison is combined with alignment confidence and
+            accent-sensitive confusion patterns (for example TH substitutions, R/L confusions, V/W swaps, and stress or
+            vowel length cues) to produce a 0-100 clarity score, an issue label, and a short coaching tip per word. The
+            result is not just ASR confidence, but a more interpretable signal that maps to concrete, practiceable
+            feedback. For flagged words, the system also generates an example pronunciation clip, with safe fallbacks if
+            TTS is not available, so users can hear a clear reference immediately.
+          </p>
+          <p>
+            On the frontend (Next.js 14 App Router + TypeScript), I built a polished, accessible experience using
+            Tailwind CSS and shadcn/ui. The results dashboard summarizes overall performance, highlights top recurring
+            issues, and recommends a short practice list so users know what to work on next. The transcript renders as
+            clickable word pills color-coded by score, and selecting a word opens a detail panel where users can play
+            "You said" and "Example" audio with waveform visualization (WaveSurfer.js) for fast scrubbing and comparison.
+            Subtle motion and thoughtful empty, loading, and error states keep the interaction smooth while the backend
+            processes jobs asynchronously. Overall, AccentCoach demonstrates my ability to combine ML engineering,
+            backend reliability, and product design into a cohesive system that feels like a real app, not a demo.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../blog/index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+            <script src="../assets/js/main.js"></script>
+  </body>
+</html>

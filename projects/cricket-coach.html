@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cricket Coach | Your Name</title>
+    <meta
+      name="description"
+      content="Cricket Coach is a local-first computer vision system that analyzes short cricket clips and returns coaching overlays and structured reports."
+    />
+    <meta property="og:title" content="Cricket Coach" />
+    <meta
+      property="og:description"
+      content="A modular CV coaching pipeline with pose overlays, event markers, and confidence-aware metrics."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../index.html">Home</a>
+          <a class="hover:text-white" href="../blog/index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Motion</span>
+            <span class="badge badge-muted">ML</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">Cricket Coach</h1>
+          <p class="text-[color:var(--muted)]">Project overview</p>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <figure class="card overflow-hidden">
+            <img
+              src="../assets/images/Screenshot 2026-01-05 at 6.33.44 PM.png"
+              alt="Cricket Coach interface with pose overlay and metrics"
+              class="w-full h-auto"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card overflow-hidden">
+            <img
+              src="../assets/images/Screenshot 2026-01-05 at 6.39.11 PM.png"
+              alt="Cricket Coach results dashboard and recommendations"
+              class="w-full h-auto"
+              loading="lazy"
+            />
+          </figure>
+          <figure class="card overflow-hidden">
+            <img
+              src="../assets/images/Screenshot 2026-01-05 at 6.40.33 PM.png"
+              alt="Cricket Coach metrics and coaching cues view"
+              class="w-full h-auto"
+              loading="lazy"
+            />
+          </figure>
+          <p>
+            Cricket Coach is a local-first computer vision coaching system that analyzes short cricket clips and
+            returns a replay with a pose overlay, key event markers, coaching metrics, and a structured JSON report.
+            It is designed as a modular Python backend that can be ported to mobile later, with a polished web frontend
+            for demonstration and review.
+          </p>
+          <p>
+            The backend uses MediaPipe Pose to extract 33 body landmarks per frame, then applies interpolation for short
+            visibility gaps and EMA smoothing to stabilize motion. It supports two explicit analysis modes based on
+            camera angle, side or rear-side and front-on, and keeps the logic and thresholds view-specific. A lightweight
+            API accepts a video upload and returns a run id plus URLs to generated artifacts. Outputs include an overlay
+            MP4 with a skeleton and event labels, a keypoints JSON containing raw and smoothed landmarks, and a report
+            JSON containing events, metrics, tips, warnings, and quality statistics.
+          </p>
+          <p>
+            For analysis, the system implements heuristic event detection and coaching metrics per view. Side view
+            focuses on front-foot plant detection, stride length, knee angle, and head stability, with additional
+            bowling proxies when bowling mode is selected. Front view focuses on shoulder alignment, lateral head
+            movement, symmetry cues, and experimental bowling elbow extension tracking. To make the metrics useful to
+            coaches, the API layer converts raw numbers into coach-friendly outputs by normalizing key motion measures
+            to percent of frame, attaching short explanations of why each metric matters, adding practical coaching
+            cues, and providing a confidence score based on landmark visibility. Low-confidence metrics automatically
+            generate warnings to prevent over-interpreting noisy signals.
+          </p>
+          <p>
+            To improve shot direction feedback beyond pose-only estimation, the system includes an optional ball
+            tracking pipeline. It uses a two-stage approach with frame differencing and blob filtering to propose
+            candidate ball positions, then refines the trajectory with optical flow to improve continuity when the ball
+            is small or partially blurred. When tracking coverage is sufficient, the shot estimate is derived from ball
+            motion rather than pose cues and the UI surfaces both the estimated fielder zone and the tracking coverage
+            so the user can judge reliability.
+          </p>
+          <p>
+            The frontend is built with Next.js, Tailwind, and shadcn-style components. It provides an upload workflow
+            with explicit view selection, mode selection, and optional batting context inputs like handedness and camera
+            perspective. Results are presented with an overlay video player, metric cards that include status badges,
+            recommendations, interpretation, coaching cues, and signal-quality indicators, plus a tips panel, warnings,
+            and downloadable JSON links. Requests are proxied through the frontend to avoid cross-origin issues in local
+            development.
+          </p>
+          <p>
+            Overall, this project demonstrates end-to-end applied ML engineering, from robust video IO and pose
+            estimation through signal processing, heuristic event detection, confidence-aware metric design, and a clean
+            UI that delivers actionable coaching feedback. It also shows engineering discipline through modular
+            architecture, structured outputs, reproducible setup, and unit tests for core logic.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../blog/index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>

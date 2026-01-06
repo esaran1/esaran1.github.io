@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Limit Order Book Trading Simulator | Your Name</title>
+    <meta
+      name="description"
+      content="An event-driven market microstructure simulation platform for training and evaluating RL agents under realistic execution constraints."
+    />
+    <meta property="og:title" content="Limit Order Book Trading Simulator" />
+    <meta
+      property="og:description"
+      content="A distributed, reproducible platform that combines a LOB simulator, RL environment, training pipeline, and analytics dashboard."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../index.html">Home</a>
+          <a class="hover:text-white" href="../blog/index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 page-fade">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Systems</span>
+            <span class="badge badge-muted">RL</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">Limit Order Book Trading Simulator</h1>
+          <p class="text-[color:var(--muted)]">System overview and technical detail</p>
+        </header>
+
+        <section class="space-y-5" text-lg text-[color:var(--muted)]">
+          <p>
+            The project implements a fully event-driven market microstructure simulation platform that reproduces the
+            mechanics of modern electronic exchanges. At its core is a limit order book (LOB) with price-time priority
+            matching, designed to serve as a controllable, reproducible environment for training and evaluating trading
+            agents under realistic execution constraints.
+          </p>
+          <p>
+            The system is architected as a modular, distributed platform comprising a deterministic matching engine and
+            market simulator, a reinforcement learning environment conforming to the Gymnasium API, a scalable training
+            and evaluation pipeline, and a visual analytics dashboard for experiment inspection and replay. All
+            components are containerized and orchestrated using Kubernetes, enabling reproducible experimentation and
+            horizontal scaling of simulation and training workloads.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Limit order book simulator and matching engine</h2>
+          <div class="space-y-3 text-[color:var(--muted)]">
+            <p>
+              The simulator operates on a discrete event stream consisting of limit orders, market orders, order
+              cancellations, and trade executions. Each event advances the system state deterministically, enabling
+              exact replay and post-hoc analysis.
+            </p>
+            <p>
+              The LOB maintains bid and ask books indexed by price, FIFO queues at each price level to enforce price-time
+              priority, and an order ID map to support efficient cancellation. Efficient data structures (such as sorted
+              maps with per-price deques) ensure logarithmic updates while preserving deterministic behavior.
+            </p>
+            <p>
+              The matching engine supports partial and full fills, crossing orders, realistic spread dynamics,
+              configurable latency between agent actions and exchange acknowledgment, and slippage due to queue position.
+              Trade prints are recorded explicitly, preserving a full execution history for evaluation and replay.
+            </p>
+            <p>
+              The simulator can operate under multiple market regimes: stable, high-volatility, mean-reverting, and
+              regime-switching environments. These regimes modify order arrival rates, price dynamics, and liquidity
+              depth, allowing stress testing of agent robustness.
+            </p>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Reinforcement learning environment</h2>
+          <div class="space-y-3 text-[color:var(--muted)]">
+            <p>
+              At each timestep, the agent observes a compact yet information-dense state representation including top-k
+              bid and ask levels, current spread and mid-price returns, agent inventory and unrealized PnL, and recent
+              order book imbalance statistics. All observations are strictly causal to prevent future information leakage.
+            </p>
+            <p>
+              Agents act by placing limit orders with configurable price offsets and sizes, submitting market orders, or
+              canceling outstanding orders. Rate limits and notional exposure caps are enforced to maintain realism.
+            </p>
+            <p>
+              The reward is formulated as risk-adjusted profit, combining realized PnL, inventory holding penalties, and
+              adverse selection penalties during volatile regimes. This discourages trivial high-risk strategies and
+              encourages stable execution behavior.
+            </p>
+            <p>
+              Baseline strategies (random, TWAP, naive market making) are implemented for benchmarking. The environment
+              enforces no-cheat constraints, ensuring agents cannot observe future events or hidden simulator state.
+            </p>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Training, evaluation, and reproducibility</h2>
+          <div class="space-y-3 text-[color:var(--muted)]">
+            <p>
+              Training uses policy-gradient RL (PPO) with configurable episode lengths, seeded randomness for
+              reproducibility, and distributed rollout workers. Experiments are orchestrated via a job queue and
+              executed in isolated containers.
+            </p>
+            <p>
+              Evaluation focuses on distributional performance, not point estimates. Metrics include PnL distributions,
+              maximum drawdown, inventory variance, execution quality (slippage vs mid-price), and robustness across
+              regime shifts. Bootstrap confidence intervals are computed to assess statistical stability.
+            </p>
+            <p>
+              Each experiment logs simulator version and git commit hash, configuration files and random seeds, trained
+              model artifacts, and evaluation outputs. Artifacts are stored in object storage, while metadata is tracked
+              in a relational database, enabling exact experiment reproduction.
+            </p>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Replay and visualization dashboard</h2>
+          <p class="text-[color:var(--muted)]">
+            A web-based dashboard built with Next.js, Tailwind CSS, and shadcn-style UI provides experiment summaries and
+            metric comparisons, time-series visualizations of prices, spreads, inventory, and PnL, and a replay interface
+            that reconstructs order book states and agent actions over time. This allows qualitative inspection of agent
+            behavior, failure modes, and execution dynamics beyond aggregate metrics.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Infrastructure and deployment</h2>
+          <div class="space-y-3 text-[color:var(--muted)]">
+            <p>
+              All services (simulator, training workers, API, dashboard) are containerized with Docker and deployed via
+              Kubernetes using Kustomize overlays for development and production.
+            </p>
+            <p>
+              Horizontal Pod Autoscalers manage training and evaluation workloads. Resource limits and safety checks
+              prevent runaway simulations. Health probes and network policies enforce service isolation.
+            </p>
+            <p>
+              The system exposes structured logs, Prometheus metrics, and OpenTelemetry traces to support debugging,
+              performance analysis, and system monitoring.
+            </p>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Key contributions and novelty</h2>
+          <div class="space-y-3 text-[color:var(--muted)]">
+            <p>
+              This project goes beyond typical ML trading bots by modeling execution-level market mechanics rather than
+              only price prediction, emphasizing offline policy evaluation and reproducibility, integrating simulation,
+              RL, systems engineering, and visualization, and explicitly analyzing failure modes under distribution
+              shift. The result is a research-grade experimental platform rather than a single trained model.
+            </p>
+            <p>
+              The Limit Order Book Trading Simulator demonstrates the ability to design realistic simulators, build RL
+              environments with strict causality and evaluation discipline, engineer scalable, reproducible ML systems,
+              and communicate complex agent behavior through interpretable tooling. This aligns closely with the
+              technical expectations of quant trading firms, advanced ML teams, and top research institutions.
+            </p>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+            <script src="../assets/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frost &amp; Drought Prediction with ML | Your Name</title>
+  <meta name="description"
+    content="A production-ready platform for forecasting localized frost and drought risk using satellite imagery, time-series data, and interpretable ML." />
+  <meta property="og:title" content="Frost &amp; Drought Prediction with ML" />
+  <meta property="og:description"
+    content="High-resolution agricultural hazard forecasting using satellite fusion, spatio-temporal ML, and real-time decision support." />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+
+<body class="min-h-screen">
+  <header class="border-b border-[color:var(--border)] glass">
+    <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+      <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+        <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+        <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+        <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+      </nav>
+      <button id="mobileNavToggle" class="md:hidden btn btn-outline" type="button" aria-label="Toggle navigation"
+        aria-expanded="false" aria-controls="mobileNavMenu">
+        Menu
+      </button>
+    </div>
+    <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+      <div class="card p-4 flex flex-col gap-3 text-sm">
+        <a class="hover:text-white" href="../index.html">Home</a>
+        <a class="hover:text-white" href="../blog/index.html">Blog</a>
+        <a class="hover:text-white" data-bind-href="linkedin"
+          href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+    <main class="container mx-auto px-6 py-16 page-fade">
+    <article class="max-w-5xl space-y-10 page-fade">
+      <header class="space-y-4">
+        <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge">ML</span>
+          <span class="badge badge-muted">Climate</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-semibold">Frost &amp; Drought Prediction with ML</h1>
+        <p class="text-[color:var(--muted)]">Project overview</p>
+      </header>
+
+      <section class="grid lg:grid-cols-2 gap-6">
+        <figure class="card overflow-hidden">
+          <img src="../assets/images/roc_frost_schematic.png" alt="ROC curve for frost prediction model"
+            class="w-full h-auto" loading="lazy" />
+          <figcaption class="card-body text-sm text-[color:var(--muted)]">
+            Frost prediction ROC curve.
+          </figcaption>
+        </figure>
+        <figure class="card overflow-hidden">
+          <img src="../assets/images/roc_drought_schematic.png" alt="ROC curve for drought prediction model"
+            class="w-full h-auto" loading="lazy" />
+          <figcaption class="card-body text-sm text-[color:var(--muted)]">
+            Drought prediction ROC curve.
+          </figcaption>
+        </figure>
+        <figure class="card overflow-hidden lg:col-span-2">
+          <img src="../assets/images/feature_importance_schematic.png"
+            alt="Feature importance chart for climate hazard models" class="w-full h-auto" loading="lazy" />
+          <figcaption class="card-body text-sm text-[color:var(--muted)]">
+            Feature importance and interpretability.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="space-y-5" text-lg text-[color:var(--muted)]">
+        <p>
+          This project delivers a high-resolution, production-ready system for forecasting localized agricultural
+          climate hazards, specifically frost and drought, using a fusion of satellite imagery, environmental time
+          series, and advanced machine learning. Designed for real-world deployment in resource-limited agricultural
+          settings, the pipeline integrates physics-aware features, interpretable models, and an interactive interface
+          for real-time decision support.
+        </p>
+        <p>
+          The core dataset integrates open-access climate inputs: GRIDMET surface air temperature, Copernicus NDVI
+          (Normalized Difference Vegetation Index), Copernicus Soil Water Index (SWI), and drone-collected thermal and
+          multispectral imagery. These were transformed into a unified, daily-resolution time series spanning 2020–2025.
+          Preprocessing included timestamp alignment, forward-filling and interpolation, normalization (to a 0–1 range),
+          and unit standardization. Frost and drought labels were generated using percentile-based thresholds on
+          temperature and soil moisture, simulating risk classification in data-sparse agricultural settings.
+        </p>
+        <p>
+          Two classes of machine learning models were implemented: tabular ensemble models (Random Forest and XGBoost)
+          and spatio-temporal deep learning architectures. For the latter, ConvLSTM networks were trained on sequences
+          of multi-channel satellite imagery and meteorological inputs, capturing both spatial and temporal dependencies
+          such as evolving drought stress or frost front movement. These models dramatically improved generalization
+          and regional transferability, especially in complex terrain or highly seasonal environments.
+        </p>
+        <p>
+          Model evaluation used a full suite of metrics including accuracy, precision, recall, F1 score, ROC-AUC, and
+          confusion matrices. Validation strategies included time-based splitting and walk-forward cross-validation
+          to preserve temporal order and simulate deployment. Frost models achieved near-perfect performance
+          (AUROC &gt; 0.99), while drought models reached high scores only after incorporating vegetation and soil
+          moisture
+          dynamics—XGBoost and ConvLSTM both exceeded 0.92 AUROC on test data.
+        </p>
+        <p>
+          To ensure interpretability, SHAP analysis was applied to the ensemble models, confirming that temperature and
+          seasonal features dominated frost predictions, while SWI, NDVI, and heat stress were key for drought
+          classification. Deep learning outputs were visualized with saliency maps, identifying spatial patterns the
+          ConvLSTM used to anticipate hazard onset. Overfitting was controlled via early stopping, regularization, and
+          constrained model depth, with final evaluations performed on held-out data.
+        </p>
+        <p>
+          The entire pipeline is optimized for both GPU-enabled local environments and scalable
+          university cluster deployments. Model training, evaluation, and inference can be distributed, enabling fast
+          retraining as new regions or sensor types are added. The user interface, built in Streamlit, allows real-time
+          simulation of forecast scenarios, visualization of temporal and spatial data, and mobile-friendly risk alerts
+          tailored to specific farm plots.
+        </p>
+        <p>
+          By integrating satellite data, drone sensing, tabular machine learning, and spatio-temporal deep networks
+          into a unified, explainable system, this project sets a new standard for real-time microclimate forecasting.
+          It provides a scientifically grounded, field-deployable platform for climate adaptation in agriculture,
+          bridging the gap between research-grade climate intelligence and practical farm-level action.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-t border-[color:var(--border)]">
+    <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div>
+        <p class="font-semibold" data-bind="name">Your Name</p>
+      </div>
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        <a class="btn btn-ghost" href="../blog/index.html">Blog</a>
+      </div>
+      <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+    </div>
+  </footer>
+
+          <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

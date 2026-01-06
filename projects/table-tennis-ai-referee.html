@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Table Tennis AI Referee | Your Name</title>
+    <meta
+      name="description"
+      content="An iOS-first, real-time single-camera officiating and scoring system for table tennis."
+    />
+    <meta property="og:title" content="Table Tennis AI Referee" />
+    <meta
+      property="og:description"
+      content="On-device table tennis officiating with tracking, physics-aware inference, and explainable calls."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../index.html">Home</a>
+          <a class="hover:text-white" href="../blog/index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Computer Vision</span>
+            <span class="badge badge-muted">Real-time</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">Table Tennis AI Referee</h1>
+          <p class="text-[color:var(--muted)]">Project overview</p>
+        </header>
+
+        <section class="space-y-5" text-lg text-[color:var(--muted)]">
+          <p>
+            Table Tennis AI Referee is an iOS-first, real-time single-camera officiating and scoring system that turns
+            a side-view smartphone into an on-device referee. The app runs a full perception → tracking → physics
+            inference → rules pipeline at interactive frame rates, detecting the ball, estimating a calibrated table
+            coordinate frame from four user-tapped corners, and then inferring key events such as bounces, edge balls,
+            and net touches. The design is explicitly physics-aware rather than just detection: ball motion is tracked
+            continuously, smoothed, and interpreted as dynamics over time so the system can reason about trajectories,
+            bounce candidates, and legality constraints in a stable state machine.
+          </p>
+          <p>
+            The computer vision stack is organized as a low-latency streaming pipeline. Frames come from a mobile camera
+            feed (with a simulator/demo fallback), and a lightweight detection stage produces per-frame ball observations.
+            Those observations feed a Kalman filter that estimates ball state (position and velocity) in image coordinates
+            and provides per-frame residuals and covariance that become first-class signals for reliability. Table plane
+            calibration is done via a homography computed from four corner correspondences, mapping image coordinates into
+            normalized table coordinates. This enables consistent reasoning about which side (near vs far), in-bounds vs
+            out-of-bounds, and boundary proximity independent of resolution and camera placement. Event inference operates
+            over a short history window of tracked states; bounces are detected via velocity sign flips and geometric
+            consistency with the calibrated table region, net touches are inferred via motion crossing near the net line
+            with characteristic speed drops, and edge-ball likelihood is computed as a function of bounce location relative
+            to table boundaries with an uncertainty-aware margin derived from calibration and tracking uncertainty.
+          </p>
+          <p>
+            A probabilistic call layer provides uncertainty estimates for each inferred event by combining detector
+            confidence, Kalman innovation/residuals, and calibration uncertainty into interpretable probabilities
+            (for example, "edge ball: 82%"). On top of event inference, a rules engine implements a simplified version
+            of official scoring logic as a deterministic state machine with serve phases, deuce behavior, server
+            alternation, let handling on net-touched legal serves, and conservative point attribution when some signals
+            are ambiguous (because only a single camera is used and paddle contact is optional). The system maintains
+            match state continuously (score, server, rally phase, and last outcome) and exposes structured reasoning
+            strings so that every call can be explained in plain language.
+          </p>
+          <p>
+            The app experience is built around a guided workflow and transparent explainability. A setup wizard walks
+            users through calibration with an alignment overlay and corner tapping, then transitions into live match mode
+            with a scoreboard, serve indicator, and an AI referee overlay that renders the table outline, net line, ball
+            track, inferred bounce/edge points, and per-event confidence with short textual reasons. A review/replay flow
+            lets users inspect match outcomes, export structured match summaries, and scrub through a full match replay
+            simulation that re-renders the table and trajectory timeline with event markers and score keyframes for
+            post-match analysis or dispute resolution.
+          </p>
+          <p>
+            For evaluation and iteration, the project includes a labeling workflow and metrics harness designed for
+            systematic improvement. Video clips can be annotated with ball positions and event frames (bounces and edges),
+            exported as JSON, and fed into an evaluation pipeline that reports bounce detection accuracy, edge
+            precision/recall, and latency/FPS-style performance metrics, including breakdowns by capture conditions such as
+            lighting. A failure-case logger triggers automatically on low-confidence or ambiguous calls, saving metadata
+            windows around uncertain events so problematic scenarios can be reviewed, replayed, and prioritized for model
+            and pipeline improvements.
+          </p>
+          <p>
+            Overall, the project is structured as a production-oriented monorepo with a shared TypeScript core library for
+            math, tracking, inference, and rules, and a mobile client that focuses on real-time camera integration,
+            overlays, and UX. The architecture cleanly separates UI concerns from the inference engine, enabling rapid
+            iteration of models and detectors while keeping the physics and rules logic stable and testable. The result is
+            a robust, explainable, real-time officiating system that demonstrates end-to-end applied ML for mobile:
+            calibration geometry, Bayesian tracking, uncertainty-aware event classification, and a rule-driven state
+            machine, all designed to run on-device with interactive feedback.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../blog/index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+            <script src="../assets/js/main.js"></script>
+  </body>
+</html>

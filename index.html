@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-bind="name">Your Name</title>
+    <meta name="description" content="Personal site, accomplishments, and writing." />
+    <meta property="og:title" content="Your Name" />
+    <meta property="og:description" content="Personal site, accomplishments, and writing." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="./index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="./index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="./blog/index.html">Blog</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="#projects">Projects</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="./index.html">Home</a>
+          <a class="hover:text-white" href="./blog/index.html">Blog</a>
+          <a class="hover:text-white" href="#projects">Projects</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="subtle-grid">
+        <div class="container mx-auto px-6 py-20 lg:py-28 grid lg:grid-cols-[1.2fr_0.8fr] gap-12">
+          <div class="space-y-6">
+            <div class="flex flex-wrap gap-2">
+              <span class="badge">Open to collab</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight">
+              <span data-bind="name">Your Name</span><br />
+              <span class="text-[color:var(--accent)]" data-bind="tagline">Senior Full-Stack Engineer & Designer</span>
+            </h1>
+            <p class="text-lg text-[color:var(--muted)] max-w-2xl" data-bind="bio">
+              Short bio placeholder. Share your focus areas, what you love building, and the impact you want to make.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">View GitHub</a>
+              <a class="btn btn-outline" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">Connect on LinkedIn</a>
+              <a class="btn btn-ghost" href="./blog/index.html">Read the blog</a>
+            </div>
+          </div>
+          <div class="card p-6 space-y-6">
+            <div>
+              <p class="text-sm text-[color:var(--muted)]">Currently based in</p>
+              <p class="text-2xl font-semibold" data-bind="location">City, Country</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="card p-4">
+                <p class="text-sm text-[color:var(--muted)]">Grade level</p>
+                <p class="text-2xl font-semibold">10</p>
+              </div>
+              <div class="card p-4">
+                <p class="text-sm text-[color:var(--muted)]">Projects built</p>
+                <p class="text-2xl font-semibold">12+</p>
+              </div>
+              <div class="card p-4">
+                <p class="text-sm text-[color:var(--muted)]">Clubs & teams</p>
+                <p class="text-2xl font-semibold">3</p>
+              </div>
+              <div class="card p-4">
+                <p class="text-sm text-[color:var(--muted)]">Competitions</p>
+                <p class="text-2xl font-semibold">6</p>
+              </div>
+            </div>
+            <div class="card p-4">
+              <p class="text-sm text-[color:var(--muted)]">Quick link</p>
+              <a class="btn btn-secondary w-full" href="mailto:hello@example.com" data-bind-href="emailUrl" data-bind="email">hello@example.com</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="container mx-auto px-6 py-16 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <p class="text-sm text-[color:var(--muted)]">Projects</p>
+            <h2 class="section-title">Highlights from recent work</h2>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="card">
+            <div class="card-header">
+              <p class="text-sm text-[color:var(--muted)]">Document intelligence</p>
+              <h3 class="text-xl font-semibold">ClearText: Evidence-Constrained, Local-First Document Intelligence</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-sm text-[color:var(--muted)]">
+                Local-first NLP pipeline with fact-only generation, containerized stages, Kubernetes scaling, and CPU-optimized inference.
+              </p>
+            </div>
+            <div class="card-footer flex gap-2 flex-wrap">
+              <span class="badge">NLP</span>
+              <span class="badge badge-muted">AI Safety</span>
+              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/cleartext" aria-label="ClearText GitHub repository">
+                GitHub →
+              </a>
+              <a class="btn btn-ghost text-xs" href="./projects/cleartext.html" aria-label="Read more about ClearText">
+                Read more →
+              </a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <p class="text-sm text-[color:var(--muted)]">RL infrastructure</p>
+              <h3 class="text-xl font-semibold">Limit Order Book Trading Simulator</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-sm text-[color:var(--muted)]">
+                Distributed simulator and evaluation stack for RL agents with Gym-style APIs, metrics logging, and Kubernetes orchestration.
+              </p>
+            </div>
+            <div class="card-footer flex gap-2 flex-wrap">
+              <span class="badge">Systems</span>
+              <span class="badge badge-muted">RL</span>
+              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/limit-order-book-gym" aria-label="Limit Order Book Microstructure Gym GitHub repository">
+                GitHub →
+              </a>
+              <a class="btn btn-ghost text-xs" href="./projects/limit-order-book-trading-simulator.html" aria-label="Read more about Limit Order Book Trading Simulator">
+                Read more →
+              </a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <p class="text-sm text-[color:var(--muted)]">Climate forecasting</p>
+              <h3 class="text-xl font-semibold">Frost & Drought Prediction with ML</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-sm text-[color:var(--muted)]">
+                High-resolution microclimate forecasting using satellite time series, drone imagery, and interpretable ML.
+              </p>
+            </div>
+            <div class="card-footer flex gap-2 flex-wrap">
+              <span class="badge">ML</span>
+              <span class="badge badge-muted">Data</span>
+              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/environmental-risk-platform" aria-label="Environmental Risk Prediction Platform GitHub repository">
+                GitHub →
+              </a>
+              <a class="btn btn-ghost text-xs" href="./projects/frost-drought-prediction-ml.html" aria-label="Read more about Frost and Drought Prediction with ML">
+                Read more →
+              </a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <p class="text-sm text-[color:var(--muted)]">Speech ML</p>
+              <h3 class="text-xl font-semibold">AI-Driven Pronunciation Feedback Platform</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-sm text-[color:var(--muted)]">
+                Full-stack platform with modular audio scoring services, workflow orchestration, and scalable Kubernetes deployment.
+              </p>
+            </div>
+            <div class="card-footer flex gap-2 flex-wrap">
+              <span class="badge">Speech</span>
+              <span class="badge badge-muted">Platform</span>
+              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/pronunciation-feedback" aria-label="AI-Driven Pronunciation Feedback Platform GitHub repository">
+                GitHub →
+              </a>
+              <a class="btn btn-ghost text-xs" href="./projects/accentcoach.html" aria-label="Read more about AccentCoach">
+                Read more →
+              </a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <p class="text-sm text-[color:var(--muted)]">Real-time vision</p>
+              <h3 class="text-xl font-semibold">Table Tennis Game Monitoring System</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-sm text-[color:var(--muted)]">
+                Low-latency CV pipeline for ball/paddle/table tracking with event detection and containerized inference services.
+              </p>
+            </div>
+            <div class="card-footer flex gap-2 flex-wrap">
+              <span class="badge">Computer Vision</span>
+              <span class="badge badge-muted">Real-time</span>
+              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/table-tennis-monitoring" aria-label="Table Tennis Game Monitoring System GitHub repository">
+                GitHub →
+              </a>
+              <a class="btn btn-ghost text-xs" href="./projects/table-tennis-ai-referee.html" aria-label="Read more about Table Tennis AI Referee">
+                Read more →
+              </a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <p class="text-sm text-[color:var(--muted)]">Sports analytics</p>
+              <h3 class="text-xl font-semibold">Cricket Technique Analysis Platform</h3>
+            </div>
+            <div class="card-body">
+              <p class="text-sm text-[color:var(--muted)]">
+                Vision-based coaching pipeline with kinematic feature extraction, event segmentation, and modular analysis services.
+              </p>
+            </div>
+            <div class="card-footer flex gap-2 flex-wrap">
+              <span class="badge">Motion</span>
+              <span class="badge badge-muted">ML</span>
+              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/cricket-technique-analysis" aria-label="Cricket Technique Analysis Platform GitHub repository">
+                GitHub →
+              </a>
+              <a class="btn btn-ghost text-xs" href="./projects/cricket-coach.html" aria-label="Read more about Cricket Coach">
+                Read more →
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="container mx-auto px-6 pb-20 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <p class="text-sm text-[color:var(--muted)]">Blog</p>
+            <h2 class="section-title">Writing coming soon</h2>
+          </div>
+          <a class="btn btn-outline" href="./blog/index.html">Go to blog</a>
+        </div>
+        <div class="card p-6 min-h-[88px]"></div>
+      </section>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="./blog/index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+            <script src="./assets/js/main.js"></script>
+  </body>
+</html>

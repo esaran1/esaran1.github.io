@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClearText — Evidence-Constrained, Local-First Document Intelligence | Your Name</title>
+  <meta name="description"
+    content="ClearText is a local-first, production-oriented AI system that converts complex public-service documents into clear, verifiable guidance." />
+  <meta property="og:title" content="ClearText — Evidence-Constrained, Local-First Document Intelligence" />
+  <meta property="og:description"
+    content="A local-first, evidence-constrained platform for transforming complex public-service documents into actionable workflows." />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+
+<body class="min-h-screen">
+  <header class="border-b border-[color:var(--border)] glass">
+    <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+      <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+        <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+        <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+        <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+      </nav>
+      <button id="mobileNavToggle" class="md:hidden btn btn-outline" type="button" aria-label="Toggle navigation"
+        aria-expanded="false" aria-controls="mobileNavMenu">
+        Menu
+      </button>
+    </div>
+    <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+      <div class="card p-4 flex flex-col gap-3 text-sm">
+        <a class="hover:text-white" href="../index.html">Home</a>
+        <a class="hover:text-white" href="../blog/index.html">Blog</a>
+        <a class="hover:text-white" data-bind-href="linkedin"
+          href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+      </div>
+    </div>
+  </header>
+
+    <main class="container mx-auto px-6 py-16 max-w-7xl page-fade">
+    <article class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-10 items-start page-fade">
+      <div class="space-y-8">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">NLP</span>
+            <span class="badge badge-muted">AI Safety</span>
+          </div>
+            <h1 class="text-4xl sm:text-5xl font-semibold">
+              ClearText: Evidence-Constrained, Local-First Document Intelligence
+            </h1>
+          <p class="text-[color:var(--muted)]">Project overview</p>
+        </header>
+
+        <section class="space-y-5" text-lg text-[color:var(--muted)]">
+          <p>
+            ClearText is a local-first, production-oriented AI system designed to improve access to government and
+            public-service programs by transforming complex official documents into clear, actionable, and verifiable
+            guidance. The project addresses a persistent challenge I observed in my community: individuals are often
+            eligible for critical public services but are effectively excluded because the documents explaining how to
+            apply are dense, unstructured, and difficult to interpret.
+          </p>
+          <p>
+            I first encountered this issue while volunteering at my local public library, where staff routinely assist
+            patrons with benefit, financial-aid, and enrollment paperwork but lack the capacity to support everyone who
+            needs help. These documents are typically written in legal or bureaucratic language at a high reading level,
+            creating systemic barriers for first-generation families, non-native English speakers, elderly residents,
+            and students navigating these processes independently. As a result, applications are frequently delayed,
+            submitted incorrectly, or abandoned altogether.
+          </p>
+          <p>
+            ClearText is designed as an assistive system that improves comprehension without replacing human judgment
+            or institutional authority. Its beneficiaries include community members seeking access to public services
+            as well as the librarians, school counselors, and community organizations that support them. By converting
+            opaque documents into structured, plain-language workflows, ClearText helps reduce friction in
+            public-service
+            access, improve equity, and scale limited human support resources.
+          </p>
+          <p>
+            From a systems perspective, ClearText is implemented as a modular web platform with a Python FastAPI backend
+            and a modern frontend built using Next.js with TypeScript, Tailwind CSS, and shadcn-style UI components. The
+            architecture is intentionally local-first and CPU-compatible, enabling deployment in environments such as
+            libraries, schools, and community centers without reliance on cloud infrastructure or proprietary APIs.
+            Document ingestion supports both plain text and PDF formats, with optional OCR using Tesseract for scanned
+            or image-heavy forms.
+          </p>
+          <p>
+            The AI layer is built around a constrained natural language processing pipeline that prioritizes
+            reliability,
+            traceability, and explicit uncertainty handling. Rather than using free-form text generation, ClearText
+            employs a two-stage, evidence-first approach. In the first stage, the system performs structured extraction
+            of key “Form Facts,” including eligibility criteria, deadlines, required documents, fees, submission steps,
+            contact information, and warnings. This extraction relies on a combination of spaCy-based NLP, regular
+            expressions, and heuristic rules, producing structured outputs that are directly grounded in the source
+            document. Each extracted element is linked to exact quoted text and character offsets, creating a verifiable
+            chain between input and output.
+          </p>
+          <p>
+            In the second stage, ClearText generates user-facing explanations such as overviews, guided checklists,
+            common pitfalls, and question-and-answer responses exclusively from the validated extracted facts. The
+            system enforces strict refusal behavior: if a user asks for information that is not present in the document,
+            ClearText responds with “Not specified in the document,” rather than speculating. When configured, a small
+            open-weight local language model can assist with proposing structured facts via llama.cpp, but any claim
+            without verifiable textual evidence is automatically discarded. For long documents, extraction is performed
+            in chunks to avoid context limitations while preserving grounding guarantees.
+          </p>
+          <p>
+            One of the central challenges during development was mitigating fluent but incorrect AI output. Early
+            prototypes that relied on unconstrained summarization produced explanations that appeared helpful but
+            occasionally introduced unsupported details. Identifying this failure mode led to a fundamental redesign of
+            the system around separation of concerns: extraction, validation, and generation are isolated stages with
+            explicit contracts between them. This redesign significantly reduced hallucinations and improved
+            debuggability. Additional challenges included handling inconsistent document formatting and scanned PDFs,
+            which were addressed through iterative heuristic refinement, chunked processing, and OCR integration.
+          </p>
+          <p>
+            ClearText represents a creative and responsible application of AI by treating constraints as a design
+            principle rather than a limitation. Unlike general-purpose conversational AI systems optimized for fluency,
+            ClearText optimizes for correctness, auditability, and user trust. Outputs are reorganized into a
+            consistent,
+            guided flow, covering eligibility, deadlines, required documents, fees, submission steps, contacts, and
+            warnings, allowing users to quickly understand both what matters and what actions are required. The
+            interface exposes citations directly, enabling users to verify each claim by jumping to the relevant section
+            of the original document or viewing highlighted text spans.
+          </p>
+          <p>
+            Accuracy and reliability were evaluated using real public-service documents. Extracted deadlines,
+            requirements, and submission steps were manually verified against source text, with ClearText correctly
+            grounding over 90% of key elements on the first pass. The system was also tested using adversarial queries
+            designed to induce hallucinations; in all cases, it correctly refused to generate unsupported information.
+            These results demonstrated that the grounding and validation mechanisms functioned as intended.
+          </p>
+          <p>
+            Developing ClearText significantly deepened my understanding of how AI systems should be designed and
+            deployed in high-stakes, real-world contexts. I learned that responsible AI is less about maximizing model
+            capability and more about defining clear scope, enforcing safeguards, and making system limitations visible
+            to users. This project reinforced the importance of designing AI that augments human understanding rather
+            than replacing decision-making.
+          </p>
+          <p>
+            Beyond the core functionality, the system incorporates production-level considerations such as rate
+            limiting,
+            ephemeral document handling to protect privacy, and containerized deployment using Docker, with starter
+            Kubernetes manifests for scalability. Overall, ClearText represents a complete technical and ethical system,
+            demonstrating how AI can be thoughtfully engineered to address a real community problem while prioritizing
+            trust, accessibility, and long-term viability.
+          </p>
+        </section>
+      </div>
+
+      <aside class="space-y-6">
+        <figure class="card overflow-hidden lg:scale-110 origin-top-left">
+          <img
+            src="../assets/images/Screenshot 2025-12-30 at 1.58.51 PM.png"
+            alt="ClearText interface showing document input and guided checklist panels"
+            class="w-full h-auto"
+            loading="lazy"
+          />
+        </figure>
+      </aside>
+    </article>
+  </main>
+
+  <footer class="border-t border-[color:var(--border)]">
+    <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div>
+        <p class="font-semibold" data-bind="name">Your Name</p>
+      </div>
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+        <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        <a class="btn btn-ghost" href="../index.html">Blog</a>
+      </div>
+      <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+    </div>
+  </footer>
+
+          <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
