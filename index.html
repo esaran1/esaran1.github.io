@@ -158,7 +158,7 @@
             </div>
             <div class="card-body">
               <p class="text-sm text-[color:var(--muted)]">
-                High-resolution microclimate forecasting using satellite time series, drone imagery, and interpretable ML.
+                Fine-scale (10–30 m) frost and drought forecasting with fused satellite + reanalysis data, ConvLSTM transfer learning, and SHAP interpretability.
               </p>
             </div>
             <div class="card-footer flex gap-2 flex-wrap">
@@ -238,15 +238,34 @@
         </div>
       </section>
 
-      <section class="container mx-auto px-6 pb-20 space-y-6">
+      <section id="latest-post" class="container mx-auto px-6 pb-20 space-y-6">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
             <p class="text-sm text-[color:var(--muted)]">Blog</p>
-            <h2 class="section-title">Writing coming soon</h2>
+            <h2 class="section-title">Latest post</h2>
           </div>
           <a class="btn btn-outline" href="./blog/index.html">Go to blog</a>
         </div>
-        <div class="card p-6 min-h-[88px]"></div>
+        <article class="card flex flex-col md:flex-row md:items-center md:justify-between gap-6 p-6">
+          <div class="space-y-3">
+            <p class="text-sm text-[color:var(--muted)]">Feb 2026</p>
+            <h3 class="text-2xl font-semibold">
+              Qualifying for GSEF with Field-Scale Frost &amp; Drought Forecasting
+            </h3>
+            <p class="text-sm text-[color:var(--muted)] max-w-2xl">
+              How I qualified for the Georgia Science and Engineering Fair from my county fair with a high-resolution ML system for frost and drought prediction, and how I plan to refine it.
+            </p>
+            <div class="flex gap-2 flex-wrap">
+              <span class="badge">Science Fair</span>
+              <span class="badge badge-muted">GSEF</span>
+              <span class="badge badge-muted">ML</span>
+            </div>
+          </div>
+          <div class="flex shrink-0 gap-3">
+            <a class="btn btn-secondary" href="./blog/index.html">All posts</a>
+            <a class="btn btn-primary" href="./blog/posts/qualifying-for-gsef-frost-drought-ml.html">Read</a>
+          </div>
+        </article>
       </section>
     </main>
 
@@ -264,6 +283,8 @@
       </div>
     </footer>
 
-            <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/vendor/gsap.min.js"></script>
+    <script src="./assets/js/vendor/ScrollTrigger.min.js"></script>
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qualifying for GSEF with Field-Scale Frost &amp; Drought Forecasting | Evan Saran</title>
+    <meta
+      name="description"
+      content="How I qualified for the Georgia Science and Engineering Fair from my county fair with a high-resolution ML system for frost and drought prediction, and how I plan to refine it."
+    />
+    <meta property="og:title" content="Qualifying for GSEF with Field-Scale Frost &amp; Drought Forecasting" />
+    <meta
+      property="og:description"
+      content="County fair to GSEF: building an open-access, field-level forecasting system and what I want to improve next."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Science Fair</span>
+            <span class="badge badge-muted">GSEF</span>
+            <span class="badge badge-muted">ML</span>
+            <span class="badge badge-muted">Climate</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">
+            Qualifying for GSEF with Field-Scale Frost &amp; Drought Forecasting
+          </h1>
+          <p class="text-[color:var(--muted)]">February 2026 · 8 min read</p>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <p>
+            This year I took my science fair project—a <strong class="text-[color:var(--text)]">high-resolution machine learning system for frost and drought forecasting</strong>—to my county fair and qualified for the <strong class="text-[color:var(--text)]">Georgia Science and Engineering Fair (GSEF)</strong>. It’s an achievement I’m really proud of, and I wanted to share what the project is, how the fair went, and how I hope to refine it before (and after) GSEF.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Why this project?</h2>
+          <p class="text-[color:var(--muted)]">
+            Frost and drought cause over <strong class="text-[color:var(--text)]">$100 billion</strong> in global crop losses every year. Most forecast systems run at coarse scales (4 km or worse), so they miss the microclimate differences that actually decide whether a single field gets hit. They also tend to rely on sparse data, fixed thresholds, or expensive proprietary tools that small and mid-sized farmers can’t use.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            My goal was to build an <strong class="text-[color:var(--text)]">open-access, field-level</strong> system—predicting frost and drought at 10–30 m resolution—using a novel, drone-compatible dataset and robust ML models. Something that could improve early warning, spatial detail, and real-world usability for farmers and extension agents.
+          </p>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">What I built</h2>
+          <p class="text-[color:var(--muted)]">
+            I created two complementary datasets: a <strong class="text-[color:var(--text)]">tabular dataset</strong> (terrain, NDVI, soil moisture proxies, canopy temperature, weather) for interpretable models, and a <strong class="text-[color:var(--text)]">raster dataset</strong>—time-aligned 2D sequences from Sentinel-2, GRIDMET, MODIS, SMAP, MERRA-2, and topography—for deep learning. Event labels used dynamic percentile thresholds so the system can generalize across different climates.
+          </p>
+          <p class="text-[color:var(--text)]">Models and results:</p>
+          <ul class="list-disc pl-6 text-[color:var(--muted)] space-y-2">
+            <li><strong class="text-[color:var(--text)]">Frost:</strong> XGBoost hit 0.977 AUROC with only a few features (min temp, NDVI, elevation); Random Forest was a strong baseline. Frost ended up &gt;99.8% accuracy with minimal inputs.</li>
+            <li><strong class="text-[color:var(--text)]">Drought:</strong> XGBoost (0.943 AUROC) beat a rule-based baseline (0.686). ConvLSTM (0.912 AUROC) captured multiday dynamics and vegetation stress better.</li>
+          </ul>
+          <p class="text-[color:var(--muted)]">
+            I used chronological walk-forward validation, early stopping, and bootstrap resampling so the results would hold up in real deployment. SHAP and ablation studies showed frost depends most on min temperature, NDVI, and elevation; drought on SPI-3, Soil Wetness Index, NDVI, and precipitation. I also built a <strong class="text-[color:var(--text)]">bilingual (English/Spanish) Streamlit app</strong> with NDVI trends, field-level risk maps, and mobile-friendly, offline-capable workflows for low-bandwidth and drone use.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">County fair → GSEF</h2>
+          <p class="text-[color:var(--muted)]">
+            At the county fair, judges were especially interested in the combination of <strong class="text-[color:var(--text)]">high resolution</strong>, <strong class="text-[color:var(--text)]">open data</strong>, and <strong class="text-[color:var(--text)]">interpretability</strong>—and in the fact that the system is designed for smallholders and extension agents, not just research. Being selected to advance to GSEF felt like a big validation of the problem choice and the direction of the work.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            I’m excited to present the same core story at GSEF: an open-access, field-scale forecasting system that combines satellite and drone-scale inputs, transfer learning with ConvLSTM, and a fully interpretable feature pipeline—aimed at real deployment for farmers and crop insurance.
+          </p>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">How I hope to refine it</h2>
+          <p class="text-[color:var(--muted)]">
+            Before and after GSEF, I want to push the project in a few concrete directions:
+          </p>
+          <ul class="list-disc pl-6 text-[color:var(--muted)] space-y-2">
+            <li><strong class="text-[color:var(--text)]">Lead time:</strong> Extend forecast windows so farmers get earlier warnings (e.g., 7–14 days) without losing accuracy.</li>
+            <li><strong class="text-[color:var(--text)]">More regions:</strong> Test on additional geographies and cropping systems to stress-test generalization and document where the model works best.</li>
+            <li><strong class="text-[color:var(--text)]">ConvLSTM for frost:</strong> Frost is already very accurate with tabular models; I’d like to add a spatiotemporal ConvLSTM path for frost too and compare smoothness and multi-day behavior.</li>
+            <li><strong class="text-[color:var(--text)]">Calibration and uncertainty:</strong> Add proper probability calibration and uncertainty estimates (e.g., prediction intervals) so users know when to trust the forecast.</li>
+            <li><strong class="text-[color:var(--text)]">App and outreach:</strong> Improve the Streamlit app (e.g., faster loads, clearer risk tiers) and share it with extension agents or a small farmer group to get real feedback.</li>
+          </ul>
+          <p class="text-[color:var(--muted)]">
+            Qualifying for GSEF was a big milestone. I’m treating it as a stepping stone to make this project more robust, more useful, and more deployable—and I’ll keep iterating based on what I learn at the fair and from anyone who tries the system.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-3">
+          <h2 class="text-2xl font-semibold">Project link</h2>
+          <p class="text-[color:var(--muted)]">
+            You can read more about the technical details, datasets, and results on my
+            <a href="../../projects/frost-drought-prediction-ml.html" class="text-[color:var(--accent)] hover:underline">Frost &amp; Drought Prediction with ML</a> project page.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>

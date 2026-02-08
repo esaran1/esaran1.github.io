@@ -108,9 +108,80 @@ const initFooterYear = () => {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 };
 
+const initAnimations = () => {
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero: fade + slide up with stagger
+  const heroColumns = document.querySelectorAll("section.subtle-grid .container > div");
+  if (heroColumns.length) {
+    gsap.from(heroColumns, {
+      y: 28,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: "power2.out",
+      delay: 0.1
+    });
+  }
+
+  // Project cards: animate on scroll
+  const projectCards = document.querySelectorAll("#projects .card");
+  if (projectCards.length) {
+    gsap.from(projectCards, {
+      y: 24,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.06,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#projects",
+        start: "top 88%",
+        toggleActions: "play none none none"
+      }
+    });
+  }
+
+  // Latest post card: animate on scroll
+  const latestPostCard = document.querySelector("#latest-post .card");
+  if (latestPostCard) {
+    gsap.from(latestPostCard, {
+      y: 24,
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#latest-post",
+        start: "top 88%",
+        toggleActions: "play none none none"
+      }
+    });
+  }
+
+  // Blog post cards (on blog index): animate on scroll
+  const blogPostCards = document.querySelectorAll("#postsList .card");
+  if (blogPostCards.length) {
+    gsap.from(blogPostCards, {
+      y: 24,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.08,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#postsList",
+        start: "top 90%",
+        toggleActions: "play none none none"
+      }
+    });
+  }
+};
+
 window.addEventListener("DOMContentLoaded", () => {
   initProfileBindings();
   initMobileNav();
   initBlogFilters();
   initFooterYear();
+  initAnimations();
 });

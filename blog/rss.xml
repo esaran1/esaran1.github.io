@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Your Name — Blog</title>
+    <link>https://your-username.github.io/</link>
+    <description>Build logs, competition notes, and project deep-dives.</description>
+    <language>en-us</language>
+    <item>
+      <title>Qualifying for GSEF with Field-Scale Frost &amp; Drought Forecasting</title>
+      <link>https://esaran1.github.io/blog/posts/qualifying-for-gsef-frost-drought-ml.html</link>
+      <guid>https://esaran1.github.io/blog/posts/qualifying-for-gsef-frost-drought-ml.html</guid>
+      <pubDate>Sat, 08 Feb 2026 12:00:00 GMT</pubDate>
+      <description>How I qualified for the Georgia Science and Engineering Fair from my county fair with a high-resolution ML system for frost and drought prediction, and how I plan to refine it.</description>
+    </item>
+    <item>
+      <title>MIT Zero Robotics: Galactic Greenhouse — How We Became Finalists</title>
+      <link>https://your-username.github.io/blog/posts/mit-zero-robotics-galactic-greenhouse-finalists.html</link>
+      <guid>https://your-username.github.io/blog/posts/mit-zero-robotics-galactic-greenhouse-finalists.html</guid>
+      <pubDate>Mon, 06 Jan 2026 08:00:00 GMT</pubDate>
+      <description>A quick story about our strategy, what we learned, and what made Galactic Greenhouse fun (and hard).</description>
+    </item>
+  </channel>
+</rss>
+

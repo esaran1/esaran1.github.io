@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIT Zero Robotics: Galactic Greenhouse — How We Became Finalists | Your Name</title>
+    <meta
+      name="description"
+      content="A quick story about our MIT Zero Robotics season, the Galactic Greenhouse game, and how our team became finalists."
+    />
+    <meta property="og:title" content="MIT Zero Robotics: Galactic Greenhouse — How We Became Finalists" />
+    <meta
+      property="og:description"
+      content="Our strategy, iteration process, and lessons learned from a season of space-themed robotics programming."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Robotics</span>
+            <span class="badge badge-muted">Competition</span>
+            <span class="badge badge-muted">MIT</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">
+            MIT Zero Robotics: Galactic Greenhouse — How We Became Finalists
+          </h1>
+          <p class="text-[color:var(--muted)]">January 2026 · 6 min read</p>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <p>
+            This year my team competed in MIT Zero Robotics, and the game was
+            <strong class="text-[color:var(--text)]">Galactic Greenhouse</strong>. We ended up becoming finalists, which
+            still feels a little unreal.
+          </p>
+          <p>
+            This post is a quick recap: what the challenge felt like, what our iteration loop looked like, and the
+            specific things we did that made our bot more reliable over time.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">What is Zero Robotics?</h2>
+          <p class="text-[color:var(--muted)]">
+            Zero Robotics is a programming competition with “space” constraints: limited time, noisy sensing, tight
+            control, and game objectives that reward consistency. The fun part is that it pushes you to think like a
+            systems engineer: behavior, edge cases, testing, and scoring all matter.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            In Galactic Greenhouse, we had to balance doing the “obvious” scoring tasks with making decisions that held
+            up under uncertainty and collision-like situations.
+          </p>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">How we approached Galactic Greenhouse</h2>
+          <ul class="list-disc pl-6 text-[color:var(--muted)] space-y-2">
+            <li><strong class="text-[color:var(--text)]">Reliability first:</strong> a slightly lower-scoring strategy that never crashes beats a higher-scoring one that fails 1/10 runs.</li>
+            <li><strong class="text-[color:var(--text)]">Simple state machine:</strong> clear phases with explicit “give up” conditions to avoid getting stuck.</li>
+            <li><strong class="text-[color:var(--text)]">Geometry + constraints:</strong> clamp targets and always respect safety margins near boundaries.</li>
+            <li><strong class="text-[color:var(--text)]">Defensive coding:</strong> assume sensor values can be wrong and add sanity checks.</li>
+          </ul>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">Our iteration loop</h2>
+          <ol class="list-decimal pl-6 text-[color:var(--muted)] space-y-2">
+            <li>Run a batch of sims and save the worst failures.</li>
+            <li>Write down the exact failure mode in one sentence.</li>
+            <li>Make the smallest change that prevents that failure.</li>
+            <li>Re-run the same seeds to confirm it’s actually fixed.</li>
+          </ol>
+          <p class="text-[color:var(--muted)]">
+            The biggest improvement came from treating failures as “bugs” (reproducible, fixable), not as bad luck.
+          </p>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">What I learned</h2>
+          <ul class="list-disc pl-6 text-[color:var(--muted)] space-y-2">
+            <li>Consistency is a feature you have to engineer.</li>
+            <li>Small guardrails (clamps, timeouts, fallbacks) can double your performance.</li>
+            <li>Debugging skills scale to everything: robotics, ML, and software.</li>
+          </ul>
+        </section>
+
+        <section class="card p-6 space-y-3">
+          <h2 class="text-2xl font-semibold">Placeholders to fill in</h2>
+          <p class="text-[color:var(--muted)]">
+            If you want this post to be more specific, add:
+          </p>
+          <ul class="list-disc pl-6 text-[color:var(--muted)] space-y-2">
+            <li>Your team name</li>
+            <li>The division/region</li>
+            <li>One screenshot of your final scoring graph</li>
+            <li>The single best “bug fix” you made</li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>
+

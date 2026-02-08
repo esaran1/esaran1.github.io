@@ -5,11 +5,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Frost &amp; Drought Prediction with ML | Your Name</title>
-  <meta name="description"
-    content="A production-ready platform for forecasting localized frost and drought risk using satellite imagery, time-series data, and interpretable ML." />
+  <meta
+    name="description"
+    content="Fine-scale (10–30 m) frost and drought forecasting using fused satellite/reanalysis data, spatiotemporal ML (ConvLSTM), transfer learning, and interpretable baselines."
+  />
   <meta property="og:title" content="Frost &amp; Drought Prediction with ML" />
-  <meta property="og:description"
-    content="High-resolution agricultural hazard forecasting using satellite fusion, spatio-temporal ML, and real-time decision support." />
+  <meta
+    property="og:description"
+    content="Fine-scale agricultural hazard forecasting using satellite fusion, spatiotemporal ML (ConvLSTM), transfer learning, and interpretable baselines."
+  />
   <meta property="og:type" content="article" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -45,8 +49,8 @@
     </div>
   </header>
 
-    <main class="container mx-auto px-6 py-16 page-fade">
-    <article class="max-w-5xl space-y-10 page-fade">
+  <main class="container mx-auto px-6 py-16 page-fade">
+    <article class="max-w-5xl space-y-10">
       <header class="space-y-4">
         <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
         <div class="flex flex-wrap gap-2">
@@ -54,84 +58,328 @@
           <span class="badge badge-muted">Climate</span>
         </div>
         <h1 class="text-4xl sm:text-5xl font-semibold">Frost &amp; Drought Prediction with ML</h1>
-        <p class="text-[color:var(--muted)]">Project overview</p>
+        <p class="text-[color:var(--muted)]">
+          Fine-scale forecasting with spatiotemporal ML and transfer learning (10–30 m).
+        </p>
       </header>
 
       <section class="grid lg:grid-cols-2 gap-6">
         <figure class="card overflow-hidden">
-          <img src="../assets/images/roc_frost_schematic.png" alt="ROC curve for frost prediction model"
+          <img src="../assets/images/roc_frost.png" alt="ROC curve for frost prediction model"
             class="w-full h-auto" loading="lazy" />
           <figcaption class="card-body text-sm text-[color:var(--muted)]">
             Frost prediction ROC curve.
           </figcaption>
         </figure>
         <figure class="card overflow-hidden">
-          <img src="../assets/images/roc_drought_schematic.png" alt="ROC curve for drought prediction model"
+          <img src="../assets/images/roc_drought.png" alt="ROC curve for drought prediction model"
             class="w-full h-auto" loading="lazy" />
           <figcaption class="card-body text-sm text-[color:var(--muted)]">
             Drought prediction ROC curve.
           </figcaption>
         </figure>
-        <figure class="card overflow-hidden lg:col-span-2">
-          <img src="../assets/images/feature_importance_schematic.png"
-            alt="Feature importance chart for climate hazard models" class="w-full h-auto" loading="lazy" />
+        <figure class="card overflow-hidden">
+          <img src="../assets/images/feature_importance_frost.png"
+            alt="Feature importance chart for frost prediction model" class="w-full h-auto" loading="lazy" />
           <figcaption class="card-body text-sm text-[color:var(--muted)]">
-            Feature importance and interpretability.
+            Frost feature importance.
+          </figcaption>
+        </figure>
+        <figure class="card overflow-hidden">
+          <img src="../assets/images/feature_importance_drought.png"
+            alt="Feature importance chart for drought prediction model" class="w-full h-auto" loading="lazy" />
+          <figcaption class="card-body text-sm text-[color:var(--muted)]">
+            Drought feature importance.
           </figcaption>
         </figure>
       </section>
 
-      <section class="space-y-5" text-lg text-[color:var(--muted)]">
-        <p>
-          This project delivers a high-resolution, production-ready system for forecasting localized agricultural
-          climate hazards, specifically frost and drought, using a fusion of satellite imagery, environmental time
-          series, and advanced machine learning. Designed for real-world deployment in resource-limited agricultural
-          settings, the pipeline integrates physics-aware features, interpretable models, and an interactive interface
-          for real-time decision support.
-        </p>
-        <p>
-          The core dataset integrates open-access climate inputs: GRIDMET surface air temperature, Copernicus NDVI
-          (Normalized Difference Vegetation Index), Copernicus Soil Water Index (SWI), and drone-collected thermal and
-          multispectral imagery. These were transformed into a unified, daily-resolution time series spanning 2020–2025.
-          Preprocessing included timestamp alignment, forward-filling and interpolation, normalization (to a 0–1 range),
-          and unit standardization. Frost and drought labels were generated using percentile-based thresholds on
-          temperature and soil moisture, simulating risk classification in data-sparse agricultural settings.
-        </p>
-        <p>
-          Two classes of machine learning models were implemented: tabular ensemble models (Random Forest and XGBoost)
-          and spatio-temporal deep learning architectures. For the latter, ConvLSTM networks were trained on sequences
-          of multi-channel satellite imagery and meteorological inputs, capturing both spatial and temporal dependencies
-          such as evolving drought stress or frost front movement. These models dramatically improved generalization
-          and regional transferability, especially in complex terrain or highly seasonal environments.
-        </p>
-        <p>
-          Model evaluation used a full suite of metrics including accuracy, precision, recall, F1 score, ROC-AUC, and
-          confusion matrices. Validation strategies included time-based splitting and walk-forward cross-validation
-          to preserve temporal order and simulate deployment. Frost models achieved near-perfect performance
-          (AUROC &gt; 0.99), while drought models reached high scores only after incorporating vegetation and soil
-          moisture
-          dynamics—XGBoost and ConvLSTM both exceeded 0.92 AUROC on test data.
-        </p>
-        <p>
-          To ensure interpretability, SHAP analysis was applied to the ensemble models, confirming that temperature and
-          seasonal features dominated frost predictions, while SWI, NDVI, and heat stress were key for drought
-          classification. Deep learning outputs were visualized with saliency maps, identifying spatial patterns the
-          ConvLSTM used to anticipate hazard onset. Overfitting was controlled via early stopping, regularization, and
-          constrained model depth, with final evaluations performed on held-out data.
-        </p>
-        <p>
-          The entire pipeline is optimized for both GPU-enabled local environments and scalable
-          university cluster deployments. Model training, evaluation, and inference can be distributed, enabling fast
-          retraining as new regions or sensor types are added. The user interface, built in Streamlit, allows real-time
-          simulation of forecast scenarios, visualization of temporal and spatial data, and mobile-friendly risk alerts
-          tailored to specific farm plots.
-        </p>
-        <p>
-          By integrating satellite data, drone sensing, tabular machine learning, and spatio-temporal deep networks
-          into a unified, explainable system, this project sets a new standard for real-time microclimate forecasting.
-          It provides a scientifically grounded, field-deployable platform for climate adaptation in agriculture,
-          bridging the gap between research-grade climate intelligence and practical farm-level action.
-        </p>
+      <section class="space-y-10">
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Problem and motivation</h2>
+          <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+            <p>
+              Frost and drought drive major agricultural losses globally, but most operational tools still struggle to
+              deliver <strong class="text-[color:var(--text)]">field-level</strong> early warnings.
+            </p>
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Too coarse (often 1–50 km grids)</li>
+              <li>Threshold-heavy and heuristic-driven</li>
+              <li>Dependent on expensive on-site hardware</li>
+            </ul>
+            <p>
+              This project targets fine-scale risk forecasts at <strong class="text-[color:var(--text)]">10–30 m</strong>
+              resolution using open data, strong feature engineering, and spatiotemporal deep learning with transfer
+              learning.
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Research objectives</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+              <h3 class="text-lg font-semibold text-[color:var(--text)]">Field-scale prediction</h3>
+              <p>
+                Forecast frost and drought risk at 10–30 m resolution, initially focused on diverse zones in the U.S.
+                Great Plains.
+              </p>
+            </div>
+            <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+              <h3 class="text-lg font-semibold text-[color:var(--text)]">Novel dataset creation</h3>
+              <p>
+                Build aligned tabular and raster/tensor datasets that fuse satellites, climate reanalysis, terrain, and
+                engineered indicators for interpretability and spatiotemporal learning.
+              </p>
+            </div>
+            <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+              <h3 class="text-lg font-semibold text-[color:var(--text)]">Modeling and accuracy</h3>
+              <p>
+                Compare Random Forest, XGBoost, and ConvLSTM (with transfer learning) for lead time and generalization,
+                aiming for &gt; 0.90 AUROC for both hazards.
+              </p>
+            </div>
+            <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+              <h3 class="text-lg font-semibold text-[color:var(--text)]">Real-world usability</h3>
+              <p>
+                Serve forecasts through a bilingual Streamlit app with risk maps, time-series views, NDVI forecasts, and
+                offline-friendly workflows.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Dataset composition</h2>
+          <div class="card p-6 space-y-4">
+            <p class="text-[color:var(--muted)]">
+              The dataset fuses multi-source remote sensing, reanalysis, and terrain at daily-to-weekly cadence
+              (2020–2025). Two aligned versions are produced: a tabular dataset for interpretability and a raster/tensor
+              dataset for ConvLSTM training.
+            </p>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="text-[color:var(--muted)]">
+                  <tr>
+                    <th class="text-left font-semibold py-2">Source</th>
+                    <th class="text-left font-semibold py-2">Variables</th>
+                    <th class="text-left font-semibold py-2">Resolution</th>
+                  </tr>
+                </thead>
+                <tbody class="text-[color:var(--muted)]">
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">Sentinel-2</td>
+                    <td class="py-2">NDVI, reflectance bands</td>
+                    <td class="py-2">10 m</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">MODIS</td>
+                    <td class="py-2">LST day/night</td>
+                    <td class="py-2">1 km</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">SMAP</td>
+                    <td class="py-2">Soil moisture (surface/root zone)</td>
+                    <td class="py-2">9 km</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">MERRA-2</td>
+                    <td class="py-2">Air temperature (min/max/mean)</td>
+                    <td class="py-2">50 km</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">IMERG</td>
+                    <td class="py-2">Precipitation</td>
+                    <td class="py-2">10 km</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">GRIDMET</td>
+                    <td class="py-2">Daily weather</td>
+                    <td class="py-2">4 km</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">DEM (SRTM)</td>
+                    <td class="py-2">Elevation, slope</td>
+                    <td class="py-2">30 m</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">GHCN</td>
+                    <td class="py-2">Ground truth precipitation (labels)</td>
+                    <td class="py-2">Station</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6 text-[color:var(--muted)]">
+              <div class="card p-5">
+                <p class="text-sm font-semibold text-[color:var(--text)]">Labeling (frost)</p>
+                <p class="text-sm">Min temperature threshold + date alignment.</p>
+              </div>
+              <div class="card p-5">
+                <p class="text-sm font-semibold text-[color:var(--text)]">Labeling (drought)</p>
+                <p class="text-sm">
+                  Rolling 30-day quantile rule on GHCN precipitation (independent labels to avoid leakage from SPI).
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Modeling approaches</h2>
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+              <h3 class="text-lg font-semibold text-[color:var(--text)]">Tabular models</h3>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Random Forest</li>
+                <li>XGBoost</li>
+                <li>Chronological 70/15/15 split + walk-forward validation</li>
+                <li>Bootstrap confidence intervals (n = 300)</li>
+              </ul>
+            </div>
+            <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+              <h3 class="text-lg font-semibold text-[color:var(--text)]">Spatiotemporal deep learning (ConvLSTM)</h3>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Multi-day raster patches (NDVI, LST, temp, precip, soil moisture)</li>
+                <li>Patch-based training + masked loss for clouds/snow artifacts</li>
+                <li>Multi-scale fusion of coarse + fine inputs</li>
+                <li>Transfer learning from pretrained environmental backbones</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Performance</h2>
+          <div class="card p-6 space-y-4">
+            <p class="text-[color:var(--muted)]">
+              Models are evaluated with AUROC, PR-AUC, and calibration (Brier score), using time-respecting validation to
+              simulate deployment.
+            </p>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="text-[color:var(--muted)]">
+                  <tr>
+                    <th class="text-left font-semibold py-2">Model</th>
+                    <th class="text-left font-semibold py-2">Risk type</th>
+                    <th class="text-left font-semibold py-2">AUROC</th>
+                    <th class="text-left font-semibold py-2">PR-AUC</th>
+                    <th class="text-left font-semibold py-2">Brier</th>
+                  </tr>
+                </thead>
+                <tbody class="text-[color:var(--muted)]">
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">RF</td>
+                    <td class="py-2">Frost</td>
+                    <td class="py-2">0.974 [0.961–0.987]</td>
+                    <td class="py-2">0.829</td>
+                    <td class="py-2">0.043</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">XGBoost</td>
+                    <td class="py-2">Frost</td>
+                    <td class="py-2">0.977 [0.965–0.989]</td>
+                    <td class="py-2">0.788</td>
+                    <td class="py-2">0.040</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">RF</td>
+                    <td class="py-2">Drought</td>
+                    <td class="py-2">0.902 [0.870–0.934]</td>
+                    <td class="py-2">0.366</td>
+                    <td class="py-2">0.053</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">XGBoost</td>
+                    <td class="py-2">Drought</td>
+                    <td class="py-2">0.943 [0.919–0.964]</td>
+                    <td class="py-2">0.396</td>
+                    <td class="py-2">0.060</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">ConvLSTM</td>
+                    <td class="py-2">Drought (NDVI proxy)</td>
+                    <td class="py-2">0.951</td>
+                    <td class="py-2">0.407</td>
+                    <td class="py-2">0.041</td>
+                  </tr>
+                  <tr class="border-t border-[color:var(--border)]">
+                    <td class="py-2">ConvLSTM</td>
+                    <td class="py-2">Frost (NDVI anomaly)</td>
+                    <td class="py-2">0.986</td>
+                    <td class="py-2">0.841</td>
+                    <td class="py-2">0.039</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-sm text-[color:var(--muted)]">
+              In practice, ConvLSTM improved spatial smoothness and multi-day prediction behavior, while tabular models
+              remained strong baselines with straightforward attribution.
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Interpretability and diagnostics</h2>
+          <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+            <p>
+              SHAP analysis highlights which signals matter most:
+            </p>
+            <ul class="list-disc pl-6 space-y-2">
+              <li><strong class="text-[color:var(--text)]">Frost:</strong> minimum temperature, slope, NDVI, day-of-year</li>
+              <li><strong class="text-[color:var(--text)]">Drought:</strong> SPI-3, SWI, NDVI anomaly, cumulative precipitation</li>
+            </ul>
+            <p>
+              Deep models are inspected with saliency-style visualizations to identify the spatial patterns driving
+              early warning signals.
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Engineering methodology</h2>
+          <div class="card p-6 text-[color:var(--muted)]">
+            <ul class="list-disc pl-6 space-y-2">
+              <li>Automated pipeline that produces dual datasets (tabular + raster)</li>
+              <li>Normalization fit on train split only</li>
+              <li>Early stopping, dropout, constrained depth, and walk-forward validation</li>
+              <li>Resampling + downscaling harmonization across sources</li>
+              <li>Bilingual web app for maps, timelines, downloads, and offline-friendly usage</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Applications</h2>
+          <div class="grid md:grid-cols-2 gap-6 text-[color:var(--muted)]">
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Precision agriculture</p>
+              <p class="text-sm">Plot-scale alerts to guide irrigation timing and frost protection decisions.</p>
+            </div>
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Crop insurance</p>
+              <p class="text-sm">Objective, high-resolution risk scores to support payout modeling.</p>
+            </div>
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Climate resilience</p>
+              <p class="text-sm">Early action for smallholders using free, open-access inputs.</p>
+            </div>
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Remote sensing and drones</p>
+              <p class="text-sm">Compatible with UAV imagery and onboard sensors for local refinement.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-3">
+          <h2 class="text-2xl font-semibold">Conclusion</h2>
+          <p class="text-[color:var(--muted)]">
+            Fine-scale agricultural hazard forecasting is achievable with open data plus disciplined modeling: strong
+            feature engineering, time-respecting validation, and spatiotemporal learning with transfer learning.
+            This system merges interpretability and deployability to support real-world climate adaptation.
+          </p>
+        </section>
       </section>
     </article>
   </main>
