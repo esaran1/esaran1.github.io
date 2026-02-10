@@ -6,6 +6,13 @@
     <description>Build logs, competition notes, and project deep-dives.</description>
     <language>en-us</language>
     <item>
+      <title>Building VolSurf and Getting Into Quant</title>
+      <link>https://esaran1.github.io/blog/posts/volsurf-implied-volatility-surface.html</link>
+      <guid>https://esaran1.github.io/blog/posts/volsurf-implied-volatility-surface.html</guid>
+      <pubDate>Sun, 09 Feb 2026 12:00:00 GMT</pubDate>
+      <description>Why I built an implied volatility surface app, what I learned implementing Black–Scholes and the IV solver, and how much I'm enjoying quant so far.</description>
+    </item>
+    <item>
       <title>Qualifying for GSEF with Field-Scale Frost &amp; Drought Forecasting</title>
       <link>https://esaran1.github.io/blog/posts/qualifying-for-gsef-frost-drought-ml.html</link>
       <guid>https://esaran1.github.io/blog/posts/qualifying-for-gsef-frost-drought-ml.html</guid>

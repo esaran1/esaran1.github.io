@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building VolSurf and Getting Into Quant | Evan Saran</title>
+    <meta
+      name="description"
+      content="Why I built an implied volatility surface app, what I learned implementing Black–Scholes and the IV solver, and how much I’m enjoying quant so far."
+    />
+    <meta property="og:title" content="Building VolSurf and Getting Into Quant" />
+    <meta
+      property="og:description"
+      content="A personal take on building VolSurf—IV surfaces, options math, and why I’m hooked on quant projects."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Quant</span>
+            <span class="badge badge-muted">Options</span>
+            <span class="badge badge-muted">Side project</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">
+            Building VolSurf and Getting Into Quant
+          </h1>
+          <p class="text-[color:var(--muted)]">February 2026 · 5 min read</p>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <p>
+            I’ve been spending more time on quant-style projects lately—market structure, options, that kind of thing. The limit order book simulator was one piece of it: you get to build the “engine” and then train or test agents on top. VolSurf is the other side: instead of simulating how orders flow, you’re looking at how the options market is already pricing volatility. Pick a ticker, pull the chain, back out implied vol, and you get this surface—strike on one axis, time to expiry on the other, and the height is basically “how much uncertainty is the market putting in this option?” I wanted that in one place, with no external pricing API. So I built it.
+          </p>
+        </section>
+
+        <section class="card p-6 space-y-4">
+          <h2 class="text-2xl font-semibold">What I actually built</h2>
+          <p class="text-[color:var(--muted)]">
+            VolSurf is a small full-stack app: FastAPI backend, React frontend. You choose a ticker (default SPY), set risk-free rate and div yield, and the backend grabs option chains from Yahoo Finance, runs everything through Black–Scholes with dividends, and solves for IV so the model price matches the market. Then it sends back the surface plus summary stats, a smile slice, term structure, and a put–call parity check. The frontend has a 3D view you can flip between IV and the Greeks (Delta, Gamma, Theta), so you see the same grid in different “modes.” I also added a simple smile-vs-smirk read—basically “is the curve more symmetric or is one side (usually puts for indices) carrying more vol?”—and a table + CSV export so you can poke at the numbers.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            I didn’t use any external option-pricing library. Implementing Black–Scholes and the Greeks was straightforward; the annoying part was the IV solver. Newton–Raphson is fast when it works, but for deep in- or out-of-the-money options it can blow up or converge to the wrong thing. So I added a bisection fallback: if Newton doesn’t behave, we bracket the vol and bisect. It’s slower but stable. Took a bit of tuning (bounds, max iterations) but now the surface looks sane across the grid.
+          </p>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Why I’m into this stuff</h2>
+          <p class="text-[color:var(--muted)]">
+            Quant work has been a lot of fun so far. The math is satisfying—you can check your work. Put–call parity is a great sanity check: if market call minus put doesn’t line up with the theoretical no-arbitrage value, something’s off (data, timing, or the model). Same with the shape of the surface: indices usually show put skew, and you can see it in the app. So you’re not just writing code; you’re implementing ideas that have clear, testable implications.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            The LOB project was more about execution and market microstructure; VolSurf is about how volatility is already encoded in prices. They complement each other. I’m not sure what I’ll do next—maybe hook the two worlds together in some way, or add more underlyings and a better data source—but I’m definitely going to keep building in this space. If you’re curious about the app itself, I wrote up the project in more detail <a href="../../projects/volsurf.html" class="text-[color:var(--accent)] hover:underline">here</a>.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>

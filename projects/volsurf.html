@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VolSurf — Implied Volatility Surface Explorer | Evan Saran</title>
+    <meta
+      name="description"
+      content="Web app for implied volatility surfaces: pick a ticker, set r and q, and visualize IV across strike and time to expiry, with Greeks, put-call parity, and smile vs smirk."
+    />
+    <meta property="og:title" content="VolSurf — Implied Volatility Surface Explorer" />
+    <meta
+      property="og:description"
+      content="Build and explore IV surfaces from option chains, with 3D views, Greeks, parity checks, and smile/skew—no external pricing library; the math is in the project."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../index.html">Home</a>
+          <a class="hover:text-white" href="../blog/index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 page-fade">
+      <article class="max-w-5xl space-y-10">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Quant</span>
+            <span class="badge badge-muted">Options</span>
+            <span class="badge badge-muted">Full-stack</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">VolSurf — Implied Volatility Surface Explorer</h1>
+          <p class="text-[color:var(--muted)]">
+            A web app to build and visualize implied volatility surfaces across strike and time to expiry, with Greeks, put–call parity, and smile vs smirk—all without an external pricing library.
+          </p>
+        </header>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">What it is</h2>
+          <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+            <p>
+              VolSurf is a full-stack web app for implied volatility (IV) surfaces. You pick a ticker (e.g. SPY), set a risk-free rate and dividend yield, and the app fetches option chains, backs out IV, and shows how the market is pricing volatility across strike and time to expiry. One main 3D view plus summary stats, smile slice, term structure, and parity checks—so you can see level, shape, and consistency of IV in one place.
+            </p>
+            <p>
+              The implied volatility surface is how traders and quants look at “priced uncertainty” for an underlying: height is how much vol is implied, shape along strike is smile/skew (e.g. more vol on the put side for indices), and shape along time is term structure. VolSurf lets you inspect that surface, switch to Greeks (Delta, Gamma, Theta) on the same grid, check put–call parity, and get a short smile-vs-smirk read. No external pricing library—Black–Scholes, IV solver, and parity logic are all implemented in the project.
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">What you can do</h2>
+          <ul class="list-disc pl-6 text-[color:var(--muted)] space-y-2">
+            <li>Choose an underlying (default SPY) and set risk-free rate and dividend yield.</li>
+            <li>Load the surface and see summary stats: min/max/mean IV, ATM IV, number of expiries and points.</li>
+            <li>One 3D surface you can switch between IV, Delta, Gamma, and Theta (same axes, different metric).</li>
+            <li>IV smile: strike vs IV for a single expiry (with expiry selector).</li>
+            <li>Term structure: average IV vs days to expiry.</li>
+            <li>Put–call parity: bar chart of violations (how far market C−P is from the theoretical no-arbitrage value).</li>
+            <li>Smile vs smirk: short text saying whether the curve looks more symmetric (smile) or skewed (e.g. put skew for indices).</li>
+            <li>Options table: paginated strike, days, IV %.</li>
+            <li>Export the surface (strike, days, IV %) as CSV.</li>
+            <li>Last ticker, r, and q are persisted so the next visit picks up where you left off.</li>
+            <li>Backend caches each surface for a short time (e.g. 10 minutes) so repeated loads with the same inputs are fast.</li>
+          </ul>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">How the numbers are produced</h2>
+          <div class="card p-6 space-y-4 text-[color:var(--muted)]">
+            <p>
+              Option data comes from a single public source (Yahoo Finance): expirations and option chains (bid, ask, last, strike, expiry). Pricing uses Black–Scholes with dividends for call and put values and the standard Greeks (Delta, Gamma, Theta, Vega).
+            </p>
+            <p>
+              Implied volatility is found by solving “which vol makes the model price match the market price?” using Newton–Raphson, with bisection as a fallback when the solver struggles (e.g. deep in- or out-of-the-money). Put–call parity is checked as market (call minus put) vs theoretical (spot and discount factors); large deviations can indicate mispricing or data issues. Smile vs smirk is a simple rule: compare IV on the put side vs call side of ATM—if one side is clearly higher, you get a “smirk” (skew); otherwise a “smile.”
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Who it’s for</h2>
+          <div class="grid md:grid-cols-2 gap-6 text-[color:var(--muted)]">
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Learning</p>
+              <p class="text-sm">See how IV and Greeks vary across strike and time, and how smile/skew and term structure show up in real data.</p>
+            </div>
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Quick checks</p>
+              <p class="text-sm">Spot level of vol, skew, and parity issues for a ticker without leaving the browser.</p>
+            </div>
+            <div class="card p-6">
+              <p class="font-semibold text-[color:var(--text)]">Portfolio / interviews</p>
+              <p class="text-sm">Shows understanding of options math, no-arbitrage (parity), and surface interpretation, in a small self-contained full-stack system.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-3">
+          <h2 class="text-2xl font-semibold">How you run it</h2>
+          <p class="text-[color:var(--muted)]">
+            Backend is Python/FastAPI: it pulls option data, computes the surface and Greeks, checks parity, and detects smile/smirk. Frontend is React: pick ticker and parameters, load the surface, switch between IV and Greeks, use the charts, table, and export. You can run both locally or run the backend in Docker and the frontend on your machine. Exact commands are in the repo README—everything is self-contained and runnable without external option-pricing services.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            <a href="../blog/posts/volsurf-implied-volatility-surface.html" class="text-[color:var(--accent)] hover:underline">I wrote a short post</a> about building VolSurf and getting into quant projects.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../blog/index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>
