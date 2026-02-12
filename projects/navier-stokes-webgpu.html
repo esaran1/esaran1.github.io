@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navier–Stokes WebGPU — Real-Time 2D Fluid in the Browser | Evan Saran</title>
+    <meta
+      name="description"
+      content="Browser-based 2D incompressible fluid simulation using Stable Fluids and the raw WebGPU API. Click-drag to inject dye and velocity; runs on the GPU with no Three.js or game engines."
+    />
+    <meta property="og:title" content="Navier–Stokes WebGPU — Real-Time 2D Fluid in the Browser" />
+    <meta
+      property="og:description"
+      content="Real-time 2D fluid sim in the browser via WebGPU and WGSL. Stam's algorithm, compute + render pipelines, full-screen canvas—no 3D libs."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../blog/index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../index.html">Home</a>
+          <a class="hover:text-white" href="../blog/index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 page-fade">
+      <article class="max-w-5xl space-y-10">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html#projects">← Back to projects</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">WebGPU</span>
+            <span class="badge badge-muted">Graphics</span>
+            <span class="badge badge-muted">Simulation</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">Navier–Stokes WebGPU</h1>
+          <p class="text-[color:var(--muted)]">
+            Real-time 2D incompressible fluid simulation in the browser. Runs on the GPU via the raw WebGPU API—no Three.js or other 3D libs. You click-drag on a full-screen canvas to inject dye and velocity; a landing page explains the app and lets you drop into the sim.
+          </p>
+        </header>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">What it is</h2>
+          <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+            <p>
+              The simulation uses Stam’s Stable Fluids algorithm: advect velocity and density (dye), optionally splat a Gaussian blob of velocity and color at the mouse, compute divergence, solve the pressure Poisson equation with Jacobi iterations, then subtract the pressure gradient so the field is (approximately) divergence-free. Every step runs in compute shaders; the final frame is rendered by sampling the density texture in a full-screen fragment shader. The grid is fixed at 512×512 and stretched to the viewport. Velocity and density live in RGBA16Float textures (only .rg for velocity); pressure and divergence use R32Float so storage works across more devices. Because compute shaders can’t read and write the same texture in one pass, each field uses a double buffer—ping-pong—and we swap read/write after each pass. One command encoder per frame runs all the compute passes and the render pass, then submits a single command buffer.
+            </p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Tech stack</h2>
+          <div class="card p-6">
+            <ul class="grid sm:grid-cols-2 gap-3 text-[color:var(--muted)] text-sm">
+              <li><span class="text-[color:var(--text)]">App</span> — React 19 + TypeScript, Vite 7</li>
+              <li><span class="text-[color:var(--text)]">Graphics</span> — WebGPU (adapter/device, compute + render pipelines)</li>
+              <li><span class="text-[color:var(--text)]">Shaders</span> — WGSL, raw strings loaded via Vite <code class="text-xs bg-[var(--surface-strong)] px-1 rounded">?raw</code></li>
+              <li><span class="text-[color:var(--text)]">UI</span> — Tailwind (landing, overlay, controls)</li>
+              <li><span class="text-[color:var(--text)]">Types</span> — @webgpu/types</li>
+            </ul>
+            <p class="text-[color:var(--muted)] text-sm mt-4">No game engines or GPU wrappers—simulation and rendering are implemented directly on WebGPU.</p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Per-frame pipeline</h2>
+          <div class="card p-6 space-y-3 text-[color:var(--muted)]">
+            <p>Each frame: advect velocity (semi-Lagrangian, trace back and sample), then advect density with dissipation &lt; 1 so the dye fades. If the mouse is down, splat velocity and dye at the cursor. Compute divergence with central differences, solve ∇²p = div(v) with 20 Jacobi iterations (pressure in its own R32Float double buffer), then gradient subtract so the velocity is incompressible. Render by drawing a full-screen triangle and sampling the current density texture. All stencils use clamped indices to avoid underflow. Time step, viscosity, dissipation, resolution, and splat params live in a single <code class="text-xs bg-[var(--surface-strong)] px-1 rounded">SimParams</code> uniform buffer, rewritten each frame.</p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Main pieces</h2>
+          <div class="space-y-3 text-[color:var(--muted)]">
+            <p><strong class="text-[color:var(--text)]">GPUContext</strong> — Singleton that requests the adapter and device once, caches them, and handles missing WebGPU or device loss (uncapturederror).</p>
+            <p><strong class="text-[color:var(--text)]">TextureManager</strong> — Creates 2D textures (r32float or rgba16float) with storage and optional sampling bindings.</p>
+            <p><strong class="text-[color:var(--text)]">DoubleBuffer</strong> — Two textures per field; exposes read/write and swap() for ping-pong.</p>
+            <p><strong class="text-[color:var(--text)]">FluidSimulator</strong> — Builds all compute pipelines (advect, divergence, jacobi, gradient_subtract, splat) and the render pipeline; implements step(params) and manages bind groups.</p>
+            <p><strong class="text-[color:var(--text)]">FluidCanvas</strong> — Resizes the canvas (e.g. ResizeObserver), waits for non-zero size, gets the GPU context, creates the simulator, and runs the requestAnimationFrame loop. Tracks mouse position, delta, and mouseDown and passes them into params.</p>
+            <p><strong class="text-[color:var(--text)]">App</strong> — Full-viewport canvas plus a landing overlay (title, short description, WebGPU status, “Enter full-screen simulation”, optional Reset). Overlay is pointer-events-none so drag goes to the canvas; first click can also hide the overlay.</p>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <h2 class="text-2xl font-semibold">Design choices</h2>
+          <div class="card p-6 space-y-2 text-[color:var(--muted)] text-sm">
+            <p>R32Float for pressure/divergence keeps storage portable (some devices don’t support R16Float storage). No velocity diffusion in the pipeline yet—only advection, projection, and splat; viscosity is in params but not hooked into a diffusion solve. Advection uses nearest-neighbor sampling; bilinear or higher-order would improve quality later.</p>
+          </div>
+        </section>
+
+        <section class="card p-6 space-y-3">
+          <h2 class="text-2xl font-semibold">How to run it</h2>
+          <p class="text-[color:var(--muted)]">
+            <code class="text-sm bg-[var(--surface-strong)] px-1.5 py-0.5 rounded">npm run dev</code> starts the Vite dev server; open in a WebGPU-capable browser (Chrome/Edge 113+). <code class="text-sm bg-[var(--surface-strong)] px-1.5 py-0.5 rounded">npm run build</code> and <code class="text-sm bg-[var(--surface-strong)] px-1.5 py-0.5 rounded">npm run preview</code> for a production build. Shaders live in <code class="text-sm bg-[var(--surface-strong)] px-1.5 py-0.5 rounded">shaders/</code> (WGSL); simulation logic is in <code class="text-sm bg-[var(--surface-strong)] px-1.5 py-0.5 rounded">src/simulation/</code>.
+          </p>
+          <p class="text-[color:var(--muted)]">
+            <a href="../blog/posts/navier-stokes-webgpu.html" class="text-[color:var(--accent)] hover:underline">I wrote a short post</a> about building it and learning WebGPU.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../blog/index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>

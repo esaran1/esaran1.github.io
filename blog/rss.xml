@@ -6,6 +6,13 @@
     <description>Build logs, competition notes, and project deep-dives.</description>
     <language>en-us</language>
     <item>
+      <title>Building a 2D Fluid Sim in the Browser with WebGPU</title>
+      <link>https://esaran1.github.io/blog/posts/navier-stokes-webgpu.html</link>
+      <guid>https://esaran1.github.io/blog/posts/navier-stokes-webgpu.html</guid>
+      <pubDate>Mon, 10 Feb 2026 12:00:00 GMT</pubDate>
+      <description>Why I built a real-time Navier–Stokes fluid sim using WebGPU and WGSL, what I learned, and why I skipped Three.js.</description>
+    </item>
+    <item>
       <title>Building VolSurf and Getting Into Quant</title>
       <link>https://esaran1.github.io/blog/posts/volsurf-implied-volatility-surface.html</link>
       <guid>https://esaran1.github.io/blog/posts/volsurf-implied-volatility-surface.html</guid>
