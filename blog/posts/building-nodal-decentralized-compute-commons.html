@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building Nodal: A Decentralized Compute Commons | Your Name</title>
+    <meta
+      name="description"
+      content="Building Nodal: A Decentralized Compute Commons."
+    />
+    <meta property="og:title" content="Building Nodal: A Decentralized Compute Commons" />
+    <meta property="og:description" content="Building Nodal: A Decentralized Compute Commons." />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Systems</span>
+            <span class="badge badge-muted">Distributed</span>
+            <span class="badge badge-muted">Open Source</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">Building Nodal: A Decentralized Compute Commons</h1>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <p>Building Nodal: A Decentralized Compute Commons</p>
+          <p>The AI revolution is here, but it has a hardware problem. The immense computational power required to train modern machine learning models has created a bottleneck. While well-funded enterprise companies can afford to spin up thousands of GPUs in the cloud, student researchers, non-profits, and high school robotics teams are being priced out of the future.</p>
+          <p>At the same time, millions of high-performance gaming PCs sit idle for hours every day, their powerful GPUs doing nothing.</p>
+          <p>I built Nodal to bridge this gap.</p>
+          <p>What is Nodal?</p>
+          <p>Nodal is an open-source, distributed computing network designed to democratize access to supercomputing. It allows anyone with a powerful PC to donate their idle computing time to verified academic and scientific causes.</p>
+          <p>Instead of a for-profit marketplace, Nodal is a "Compute Commons." We gamify the experience, allowing volunteers to earn leaderboard rankings and even verifiable community service hours for helping projects like university climate research or local high school robotics teams.</p>
+          <p>The Architecture: A Technical Deep Dive</p>
+          <p>Building a fault-tolerant, peer-to-peer network isn't just about connecting a frontend to a backend. It's a complex systems engineering challenge. Nodal is built on a modern, three-tier architecture designed for high concurrency and security.</p>
+          <p>The Control Plane (Frontend): A responsive Next.js web application that serves as the dashboard for both researchers submitting workloads and volunteers tracking their contributions.</p>
+          <p>The Matchmaking Hub (Backend): The central brain of the operation. Built with Python and FastAPI, it's a high-performance REST API that orchestrates the entire network, handling job queueing, node health checks, and result aggregation.</p>
+          <p>The Worker Daemon (Edge Node): A lightweight Python script that runs on the volunteer's host machine. It manages local resources, communicates with the Hub, and executes the actual computational tasks.</p>
+          <p>Solving the Hard Engineering Problems</p>
+          <p>The real challenge wasn't just building these components, but making them work together reliably at scale.</p>
+          <p>Preventing Race Conditions: In a distributed system, hundreds of nodes might ask for a job at the exact same millisecond. To prevent the same job from being assigned to multiple computers, I implemented PostgreSQL's FOR UPDATE SKIP LOCKED feature. This provides row-level database locking, ensuring a race-condition-free queue.</p>
+          <p>Handling Fault Tolerance: Consumer internet connections are unreliable. Laptops get closed; Wi-Fi drops. The Hub constantly monitors a heartbeat from every active node. If a node goes silent mid-computation, the system automatically detects the failure and re-queues the job to a healthy node, ensuring no work is ever lost.</p>
+          <p>Prioritizing Security with Sandboxing: The most critical challenge was security. Since volunteers are donating their personal machines, running untrusted code directly on their host OS was out of the question. I utilized the Docker Engine API to create a strict sandboxing environment. Every job runs inside an ephemeral, isolated Docker container with zero network access and strict resource limits. Once the computation is complete, the entire container is instantly destroyed.</p>
+          <p>What's Next?</p>
+          <p>Nodal is currently in its alpha stage, with a functional end-to-end prototype. The next steps involve expanding the platform's capabilities to support more complex, multi-node workloads and partnering with university research labs to begin beta testing with real-world scientific data.</p>
+          <p>Building Nodal has been an incredible journey into the world of distributed systems, containerization, and network security. It's a project that not only challenges me technically but also has the potential to make a real, positive impact on the scientific community.</p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Home</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>
