@@ -5,7 +5,7 @@ const siteData = {
   location: "Johns Creek, Georgia",
   email: "evan.msaran@gmail.com",
   emailUrl: "",
-  linkedinUrl: "https://www.linkedin.com",
+  linkedinUrl: "https://www.linkedin.com/in/evan-saran-9211653b2/",
   githubUrl: "https://github.com/esaran1"
 };
 
