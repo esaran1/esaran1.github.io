@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIT Zero Robotics Finals: 3rd Place Internationally (Alliance 10) | Evan Saran</title>
+    <meta
+      name="description"
+      content="How our team reached 3rd place internationally in the MIT Zero Robotics Finals as Alliance 10."
+    />
+    <meta property="og:title" content="MIT Zero Robotics Finals: 3rd Place Internationally (Alliance 10)" />
+    <meta
+      property="og:description"
+      content="A recap of our finals run, what worked technically, and what we learned as Alliance 10."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Robotics</span>
+            <span class="badge badge-muted">MIT</span>
+            <span class="badge badge-muted">Competition</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">MIT Zero Robotics Finals: 3rd Place Internationally (Alliance 10)</h1>
+          <p class="text-[color:var(--muted)]">March 2026 · 4 min read</p>
+        </header>
+
+        <figure class="card overflow-hidden">
+          <img
+            src="../../assets/images/Screenshot 2026-03-01 at 7.44.25 PM.png"
+            alt="MIT Zero Robotics finals results screenshot"
+            class="w-full h-auto"
+            loading="lazy"
+          />
+        </figure>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <p>I'm still kind of processing this.</p>
+          <p>MIT Zero Robotics is a competition where student teams write code to control simulated satellites competing in a zero-gravity environment. The finals pit the best teams from around the world against each other, and the stakes feel very real.</p>
+          <p>It took months of work. A lot of things didn't work, got scrapped, and got rebuilt. But we figured it out.</p>
+          <p>When the results came in and we landed 3rd place internationally, it didn't sink in at first. Out of all the teams from around the world, we were on the podium.</p>
+          <p>Beyond the placement, what sticks with me is what the competition demanded: systems thinking, teamwork under pressure, and the humbling experience of having your work tested in a setting where it has to work the first time, every time.</p>
+          <p>More motivated than ever. Onward.</p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>
