@@ -6,12 +6,12 @@
     <title>Cricket Coach | Your Name</title>
     <meta
       name="description"
-      content="Cricket Coach is a local-first computer vision system that analyzes short cricket clips and returns coaching overlays and structured reports."
+      content="Cricket Coach is a pose-based biomechanics web app: record or upload a clip, extract landmarks, compute coaching metrics and injury-risk signals, compare to a pro with DTW ghost overlays, and generate replay + numbers + tips with reels and downloadable outputs."
     />
     <meta property="og:title" content="Cricket Coach" />
     <meta
       property="og:description"
-      content="A modular CV coaching pipeline with pose overlays, event markers, and confidence-aware metrics."
+      content="Pose landmarks to coaching-ready metrics—phase-aware feedback, bowling-side injury risk, pro ghost overlay via DTW, mobile recording, and Hindi i18n."
     />
     <meta property="og:type" content="article" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -92,50 +92,57 @@
             />
           </figure>
           <p>
-            Cricket Coach is a local-first computer vision coaching system that analyzes short cricket clips and
-            returns a replay with a pose overlay, key event markers, coaching metrics, and a structured JSON report.
-            It is designed as a modular Python backend that can be ported to mobile later, with a polished web frontend
-            for demonstration and review.
+            Cricket Coach is a video analysis web app that helps cricket players improve technique using pose-based
+            biomechanics. You upload (or record on mobile) a short clip, and it extracts body landmarks frame-by-frame,
+            computes coaching metrics and movement quality indicators, and then gives you a simple “replay + numbers + tips”
+            interface. The output is not just pose detection: you get overlays, structured reports, and phase-aware feedback.
           </p>
           <p>
-            The backend uses MediaPipe Pose to extract 33 body landmarks per frame, then applies interpolation for short
-            visibility gaps and EMA smoothing to stabilize motion. It supports two explicit analysis modes based on
-            camera angle, side or rear-side and front-on, and keeps the logic and thresholds view-specific. A lightweight
-            API accepts a video upload and returns a run id plus URLs to generated artifacts. Outputs include an overlay
-            MP4 with a skeleton and event labels, a keypoints JSON containing raw and smoothed landmarks, and a report
-            JSON containing events, metrics, tips, warnings, and quality statistics.
+            Core user flow: record or upload a clip on the Home page, choose a camera view (side or front) and a mode
+            (batting or bowling), then analyze. The backend runs pose estimation and analysis, returning overlay videos
+            with guidance, a structured report (metrics, tips, warnings), and optional highlight/focus reels.
           </p>
           <p>
-            For analysis, the system implements heuristic event detection and coaching metrics per view. Side view
-            focuses on front-foot plant detection, stride length, knee angle, and head stability, with additional
-            bowling proxies when bowling mode is selected. Front view focuses on shoulder alignment, lateral head
-            movement, symmetry cues, and experimental bowling elbow extension tracking. To make the metrics useful to
-            coaches, the API layer converts raw numbers into coach-friendly outputs by normalizing key motion measures
-            to percent of frame, attaching short explanations of why each metric matters, adding practical coaching
-            cues, and providing a confidence score based on landmark visibility. Low-confidence metrics automatically
-            generate warnings to prevent over-interpreting noisy signals.
+            Pose extraction: the pipeline uses MediaPipe Pose to detect landmarks per frame. Short visibility gaps are handled
+            with interpolation, and motion is stabilized with EMA smoothing. Analysis is view-specific: side vs front use different
+            thresholds and baselines so the same pose landmark stream maps to coaching metrics that make sense for the camera.
           </p>
           <p>
-            To improve shot direction feedback beyond pose-only estimation, the system includes an optional ball
-            tracking pipeline. It uses a two-stage approach with frame differencing and blob filtering to propose
-            candidate ball positions, then refines the trajectory with optical flow to improve continuity when the ball
-            is small or partially blurred. When tracking coverage is sufficient, the shot estimate is derived from ball
-            motion rather than pose cues and the UI surfaces both the estimated fielder zone and the tracking coverage
-            so the user can judge reliability.
+            Metric computation: landmarks get converted into angles, distances, and quality signals (alignment, movement stability,
+            and phase-aware context). Metrics are benchmarked against view/mode baselines and labeled as good / ok / needs work.
+            Coaching output is then generated as explanations and warnings so users don’t over-interpret noisy signals.
           </p>
           <p>
-            The frontend is built with Next.js, Tailwind, and shadcn-style components. It provides an upload workflow
-            with explicit view selection, mode selection, and optional batting context inputs like handedness and camera
-            perspective. Results are presented with an overlay video player, metric cards that include status badges,
-            recommendations, interpretation, coaching cues, and signal-quality indicators, plus a tips panel, warnings,
-            and downloadable JSON links. Requests are proxied through the frontend to avoid cross-origin issues in local
-            development.
+            Kinematic sequence: it builds time-series segment speeds (pelvis → torso → shoulder → wrist), finds peak timing order,
+            and flags “power leak” when the sequence looks out of order. That’s the part that turns raw motion into a
+            coaching-ready story about what the body is doing through the action.
           </p>
           <p>
-            Overall, this project demonstrates end-to-end applied ML engineering, from robust video IO and pose
-            estimation through signal processing, heuristic event detection, confidence-aware metric design, and a clean
-            UI that delivers actionable coaching feedback. It also shows engineering discipline through modular
-            architecture, structured outputs, reproducible setup, and unit tests for core logic.
+            Bowling injury risk: the app includes bowling-side specific red-flag logic. It detects a mixed action pattern at the
+            front-foot plant and release by comparing hip-line vs shoulder-line orientation, then surfaces it with a clear coaching explanation.
+          </p>
+          <p>
+            Pro comparison: for visual benchmarking, the app aligns your sequence with a selected pro using Dynamic Time Warping (DTW).
+            It then renders a “ghost” overlay on top of your video so you can compare motion in the same time window.
+          </p>
+          <p>
+            Auto reels + voice coach: it can generate short highlight/focus clips from key event windows, and includes a “play coach summary”
+            feature. When configured, the summary can be LLM-based (with a fallback), and it uses text-to-speech for quick guidance.
+          </p>
+          <p>
+            i18n: the UI supports multiple languages (including Hindi) through a locale provider and translation JSON files, with a responsive
+            header language toggle.
+          </p>
+          <p>
+            Tech stack: backend is Python FastAPI with a MediaPipe + OpenCV + NumPy pipeline. Report generation, reel creation, and DTW/pro
+            alignment run on the backend, and run metadata is persisted using SQLite. Frontend is Next.js/React with TypeScript and Tailwind for
+            styling. Charts use Recharts, and the UI includes export/download controls and result tabs. On mobile, users can record inside the app
+            using the browser MediaRecorder and then reuse the same upload/analyze pipeline.
+          </p>
+          <p>
+            What makes it distinctive: it’s not just “pose detection”—it turns pose landmarks into coaching-ready metrics, phase-aware feedback, and
+            sequence-based power checks. You get both numbers + explanations and visual comparison (pro ghost overlay), with mobile-first usability
+            and Hindi support for accessibility.
           </p>
         </section>
       </article>

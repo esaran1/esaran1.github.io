@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>We Won First Place at GASTC with Cricket Coach | Evan Saran</title>
+    <meta
+      name="description"
+      content="Shivam and I won first place at the Georgia Student Technology Competition with Cricket Coach, and here’s what the experience taught us and what we’re planning to improve next."
+    />
+    <meta property="og:title" content="We Won First Place at GASTC with Cricket Coach" />
+    <meta
+      property="og:description"
+      content="First place at GASTC with Cricket Coach—what the project is, what we built, and why the win felt real."
+    />
+    <meta property="og:type" content="article" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Competition</span>
+            <span class="badge badge-muted">Cricket Coach</span>
+            <span class="badge badge-muted">GASTC</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">We Won First Place at GASTC with Cricket Coach</h1>
+          <p class="text-[color:var(--muted)]">March 2026 · 5 min read</p>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <p>
+            Shivam and I just took first place at the Georgia Student Technology Competition, and it feels really good.
+          </p>
+          <p>
+            The project is called Cricket Coach. The core idea: cricket players, especially at the amateur level, don't
+            have easy access to real coaching feedback. You can record yourself batting or bowling, but watching the video
+            back doesn't tell you much unless you know what to look for. We wanted to change that.
+          </p>
+          <p>
+            You upload a short clip, pick your camera angle and mode (batting or bowling), and the app does the rest. On
+            the backend, we run pose estimation frame by frame using MediaPipe, then convert those body landmarks into
+            actual coaching metrics like joint angles, alignment, and movement stability. Each metric gets benchmarked and
+            labeled as good, okay, or needs work. You get an overlay video with guidance drawn on top, a structured report,
+            and coaching tips filtered by what actually needs attention.
+          </p>
+          <p>
+            A few things we built that we're especially proud of. One is the kinematic sequence analysis, which tracks how
+            power moves through the body from the pelvis up through the torso, shoulder, and wrist. If the sequence is out of
+            order, the app flags it as a power leak and explains why that matters. Another is the pro comparison feature, which
+            uses Dynamic Time Warping to align your movement sequence with a selected pro player's, then renders a ghost overlay
+            so you can see exactly where your mechanics differ. We also built bowling injury risk detection that catches mixed
+            action patterns, which is a real mechanical issue that can lead to injury over time.
+          </p>
+          <p>
+            On the frontend we used Next.js and Recharts for the results interface, and we added Hindi language support to make it
+            more accessible to players who need it.
+          </p>
+          <p>
+            GASTC was a great experience. Competing in front of judges and having to explain not just what it does but why the
+            technical decisions matter pushed us to think more clearly about the project. First place was the outcome, but building
+            something with this much substance was the real win.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>
+
