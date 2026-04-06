@@ -115,7 +115,7 @@ const initAnimations = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   // Hero: fade + slide up with stagger
-  const heroColumns = document.querySelectorAll("section.subtle-grid .container > div");
+  const heroColumns = document.querySelectorAll("main > section:first-of-type .container > div");
   if (heroColumns.length) {
     gsap.from(heroColumns, {
       y: 28,
