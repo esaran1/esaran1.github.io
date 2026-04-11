@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>We Won the Divergent Teams Hackathon | Evan Saran</title>
+    <meta
+      name="description"
+      content="First place in the finance pathway at the Divergent Teams Hackathon in Atlanta with ShelfSync — dynamic pricing, brands funding discounts at the register, and nationals next."
+    />
+    <meta property="og:title" content="We Won the Divergent Teams Hackathon" />
+    <meta
+      property="og:description"
+      content="ShelfSync at Microsoft Atlanta: finance pathway win, the stack, Sandbox, Snap-to-Sync, and gearing up for nationals."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://esaran1.github.io/assets/images/IMG_6343.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/styles.css?v=202604" />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-[color:var(--border)] glass">
+      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="../../index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+        <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
+          <a class="hover:text-white text-[color:var(--muted)]" href="../../index.html">Home</a>
+          <a class="hover:text-white text-[color:var(--muted)]" href="../index.html">Blog</a>
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </nav>
+        <button
+          id="mobileNavToggle"
+          class="md:hidden btn btn-outline"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="mobileNavMenu"
+        >
+          Menu
+        </button>
+      </div>
+      <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
+        <div class="card p-4 flex flex-col gap-3 text-sm">
+          <a class="hover:text-white" href="../../index.html">Home</a>
+          <a class="hover:text-white" href="../index.html">Blog</a>
+          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16">
+      <article class="max-w-3xl space-y-8 page-fade">
+        <header class="space-y-4">
+          <a class="btn btn-ghost" href="../index.html">← Back to blog</a>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge">Hackathon</span>
+            <span class="badge badge-muted">ShelfSync</span>
+            <span class="badge badge-muted">Microsoft</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-semibold">We Won the Divergent Teams Hackathon</h1>
+          <p class="text-[color:var(--muted)]">Apr 2026 · 8 min read</p>
+        </header>
+
+        <section class="space-y-5 text-lg text-[color:var(--muted)]">
+          <figure
+            class="w-full mb-4 overflow-hidden rounded-[var(--radius)] border border-[color:var(--border)] aspect-[2/1]"
+          >
+            <img
+              src="../../assets/images/IMG_6343.png"
+              alt="Divergent Teams Hackathon at Microsoft Atlanta — first place in the finance pathway"
+              class="h-full w-full object-cover object-[center_40%]"
+              loading="lazy"
+            />
+          </figure>
+          <p>
+            A couple weeks ago, my team and I competed in the Divergent Teams Hackathon at the Microsoft Atlanta office. We took first place in the finance pathway, which means we&apos;ve qualified for the national competition. I&apos;m still processing it honestly.
+          </p>
+          <p>
+            Going in, we knew we wanted to build something that addressed a real problem, not just a flashy demo. We ended up building ShelfSync, and the idea came from a question that sounds simple but turned out to be surprisingly deep: why do small grocery stores and bodegas throw away so much food when massive brands are spending billions trying to get people to buy that exact food?
+          </p>
+          <p>
+            The numbers are kind of staggering once you look into it. Independent retailers run on 1–3% net margins. They lose up to 10% of their inventory to expiration. Meanwhile, CPG companies like Coca-Cola spend around $500 billion a year on local store promotions, and 70% of those campaigns lose money. Both sides are bleeding cash and neither side can see what the other is doing. The brands have no visibility into what&apos;s actually happening at the register, and the store owners can&apos;t afford to discount dying inventory without going broke.
+          </p>
+          <p>
+            ShelfSync sits in the middle. It&apos;s a dynamic pricing platform that lets brands directly fund automated discounts at the point of sale. The store owner doesn&apos;t have to do anything. A brand sets up triggers, things like weather events, expiration dates approaching, or inventory moving too slowly, and when those triggers fire, the price drops on a live display at the register. The key part is that the brand pays for the discount. The store clears inventory and keeps its full margin. Nobody loses.
+          </p>
+          <p>
+            The tech stack was probably the part I&apos;m most proud of. We built it on Next.js 14 with a PostgreSQL database and Prisma ORM, using WebSockets and Server-Sent Events to push live pricing updates to iPad displays at the register. The pricing engine runs in Python and Node in the background with zero admin overhead for the store owner.
+          </p>
+          <p>
+            One feature that really clicked with the judges was what we called the Sandbox. Before a brand spends any money, they can test their campaign in an agentic digital twin. It simulates weather, foot traffic, and runs the campaign against thousands of AI personas to predict ROI. Stores only receive campaigns that are mathematically proven to generate revenue. That was a big deal for the finance pathway judges because it eliminates risk for the small business entirely.
+          </p>
+          <p>
+            We also built an AI vision onboarding system we called Snap-to-Sync. A lot of these small stores are running cash registers that are 20 years old. Instead of fighting that, we worked around it. Store owners just snap photos of their distributor invoices to log inventory and photos of end-of-day receipts to generate reimbursement invoices. Vision LLMs handle the rest.
+          </p>
+          <p>
+            Then there&apos;s the SMS copilot. We integrated Twilio so the system texts store owners directly instead of expecting them to check a dashboard. Something like &quot;Mario, Kona Heatwave Subsidy activated. 6-packs are $2 off. Your margin is fully covered by Kona.&quot; That&apos;s it. No app to download, no portal to log into.
+          </p>
+          <p>
+            The business model made sense to the judges too. The software is completely free for the mom-and-pop shop. ShelfSync charges the enterprise brand a micro-transaction fee for every verified subsidy. It recovers roughly $1,200 per month in dead stock for the average store. And because it&apos;s algorithmically discounting near-expiry products, it actively prevents food waste, which gives brands verified ESG data they can actually use.
+          </p>
+          <p>
+            Winning first place in the finance pathway felt surreal. We put a lot of late nights into this and I think what set us apart was that we didn&apos;t just build a prototype. We thought through the economics, the user experience for someone who has never touched a SaaS tool, and the incentive alignment between all three parties. It wasn&apos;t just a technical project, it was a business case.
+          </p>
+          <p>
+            Now we&apos;re gearing up for nationals. There&apos;s more to build and a lot to refine, but honestly I&apos;m just grateful for the team and the opportunity. More updates to come.
+          </p>
+        </section>
+      </article>
+    </main>
+
+    <footer class="border-t border-[color:var(--border)]">
+      <div class="container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="font-semibold" data-bind="name">Your Name</p>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="btn btn-ghost" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="btn btn-ghost" href="../index.html">Blog</a>
+        </div>
+        <p class="text-xs text-[color:var(--muted)]">© <span id="year"></span> All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>
