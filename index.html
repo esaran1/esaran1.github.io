@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,20 +11,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./assets/css/styles.css?v=202604" />
+    <link rel="stylesheet" href="./assets/css/styles.css?v=202615" />
   </head>
   <body class="min-h-screen">
     <header class="border-b border-[color:var(--border)] glass">
-      <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+      <div class="container mx-auto px-6 py-4 flex items-center justify-between">
         <a href="./index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
         <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
-          <a class="hover:text-white text-[color:var(--muted)]" href="./index.html">Home</a>
-          <a class="hover:text-white text-[color:var(--muted)]" href="./blog/index.html">Blog</a>
-          <a class="hover:text-white text-[color:var(--muted)]" href="#projects">Projects</a>
+          <a class="hover:text-black text-[color:var(--muted)]" href="./index.html">Home</a>
+          <a class="hover:text-black text-[color:var(--muted)]" href="./blog/index.html">Blog</a>
+          <a class="hover:text-black text-[color:var(--muted)]" href="#projects">Projects</a>
           <a class="btn btn-ghost" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
           <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
         </nav>
@@ -41,11 +41,11 @@
       </div>
       <div id="mobileNavMenu" class="hidden md:hidden px-6 pb-6">
         <div class="card p-4 flex flex-col gap-3 text-sm">
-          <a class="hover:text-white" href="./index.html">Home</a>
-          <a class="hover:text-white" href="./blog/index.html">Blog</a>
-          <a class="hover:text-white" href="#projects">Projects</a>
-          <a class="hover:text-white" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
-          <a class="hover:text-white" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
+          <a class="hover:text-black" href="./index.html">Home</a>
+          <a class="hover:text-black" href="./blog/index.html">Blog</a>
+          <a class="hover:text-black" href="#projects">Projects</a>
+          <a class="hover:text-black" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">LinkedIn</a>
+          <a class="hover:text-black" data-bind-href="github" href="https://github.com/your-handle">GitHub</a>
         </div>
       </div>
     </header>
@@ -57,11 +57,11 @@
             <div class="flex flex-wrap gap-2">
               <span class="badge">Open to collab</span>
             </div>
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight">
-              <span data-bind="name">Your Name</span><br />
-              <span class="text-[color:var(--accent)]" data-bind="tagline">Senior Full-Stack Engineer & Designer</span>
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1.03] tracking-tight text-[color:var(--text)]">
+              <span data-bind="name">Your Name</span>
             </h1>
-            <p class="text-lg text-[color:var(--muted)] max-w-2xl" data-bind="bio">
+            <p class="text-sm font-semibold uppercase tracking-[0.14em] text-[color:var(--muted)]" data-bind="tagline">Senior Full-Stack Engineer & Designer</p>
+            <p class="text-lg text-[color:var(--text-soft)] max-w-2xl leading-relaxed" data-bind="bio">
               Short bio placeholder. Share your focus areas, what you love building, and the impact you want to make.
             </p>
             <div class="flex flex-wrap gap-4">
@@ -73,27 +73,27 @@
           <div class="flex flex-col items-center gap-5">
             <div class="card p-6 space-y-6 flex flex-col items-center w-full">
               <img
-                src="./assets/images/linkedinprofilepicture.png"
+                src="./assets/images/evanpfp.png"
                 alt="Photo of Evan Saran"
-                class="w-40 h-40 rounded-full object-cover object-[center_32%] border border-[color:var(--border)]"
+                class="w-40 h-40 rounded-full object-cover object-[center_22%] border border-[color:var(--border)]"
                 loading="lazy"
               />
-              <div class="grid grid-cols-2 gap-4 w-full">
-                <div class="card p-4">
-                <p class="text-sm text-[color:var(--muted)]">Grade level</p>
-                <p class="text-2xl font-semibold">10</p>
+              <div class="grid grid-cols-2 gap-px w-full bg-[color:var(--border)] rounded-[var(--radius-sm)] overflow-hidden border border-[color:var(--border)]">
+                <div class="bg-[color:var(--surface)] p-4">
+                <p class="text-xs font-medium text-[color:var(--muted)]">Grade level</p>
+                <p class="text-3xl font-semibold tabular text-[color:var(--text)] mt-1">11</p>
               </div>
-              <div class="card p-4">
-                <p class="text-sm text-[color:var(--muted)]">Projects built</p>
-                <p class="text-2xl font-semibold">12+</p>
+              <div class="bg-[color:var(--surface)] p-4">
+                <p class="text-xs font-medium text-[color:var(--muted)]">Projects built</p>
+                <p class="text-3xl font-semibold tabular text-[color:var(--text)] mt-1">12+</p>
               </div>
-              <div class="card p-4">
-                <p class="text-sm text-[color:var(--muted)]">Clubs & teams</p>
-                <p class="text-2xl font-semibold">8+</p>
+              <div class="bg-[color:var(--surface)] p-4">
+                <p class="text-xs font-medium text-[color:var(--muted)]">Clubs & teams</p>
+                <p class="text-3xl font-semibold tabular text-[color:var(--text)] mt-1">8+</p>
               </div>
-              <div class="card p-4">
-                <p class="text-sm text-[color:var(--muted)]">Competitions</p>
-                <p class="text-2xl font-semibold">6</p>
+              <div class="bg-[color:var(--surface)] p-4">
+                <p class="text-xs font-medium text-[color:var(--muted)]">Competitions</p>
+                <p class="text-3xl font-semibold tabular text-[color:var(--text)] mt-1">6</p>
               </div>
             </div>
             </div>
@@ -103,187 +103,137 @@
 
       <section id="projects" class="container mx-auto px-6 py-16 space-y-8">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <p class="text-sm text-[color:var(--muted)]">Projects</p>
+          <div class="space-y-2">
+            <p class="eyebrow">Projects</p>
             <h2 class="section-title">Highlights from recent work</h2>
           </div>
         </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <article class="card">
-            <div class="card-header">
+        <div class="project-list">
+          <!-- Featured lead project -->
+          <article class="project-featured project-item">
+            <div class="space-y-3">
               <p class="text-sm text-[color:var(--muted)]">Document intelligence</p>
-              <h3 class="text-xl font-semibold">ClearText: Evidence-Constrained, Local-First Document Intelligence</h3>
+              <h3 class="text-2xl sm:text-3xl font-semibold tracking-tight leading-tight">ClearText: Evidence-Constrained, Local-First Document Intelligence</h3>
+              <div class="flex gap-2 flex-wrap pt-1">
+                <span class="badge">NLP</span>
+                <span class="badge badge-muted">AI Safety</span>
+              </div>
             </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
+            <div class="space-y-5">
+              <p class="text-[color:var(--text-soft)] leading-relaxed">
                 Local-first NLP pipeline with fact-only generation, containerized stages, Kubernetes scaling, and CPU-optimized inference.
               </p>
-            </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">NLP</span>
-              <span class="badge badge-muted">AI Safety</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/cleartext" aria-label="ClearText GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/cleartext.html" aria-label="Read more about ClearText">
-                Read more →
-              </a>
+              <div class="flex gap-4 flex-wrap text-sm">
+                <a class="btn btn-outline" href="./projects/cleartext.html" aria-label="Read more about ClearText">Read more</a>
+                <a class="btn btn-ghost" href="https://github.com/your-handle/cleartext" aria-label="ClearText GitHub repository">GitHub</a>
+              </div>
             </div>
           </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">RL infrastructure</p>
-              <h3 class="text-xl font-semibold">Limit Order Book Trading Simulator</h3>
+
+          <!-- Standard rows -->
+          <a class="project-row project-item" href="./projects/limit-order-book-trading-simulator.html" aria-label="Read more about Limit Order Book Trading Simulator">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">RL infrastructure</p>
+              <h3 class="text-lg font-semibold tracking-tight">Limit Order Book Trading Simulator</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">Systems</span><span class="badge badge-muted">RL</span>
+              </div>
             </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Distributed simulator and evaluation stack for RL agents with Gym-style APIs, metrics logging, and Kubernetes orchestration.
-              </p>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Distributed simulator and evaluation stack for RL agents with Gym-style APIs, metrics logging, and Kubernetes orchestration.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
+
+          <a class="project-row project-item" href="./projects/volsurf.html" aria-label="Read more about VolSurf">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">Options &amp; quant</p>
+              <h3 class="text-lg font-semibold tracking-tight">VolSurf: Implied Volatility Surface Explorer</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">Quant</span><span class="badge badge-muted">Options</span>
+              </div>
             </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">Systems</span>
-              <span class="badge badge-muted">RL</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/limit-order-book-gym" aria-label="Limit Order Book Microstructure Gym GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/limit-order-book-trading-simulator.html" aria-label="Read more about Limit Order Book Trading Simulator">
-                Read more →
-              </a>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Web app to build and visualize IV surfaces across strike and expiry: 3D view, Greeks, put–call parity, smile vs smirk. Black–Scholes and IV solver implemented in-project; FastAPI + React.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
+
+          <a class="project-row project-item" href="./projects/navier-stokes-webgpu.html" aria-label="Read more about Navier–Stokes WebGPU">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">Graphics / simulation</p>
+              <h3 class="text-lg font-semibold tracking-tight">Navier–Stokes WebGPU</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">WebGPU</span><span class="badge badge-muted">Graphics</span>
+              </div>
             </div>
-          </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">Options &amp; quant</p>
-              <h3 class="text-xl font-semibold">VolSurf: Implied Volatility Surface Explorer</h3>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Real-time 2D incompressible fluid in the browser via raw WebGPU and WGSL. Stam’s Stable Fluids; click-drag to inject dye and velocity. No Three.js: compute and render pipelines from scratch.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
+
+          <a class="project-row project-item" href="./projects/frost-drought-prediction-ml.html" aria-label="Read more about Frost and Drought Prediction with ML">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">Climate forecasting</p>
+              <h3 class="text-lg font-semibold tracking-tight">Frost & Drought Prediction with ML</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">ML</span><span class="badge badge-muted">Data</span>
+              </div>
             </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Web app to build and visualize IV surfaces across strike and expiry—3D view, Greeks, put–call parity, smile vs smirk. Black–Scholes and IV solver implemented in-project; FastAPI + React.
-              </p>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Fine-scale (10–30 m) frost and drought forecasting with fused satellite + reanalysis data, ConvLSTM transfer learning, and SHAP interpretability.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
+
+          <a class="project-row project-item" href="./projects/accentcoach.html" aria-label="Read more about the AI-Driven Pronunciation Feedback Platform">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">Speech ML</p>
+              <h3 class="text-lg font-semibold tracking-tight">AI-Driven Pronunciation Feedback Platform</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">Speech</span><span class="badge badge-muted">Platform</span>
+              </div>
             </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">Quant</span>
-              <span class="badge badge-muted">Options</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/esaran1/volsurf" aria-label="VolSurf GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/volsurf.html" aria-label="Read more about VolSurf">
-                Read more →
-              </a>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Full-stack platform with modular audio scoring services, workflow orchestration, and scalable Kubernetes deployment.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
+
+          <a class="project-row project-item" href="./projects/table-tennis-ai-referee.html" aria-label="Read more about the Table Tennis Game Monitoring System">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">Real-time vision</p>
+              <h3 class="text-lg font-semibold tracking-tight">Table Tennis Game Monitoring System</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">Computer Vision</span><span class="badge badge-muted">Real-time</span>
+              </div>
             </div>
-          </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">Graphics / simulation</p>
-              <h3 class="text-xl font-semibold">Navier–Stokes WebGPU</h3>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Low-latency CV pipeline for ball/paddle/table tracking with event detection and containerized inference services.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
+
+          <a class="project-row project-item" href="./projects/cricket-coach.html" aria-label="Read more about the Cricket Technique Analysis Platform">
+            <div>
+              <p class="text-xs text-[color:var(--muted)] mb-1">Sports analytics</p>
+              <h3 class="text-lg font-semibold tracking-tight">Cricket Technique Analysis Platform</h3>
+              <div class="flex gap-2 flex-wrap mt-2 md:hidden">
+                <span class="badge">Motion</span><span class="badge badge-muted">ML</span>
+              </div>
             </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Real-time 2D incompressible fluid in the browser via raw WebGPU and WGSL. Stam’s Stable Fluids; click-drag to inject dye and velocity. No Three.js—compute and render pipelines from scratch.
-              </p>
-            </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">WebGPU</span>
-              <span class="badge badge-muted">Graphics</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/esaran1/navier-stokes-webgpu" aria-label="Navier–Stokes WebGPU GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/navier-stokes-webgpu.html" aria-label="Read more about Navier–Stokes WebGPU">
-                Read more →
-              </a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">Climate forecasting</p>
-              <h3 class="text-xl font-semibold">Frost & Drought Prediction with ML</h3>
-            </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Fine-scale (10–30 m) frost and drought forecasting with fused satellite + reanalysis data, ConvLSTM transfer learning, and SHAP interpretability.
-              </p>
-            </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">ML</span>
-              <span class="badge badge-muted">Data</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/environmental-risk-platform" aria-label="Environmental Risk Prediction Platform GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/frost-drought-prediction-ml.html" aria-label="Read more about Frost and Drought Prediction with ML">
-                Read more →
-              </a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">Speech ML</p>
-              <h3 class="text-xl font-semibold">AI-Driven Pronunciation Feedback Platform</h3>
-            </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Full-stack platform with modular audio scoring services, workflow orchestration, and scalable Kubernetes deployment.
-              </p>
-            </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">Speech</span>
-              <span class="badge badge-muted">Platform</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/pronunciation-feedback" aria-label="AI-Driven Pronunciation Feedback Platform GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/accentcoach.html" aria-label="Read more about AccentCoach">
-                Read more →
-              </a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">Real-time vision</p>
-              <h3 class="text-xl font-semibold">Table Tennis Game Monitoring System</h3>
-            </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Low-latency CV pipeline for ball/paddle/table tracking with event detection and containerized inference services.
-              </p>
-            </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">Computer Vision</span>
-              <span class="badge badge-muted">Real-time</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/table-tennis-monitoring" aria-label="Table Tennis Game Monitoring System GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/table-tennis-ai-referee.html" aria-label="Read more about Table Tennis AI Referee">
-                Read more →
-              </a>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-header">
-              <p class="text-sm text-[color:var(--muted)]">Sports analytics</p>
-              <h3 class="text-xl font-semibold">Cricket Technique Analysis Platform</h3>
-            </div>
-            <div class="card-body">
-              <p class="text-sm text-[color:var(--muted)]">
-                Vision-based coaching pipeline with kinematic feature extraction, event segmentation, and modular analysis services.
-              </p>
-            </div>
-            <div class="card-footer flex gap-2 flex-wrap">
-              <span class="badge">Motion</span>
-              <span class="badge badge-muted">ML</span>
-              <a class="btn btn-ghost text-xs" href="https://github.com/your-handle/cricket-technique-analysis" aria-label="Cricket Technique Analysis Platform GitHub repository">
-                GitHub →
-              </a>
-              <a class="btn btn-ghost text-xs" href="./projects/cricket-coach.html" aria-label="Read more about Cricket Coach">
-                Read more →
-              </a>
-            </div>
-          </article>
+            <p class="text-sm text-[color:var(--muted)] leading-relaxed">
+              Vision-based coaching pipeline with kinematic feature extraction, event segmentation, and modular analysis services.
+            </p>
+            <span class="project-arrow hidden md:inline-flex items-center text-sm font-medium" aria-hidden="true">Read more →</span>
+          </a>
         </div>
       </section>
 
       <section id="latest-post" class="container mx-auto px-6 pb-20 space-y-6">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <p class="text-sm text-[color:var(--muted)]">Blog</p>
+          <div class="space-y-2">
             <h2 class="section-title">Latest post</h2>
           </div>
           <a class="btn btn-outline" href="./blog/index.html">Go to blog</a>
@@ -327,6 +277,6 @@
 
     <script src="./assets/js/vendor/gsap.min.js"></script>
     <script src="./assets/js/vendor/ScrollTrigger.min.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/main.js?v=202615"></script>
   </body>
 </html>

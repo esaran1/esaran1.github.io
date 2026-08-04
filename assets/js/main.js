@@ -1,7 +1,7 @@
 const siteData = {
   name: "Evan Saran",
   tagline: "AI • ML • Robotics",
-  bio: "I am currently a Sophomore at Northview High School. Some activities that I participate in are Science Olympiad, FRC Robotics, and Science Fair. I enjoy playing soccer and cricket, and also video games.",
+  bio: "I am currently a Junior at Northview High School. I have done research at Stanford, Harvard, Yale, CMU, and Georgia Tech. Some of my hobbies are playing soccer at cricket.",
   location: "Johns Creek, Georgia",
   email: "evan.msaran@gmail.com",
   emailUrl: "",
@@ -127,8 +127,8 @@ const initAnimations = () => {
     });
   }
 
-  // Project cards: animate on scroll
-  const projectCards = document.querySelectorAll("#projects .card");
+  // Project items: animate on scroll
+  const projectCards = document.querySelectorAll("#projects .project-item");
   if (projectCards.length) {
     gsap.from(projectCards, {
       y: 24,
