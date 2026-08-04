@@ -1,7 +1,7 @@
 const siteData = {
   name: "Evan Saran",
   tagline: "AI • ML • Robotics",
-  bio: "I am currently a Junior at Northview High School. I have done research at Stanford, Harvard, Yale, CMU, and Georgia Tech. Some of my hobbies are playing soccer at cricket.",
+  bio: "I am currently a Junior at Northview High School. I have done research at Stanford, Harvard, Yale, CMU, and Georgia Tech. Some of my hobbies are playing soccer and cricket.",
   location: "Johns Creek, Georgia",
   email: "evan.msaran@gmail.com",
   emailUrl: "",
