@@ -480,3 +480,143 @@ p {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   Cinematic project showcase (#showcase)
+   Default state = editorial responsive grid (also the reduced-motion
+   and no-JS fallback). main.js adds .is-cinematic on capable desktop
+   viewports to switch to the pinned, scroll-scrubbed spatial stage.
+   ============================================================ */
+.showcase {
+  padding: 4rem 0 2rem;
+}
+
+.showcase-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2.25rem;
+}
+
+/* --- Fallback / mobile / reduced-motion: clean editorial grid --- */
+.showcase-track {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  max-width: 1120px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .showcase-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+.showcase-card {
+  margin: 0;
+}
+
+.showcase-card-link {
+  display: block;
+  border-radius: var(--radius-lg);
+  outline-offset: 4px;
+}
+
+.showcase-card-media {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.showcase-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.showcase-card-link:hover .showcase-card-media {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.showcase-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-top: 0.85rem;
+}
+
+.showcase-card-title {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.showcase-card-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ============================================================
+   Cinematic (enhanced) state — desktop only, added by main.js
+   ============================================================ */
+.showcase.is-cinematic .showcase-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* The pinned viewport: one screen tall, cards float within it. */
+.showcase.is-cinematic .showcase-track {
+  position: relative;
+  display: block;
+  max-width: none;
+  padding: 0;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+.showcase.is-cinematic .showcase-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--card-w, 34vw);
+  will-change: transform, opacity, filter;
+  /* transform + opacity + filter are driven by GSAP; keep them off the
+     main layout so no reflow happens per frame. */
+  transform: translate3d(0, -50%, 0);
+}
+
+.showcase.is-cinematic .showcase-card-media {
+  box-shadow:
+    0 2px 6px -2px rgba(23, 24, 26, 0.12),
+    0 30px 60px -24px rgba(23, 24, 26, 0.28);
+}
+
+.showcase.is-cinematic .showcase-card-media img {
+  aspect-ratio: var(--card-ar, 16 / 10);
+  height: auto;
+}
+
+/* Meta overlaid subtly at the base of each floating card. */
+.showcase.is-cinematic .showcase-card-meta {
+  margin-top: 0.75rem;
+  padding: 0 0.15rem;
+}
+
+/* Keyboard focus keeps a clear ring even while transformed. */
+.showcase-card-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
+}
