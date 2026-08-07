@@ -201,10 +201,12 @@ const initAnimations = () => {
 // depth  : blur (px) + opacity floor applied while far from focus
 // window : [enter, focus, exit] positions along normalized timeline progress
 const SHOWCASE_LAYOUT = [
-  { lane: -0.18, width: 30, scale: 1.0, rotate: -1.2, blur: 5, window: [0.04, 0.24, 0.52] },
-  { lane: 0.16, width: 26, scale: 0.92, rotate: 1.4, blur: 6, window: [0.2, 0.44, 0.68] },
-  { lane: -0.1, width: 34, scale: 1.06, rotate: 0.8, blur: 4, window: [0.38, 0.62, 0.84] },
-  { lane: 0.2, width: 28, scale: 0.96, rotate: -0.9, blur: 6, window: [0.56, 0.8, 0.94] }
+  { lane: -0.17, width: 30, scale: 1.0, rotate: -1.2, blur: 5, window: [0.03, 0.17, 0.38] },
+  { lane: 0.18, width: 25, scale: 0.9, rotate: 1.5, blur: 6, window: [0.14, 0.3, 0.5] },
+  { lane: -0.08, width: 33, scale: 1.05, rotate: 0.7, blur: 4, window: [0.27, 0.43, 0.62] },
+  { lane: 0.2, width: 27, scale: 0.94, rotate: -1.1, blur: 6, window: [0.4, 0.56, 0.74] },
+  { lane: -0.14, width: 31, scale: 1.02, rotate: 1.0, blur: 5, window: [0.53, 0.69, 0.86] },
+  { lane: 0.12, width: 26, scale: 0.92, rotate: -0.7, blur: 6, window: [0.66, 0.82, 0.96] }
 ];
 
 const SHOWCASE_MIN_WIDTH = 1024; // below this, keep the static editorial grid
