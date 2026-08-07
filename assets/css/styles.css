@@ -43,6 +43,8 @@ html.dark body {
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -58,6 +60,8 @@ body {
   text-rendering: optimizeLegibility;
   letter-spacing: -0.011em;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 a {
@@ -483,13 +487,12 @@ p {
 
 /* ============================================================
    Spatial project world (#showcase)
-   Default = readable static editorial stack (also the no-JS,
-   reduced-motion, and small-screen experience). main.js adds
-   .is-camera on capable viewports to turn the section into a
+   Default = readable static editorial stack (the no-JS and
+   reduced-motion experience). main.js adds .is-camera to turn the section into a
    pinned camera that scrolls across a large 2D artboard.
    Object coordinates live in inline CSS vars per object:
-     --x  world X (vw)   --y  world Y (vh)
-     --w  desktop width (vw)  --wt tablet width (vw)  --wm mobile width (vw)
+     --d* desktop coordinates, --t* tablet, --m* mobile
+     x/y are world positions in vw/vh; w is object width in vw
      --depth  subtle parallax factor (~0.9..1.05)
    ============================================================ */
 .world-scene {
@@ -521,8 +524,8 @@ p {
 
 .world-object {
   margin: 0;
-  /* In the static stack, use the mobile width var but let objects breathe
-     and alternate their alignment for an editorial, non-grid rhythm. */
+  /* In the static stack, let objects breathe and alternate their alignment
+     for an editorial, non-grid rhythm. */
   width: min(100%, 34rem);
 }
 .world-object:nth-child(even) {
@@ -616,17 +619,56 @@ p {
 
 .world-scene.is-camera .world-object {
   position: absolute;
-  left: calc(var(--x) * 1vw);
-  /* Offset the whole world below the fixed nav so objects never slide under it. */
-  top: calc(var(--y) * 1vh + 5.5rem);
-  width: calc(var(--w) * 1vw);
+  left: calc(var(--mx) * 1vw);
+  /* The safe top keeps the opening composition clear of the sticky nav. */
+  top: calc(var(--my) * 1vh + clamp(4.75rem, 9vh, 6rem));
+  width: calc(var(--mw) * 1vw);
   align-self: auto;
 }
 
-/* Tablet width override for the camera world. */
-@media (max-width: 1024px) {
+/* Tablet receives its own art-directed world instead of a scaled desktop one. */
+@media (min-width: 700px) and (max-width: 1024px) {
   .world-scene.is-camera .world-object {
-    width: calc(var(--wt) * 1vw);
+    left: calc(var(--tx) * 1vw);
+    top: calc(var(--ty) * 1vh + clamp(5rem, 9vh, 6rem));
+    width: calc(var(--tw) * 1vw);
+  }
+}
+
+@media (min-width: 1025px) {
+  .world-scene.is-camera .world-object {
+    left: calc(var(--dx) * 1vw);
+    top: calc(var(--dy) * 1vh + clamp(5rem, 9vh, 6rem));
+    width: calc(var(--dw) * 1vw);
+  }
+}
+
+@media (max-width: 699px) {
+  .world-scene {
+    padding-top: 3rem;
+  }
+
+  .world-scene.is-camera .world-intro {
+    margin-bottom: 2rem;
+  }
+
+  .world-scene.is-camera .world-viewport {
+    height: 100svh;
+    height: 100dvh;
+  }
+
+  .world-scene.is-camera .world-meta {
+    align-items: flex-start;
+    gap: 0.2rem 0.65rem;
+    margin-top: 0.6rem;
+  }
+
+  .world-scene.is-camera .world-title {
+    font-size: 0.92rem;
+  }
+
+  .world-scene.is-camera .world-sub {
+    font-size: 0.75rem;
   }
 }
 

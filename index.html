@@ -15,7 +15,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./assets/css/styles.css?v=202623" />
+    <link rel="stylesheet" href="./assets/css/styles.css?v=202624" />
   </head>
   <body class="min-h-screen">
     <header class="glass">
@@ -83,11 +83,11 @@
         </div>
       </section>
 
-      <!-- Spatial project world: projects live at fixed coordinates in a large
-           2D artboard; on capable desktop/tablet viewports main.js pins the
-           viewport and scrolls a camera (the .world element) across X and Y.
-           Without JS / on mobile / with reduced motion this stays a readable
-           static editorial stack in normal document flow. -->
+      <!-- Spatial project world: every project is anchored to one large 2D
+           artboard. Desktop, tablet, and mobile each have authored coordinates;
+           main.js pins this viewport and moves the single .world across X and Y.
+           Without JS or with reduced motion, the same links become an editorial
+           stack in normal document flow. -->
       <section
         id="showcase"
         class="world-scene"
@@ -103,7 +103,7 @@
             <li
               class="world-object"
               data-world-object
-              style="--x: 14; --y: 8; --w: 30; --wt: 30; --wm: 88; --depth: 1"
+              style="--dx: 10; --dy: 6; --dw: 30; --tx: 5; --ty: 5; --tw: 44; --mx: 6; --my: 4; --mw: 84; --depth: 1.015"
             >
               <a class="world-link" href="./projects/cleartext.html">
                 <span class="world-media">
@@ -125,7 +125,7 @@
             <li
               class="world-object"
               data-world-object
-              style="--x: 58; --y: 34; --w: 22; --wt: 26; --wm: 74; --depth: 0.94"
+              style="--dx: 66; --dy: 34; --dw: 22; --tx: 59; --ty: 42; --tw: 31; --mx: 47; --my: 62; --mw: 47; --depth: 0.965"
             >
               <a class="world-link" href="./blog/posts/first-place-and-first-honors-gsef.html">
                 <span class="world-media">
@@ -147,7 +147,7 @@
             <li
               class="world-object"
               data-world-object
-              style="--x: 8; --y: 96; --w: 34; --wt: 34; --wm: 90; --depth: 1.04"
+              style="--dx: 4; --dy: 94; --dw: 35; --tx: 2; --ty: 106; --tw: 54; --mx: 3; --my: 121; --mw: 88; --depth: 1.035"
             >
               <a class="world-link" href="./projects/volsurf.html">
                 <span class="world-media">
@@ -169,7 +169,7 @@
             <li
               class="world-object"
               data-world-object
-              style="--x: 74; --y: 118; --w: 32; --wt: 32; --wm: 92; --depth: 1.02"
+              style="--dx: 55; --dy: 140; --dw: 31; --tx: 48; --ty: 151; --tw: 47; --mx: 20; --my: 184; --mw: 74; --depth: 1.02"
             >
               <a class="world-link" href="./blog/posts/divergent-teams-hackathon-shelfsync.html">
                 <span class="world-media">
@@ -191,7 +191,7 @@
             <li
               class="world-object"
               data-world-object
-              style="--x: 128; --y: 66; --w: 26; --wt: 28; --wm: 84; --depth: 0.98"
+              style="--dx: 118; --dy: 86; --dw: 27; --tx: 101; --ty: 96; --tw: 42; --mx: 43; --my: 244; --mw: 76; --depth: 0.985"
             >
               <a class="world-link" href="./projects/cricket-coach.html">
                 <span class="world-media">
@@ -213,7 +213,7 @@
             <li
               class="world-object world-object--distant"
               data-world-object
-              style="--x: 150; --y: 20; --w: 13; --wt: 16; --wm: 60; --depth: 0.9"
+              style="--dx: 157; --dy: 36; --dw: 12; --tx: 137; --ty: 42; --tw: 20; --mx: 6; --my: 310; --mw: 40; --depth: 0.92"
             >
               <a class="world-link" href="./projects/frost-drought-prediction-ml.html">
                 <span class="world-media">
@@ -412,6 +412,6 @@
 
     <script src="./assets/js/vendor/gsap.min.js"></script>
     <script src="./assets/js/vendor/ScrollTrigger.min.js"></script>
-    <script src="./assets/js/main.js?v=202623"></script>
+    <script src="./assets/js/main.js?v=202624"></script>
   </body>
 </html>

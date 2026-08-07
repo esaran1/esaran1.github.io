@@ -188,24 +188,58 @@ const initAnimations = () => {
  * than flipping through slides. There is no active slide and no per-object
  * enter/exit choreography: the whole world moves as one.
  *
- * Without JS, on small screens, or under reduced motion, the same markup stays
- * a readable static editorial stack in normal document flow.
+ * Without JS or under reduced motion, the same markup stays a readable static
+ * editorial stack in normal document flow.
  */
 
-// Camera keyframes. `x`/`y` are the world translation (in vw/vh) applied at
-// each scroll progress `p`. They are tuned by eye so the camera frames each
-// cluster of the artboard in turn: ClearText (top-left) -> VolSurf (lower-left)
-// -> Divergent (lower-right) -> Cricket Coach / distant Frost chart (right).
-// World object coordinates live in the markup (inline --x / --y vars).
-const CAMERA_PATH = [
-  { p: 0.0, x: -2, y: 2 },
-  { p: 0.22, x: -6, y: -66 },
-  { p: 0.46, x: -58, y: -86 },
-  { p: 0.72, x: -104, y: -40 },
-  { p: 1.0, x: -128, y: 2 }
-];
+// Breakpoint-specific camera paths. x/y translate the single world in vw/vh.
+// Their turns are composed around clusters, not around an active card: several
+// projects can share the camera, and the final move opens onto the tiny distant
+// climate project. Coordinates for each matching artboard live in index.html.
+const WORLD_LAYOUTS = {
+  desktop: {
+    minScrollScreens: 3.2,
+    pace: 0.95,
+    path: [
+      { p: 0, x: 0, y: 0 },
+      { p: 0.2, x: -4, y: -53 },
+      { p: 0.4, x: -10, y: -88 },
+      { p: 0.62, x: -55, y: -95 },
+      { p: 0.82, x: -105, y: -50 },
+      { p: 1, x: -138, y: 4 }
+    ]
+  },
+  tablet: {
+    minScrollScreens: 3.1,
+    pace: 0.92,
+    path: [
+      { p: 0, x: 0, y: 0 },
+      { p: 0.2, x: -4, y: -48 },
+      { p: 0.4, x: -4, y: -93 },
+      { p: 0.62, x: -49, y: -104 },
+      { p: 0.82, x: -83, y: -54 },
+      { p: 1, x: -112, y: 2 }
+    ]
+  },
+  mobile: {
+    minScrollScreens: 3.2,
+    pace: 0.88,
+    path: [
+      { p: 0, x: 0, y: 0 },
+      { p: 0.2, x: -8, y: -52 },
+      { p: 0.4, x: 0, y: -108 },
+      { p: 0.6, x: -13, y: -169 },
+      { p: 0.8, x: -36, y: -231 },
+      { p: 1, x: -4, y: -299 }
+    ]
+  }
+};
 
-const WORLD_MIN_WIDTH = 700; // below this, keep the static editorial stack
+const getWorldLayoutName = () => {
+  if (window.innerWidth < 700) return "mobile";
+  if (window.innerWidth <= 1024) return "tablet";
+  return "desktop";
+};
 
 const initWorld = () => {
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
@@ -222,35 +256,51 @@ const initWorld = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   let ctx = null; // active gsap.context for the camera build
+  let activeLayoutName = null;
 
-  const canEnhance = () =>
-    !reduceMotion.matches && window.innerWidth >= WORLD_MIN_WIDTH;
+  const canEnhance = () => !reduceMotion.matches;
 
   const teardown = () => {
     if (ctx) {
       ctx.revert(); // kills timeline + ScrollTrigger, restores inline styles
       ctx = null;
     }
+    activeLayoutName = null;
     section.classList.remove("is-camera");
   };
 
   const build = () => {
     if (ctx) return;
+    activeLayoutName = getWorldLayoutName();
+    const layout = WORLD_LAYOUTS[activeLayoutName];
+    const cameraPath = layout.path;
     section.classList.add("is-camera");
 
     ctx = gsap.context(() => {
       const vw = () => window.innerWidth / 100;
       const vh = () => window.innerHeight / 100;
 
-      // Total camera travel (world units) drives the scroll length so pacing
-      // stays consistent across viewport sizes. No magic vh number.
-      const travelX = () =>
-        Math.abs(CAMERA_PATH[CAMERA_PATH.length - 1].x - CAMERA_PATH[0].x);
-      const pinLength = () =>
-        Math.round(Math.max(travelX() * vw() * 1.15, window.innerHeight * 3.2));
+      // Sum the full 2D path in pixels; both axes therefore contribute to the
+      // scroll length and pacing remains similar on tall and wide screens.
+      const pathDistance = () => {
+        let distance = 0;
+        for (let i = 1; i < cameraPath.length; i++) {
+          const previous = cameraPath[i - 1];
+          const current = cameraPath[i];
+          distance += Math.hypot(
+            (current.x - previous.x) * vw(),
+            (current.y - previous.y) * vh()
+          );
+        }
+        return distance;
+      };
+      const pinLength = () => Math.round(Math.max(
+        pathDistance() * layout.pace,
+        window.innerHeight * layout.minScrollScreens
+      ));
 
       // Start the camera at its first keyframe so the entry frame is composed.
-      gsap.set(world, { x: CAMERA_PATH[0].x * vw(), y: CAMERA_PATH[0].y * vh() });
+      gsap.set(world, { x: cameraPath[0].x * vw(), y: cameraPath[0].y * vh() });
 
       // ONE primary timeline + trigger drives the whole section: the world
       // camera and the subtle per-object depth parallax all live on it.
@@ -271,17 +321,17 @@ const initWorld = () => {
       // Move the whole world through the camera keyframes. Segment durations are
       // proportional to the gaps between keyframe progress values, so the mapping
       // from scroll position to camera position is continuous and even.
-      const total = CAMERA_PATH[CAMERA_PATH.length - 1].p - CAMERA_PATH[0].p;
-      for (let i = 1; i < CAMERA_PATH.length; i++) {
-        const k = CAMERA_PATH[i];
+      const total = cameraPath[cameraPath.length - 1].p - cameraPath[0].p;
+      for (let i = 1; i < cameraPath.length; i++) {
+        const k = cameraPath[i];
         tl.to(
           world,
           {
             x: () => k.x * vw(),
             y: () => k.y * vh(),
-            duration: k.p - CAMERA_PATH[i - 1].p
+            duration: k.p - cameraPath[i - 1].p
           },
-          CAMERA_PATH[i - 1].p
+          cameraPath[i - 1].p
         );
       }
 
@@ -327,12 +377,15 @@ const initWorld = () => {
     window.setTimeout(settle, 1500); // safety net
   }
 
-  // Rebuild or tear down as the viewport crosses the capability threshold.
+  // Rebuild only when a resize crosses an authored layout breakpoint; ordinary
+  // resizes keep the same timeline and let invalidateOnRefresh remeasure it.
   let resizeTimer = null;
   const onResize = () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
       if (canEnhance()) {
+        const nextLayoutName = getWorldLayoutName();
+        if (ctx && nextLayoutName !== activeLayoutName) teardown();
         if (!ctx) build();
         ScrollTrigger.refresh();
       } else {
