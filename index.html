@@ -15,7 +15,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./assets/css/styles.css?v=202620" />
+    <link rel="stylesheet" href="./assets/css/styles.css?v=202623" />
   </head>
   <body class="min-h-screen">
     <header class="glass">
@@ -83,42 +83,52 @@
         </div>
       </section>
 
-      <!-- Cinematic scroll-driven project showcase. Static markup below is the
-           reduced-motion / no-JS fallback; main.js enhances it into a pinned
-           spatial gallery on capable desktop viewports. -->
+      <!-- Spatial project world: projects live at fixed coordinates in a large
+           2D artboard; on capable desktop/tablet viewports main.js pins the
+           viewport and scrolls a camera (the .world element) across X and Y.
+           Without JS / on mobile / with reduced motion this stays a readable
+           static editorial stack in normal document flow. -->
       <section
         id="showcase"
-        class="showcase"
-        aria-labelledby="showcase-heading"
-        data-showcase
+        class="world-scene"
+        aria-labelledby="world-heading"
+        data-world-scene
       >
-        <div class="showcase-intro container mx-auto px-6">
+        <div class="world-intro container mx-auto px-6">
           <p class="eyebrow">Selected work</p>
-          <h2 id="showcase-heading" class="section-title">A closer look at what I build</h2>
+          <h2 id="world-heading" class="section-title">A world of things I have built</h2>
         </div>
-        <div class="showcase-stage" data-showcase-stage aria-hidden="false">
-          <ul class="showcase-track" data-showcase-track>
-            <li class="showcase-card" data-showcase-card>
-              <a class="showcase-card-link" href="./projects/cleartext.html">
-                <span class="showcase-card-media">
+        <div class="world-viewport" data-world-viewport>
+          <ul class="world" data-world>
+            <li
+              class="world-object"
+              data-world-object
+              style="--x: 14; --y: 8; --w: 30; --wt: 30; --wm: 88; --depth: 1"
+            >
+              <a class="world-link" href="./projects/cleartext.html">
+                <span class="world-media">
                   <img
                     src="./assets/images/showcase/cleartext.jpg"
                     alt="ClearText interface turning a dense document into cited, plain-language guidance"
                     width="1280"
                     height="797"
-                    loading="lazy"
                     decoding="async"
+                    fetchpriority="high"
                   />
                 </span>
-                <span class="showcase-card-meta">
-                  <span class="showcase-card-title">ClearText</span>
-                  <span class="showcase-card-sub">Document intelligence · 2026</span>
+                <span class="world-meta">
+                  <span class="world-title">ClearText</span>
+                  <span class="world-sub">Document intelligence · 2026</span>
                 </span>
               </a>
             </li>
-            <li class="showcase-card" data-showcase-card>
-              <a class="showcase-card-link" href="./blog/posts/first-place-and-first-honors-gsef.html">
-                <span class="showcase-card-media">
+            <li
+              class="world-object"
+              data-world-object
+              style="--x: 58; --y: 34; --w: 22; --wt: 26; --wm: 74; --depth: 0.94"
+            >
+              <a class="world-link" href="./blog/posts/first-place-and-first-honors-gsef.html">
+                <span class="world-media">
                   <img
                     src="./assets/images/showcase/gsef-win.jpg"
                     alt="Evan at his science fair board holding first-place ribbons and certificates at GSEF"
@@ -128,15 +138,19 @@
                     decoding="async"
                   />
                 </span>
-                <span class="showcase-card-meta">
-                  <span class="showcase-card-title">First place at GSEF</span>
-                  <span class="showcase-card-sub">Science fair · 2026</span>
+                <span class="world-meta">
+                  <span class="world-title">First place at GSEF</span>
+                  <span class="world-sub">Science fair · 2026</span>
                 </span>
               </a>
             </li>
-            <li class="showcase-card" data-showcase-card>
-              <a class="showcase-card-link" href="./projects/volsurf.html">
-                <span class="showcase-card-media">
+            <li
+              class="world-object"
+              data-world-object
+              style="--x: 8; --y: 96; --w: 34; --wt: 34; --wm: 90; --depth: 1.04"
+            >
+              <a class="world-link" href="./projects/volsurf.html">
+                <span class="world-media">
                   <img
                     src="./assets/images/showcase/volsurf.jpg"
                     alt="VolSurf dashboard showing an implied volatility surface with summary statistics"
@@ -146,15 +160,19 @@
                     decoding="async"
                   />
                 </span>
-                <span class="showcase-card-meta">
-                  <span class="showcase-card-title">VolSurf</span>
-                  <span class="showcase-card-sub">Options &amp; quant · 2026</span>
+                <span class="world-meta">
+                  <span class="world-title">VolSurf</span>
+                  <span class="world-sub">Options &amp; quant · 2026</span>
                 </span>
               </a>
             </li>
-            <li class="showcase-card" data-showcase-card>
-              <a class="showcase-card-link" href="./blog/posts/divergent-teams-hackathon-shelfsync.html">
-                <span class="showcase-card-media">
+            <li
+              class="world-object"
+              data-world-object
+              style="--x: 74; --y: 118; --w: 32; --wt: 32; --wm: 92; --depth: 1.02"
+            >
+              <a class="world-link" href="./blog/posts/divergent-teams-hackathon-shelfsync.html">
+                <span class="world-media">
                   <img
                     src="./assets/images/showcase/divergent-win.jpg"
                     alt="Evan and his teammate at the Microsoft Atlanta office after winning the Divergent Teams Hackathon finance pathway"
@@ -164,15 +182,19 @@
                     decoding="async"
                   />
                 </span>
-                <span class="showcase-card-meta">
-                  <span class="showcase-card-title">Divergent Teams Hackathon</span>
-                  <span class="showcase-card-sub">First place, finance · 2026</span>
+                <span class="world-meta">
+                  <span class="world-title">Divergent Teams Hackathon</span>
+                  <span class="world-sub">First place, finance · 2026</span>
                 </span>
               </a>
             </li>
-            <li class="showcase-card" data-showcase-card>
-              <a class="showcase-card-link" href="./projects/cricket-coach.html">
-                <span class="showcase-card-media">
+            <li
+              class="world-object"
+              data-world-object
+              style="--x: 128; --y: 66; --w: 26; --wt: 28; --wm: 84; --depth: 0.98"
+            >
+              <a class="world-link" href="./projects/cricket-coach.html">
+                <span class="world-media">
                   <img
                     src="./assets/images/showcase/cricket-coach.jpg"
                     alt="Cricket Coach landing page for uploading a clip and getting technique feedback"
@@ -182,15 +204,19 @@
                     decoding="async"
                   />
                 </span>
-                <span class="showcase-card-meta">
-                  <span class="showcase-card-title">Cricket Coach</span>
-                  <span class="showcase-card-sub">Sports analytics · 2026</span>
+                <span class="world-meta">
+                  <span class="world-title">Cricket Coach</span>
+                  <span class="world-sub">Sports analytics · 2026</span>
                 </span>
               </a>
             </li>
-            <li class="showcase-card" data-showcase-card>
-              <a class="showcase-card-link" href="./projects/frost-drought-prediction-ml.html">
-                <span class="showcase-card-media">
+            <li
+              class="world-object world-object--distant"
+              data-world-object
+              style="--x: 150; --y: 20; --w: 13; --wt: 16; --wm: 60; --depth: 0.9"
+            >
+              <a class="world-link" href="./projects/frost-drought-prediction-ml.html">
+                <span class="world-media">
                   <img
                     src="./assets/images/showcase/frost-drought.jpg"
                     alt="Feature importance chart from the frost and drought prediction models"
@@ -200,9 +226,9 @@
                     decoding="async"
                   />
                 </span>
-                <span class="showcase-card-meta">
-                  <span class="showcase-card-title">Frost &amp; Drought Prediction</span>
-                  <span class="showcase-card-sub">Climate ML · 2026</span>
+                <span class="world-meta">
+                  <span class="world-title">Frost &amp; Drought Prediction</span>
+                  <span class="world-sub">Climate ML · 2026</span>
                 </span>
               </a>
             </li>
@@ -386,6 +412,6 @@
 
     <script src="./assets/js/vendor/gsap.min.js"></script>
     <script src="./assets/js/vendor/ScrollTrigger.min.js"></script>
-    <script src="./assets/js/main.js?v=202620"></script>
+    <script src="./assets/js/main.js?v=202623"></script>
   </body>
 </html>

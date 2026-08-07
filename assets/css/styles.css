@@ -482,141 +482,167 @@ p {
 }
 
 /* ============================================================
-   Cinematic project showcase (#showcase)
-   Default state = editorial responsive grid (also the reduced-motion
-   and no-JS fallback). main.js adds .is-cinematic on capable desktop
-   viewports to switch to the pinned, scroll-scrubbed spatial stage.
+   Spatial project world (#showcase)
+   Default = readable static editorial stack (also the no-JS,
+   reduced-motion, and small-screen experience). main.js adds
+   .is-camera on capable viewports to turn the section into a
+   pinned camera that scrolls across a large 2D artboard.
+   Object coordinates live in inline CSS vars per object:
+     --x  world X (vw)   --y  world Y (vh)
+     --w  desktop width (vw)  --wt tablet width (vw)  --wm mobile width (vw)
+     --depth  subtle parallax factor (~0.9..1.05)
    ============================================================ */
-.showcase {
+.world-scene {
   padding: 4rem 0 2rem;
 }
 
-.showcase-intro {
+.world-intro {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 2.25rem;
 }
+/* In camera mode the intro scrolls fully clear before the viewport pins, so it
+   never collides with the fixed nav or the world content. */
+.world-scene.is-camera .world-intro {
+  margin-bottom: 3.5rem;
+}
 
-/* --- Fallback / mobile / reduced-motion: clean editorial grid --- */
-.showcase-track {
+/* --- Static fallback: a calm asymmetric editorial stack --- */
+.world {
   list-style: none;
   margin: 0 auto;
   padding: 0 1.5rem;
   max-width: 1120px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.world-object {
+  margin: 0;
+  /* In the static stack, use the mobile width var but let objects breathe
+     and alternate their alignment for an editorial, non-grid rhythm. */
+  width: min(100%, 34rem);
+}
+.world-object:nth-child(even) {
+  align-self: flex-end;
 }
 @media (min-width: 768px) {
-  .showcase-track {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+  .world-object {
+    width: min(72%, 40rem);
+  }
+  .world-object:nth-child(3n) {
+    width: min(84%, 46rem);
   }
 }
 
-.showcase-card {
-  margin: 0;
-}
-
-.showcase-card-link {
+.world-link {
   display: block;
   border-radius: var(--radius-lg);
   outline-offset: 4px;
 }
 
-.showcase-card-media {
+.world-media {
   display: block;
   overflow: hidden;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--surface-strong);
   box-shadow: var(--shadow);
-  transition: box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease);
 }
 
-.showcase-card-media img {
+.world-media img {
   display: block;
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
-.showcase-card-link:hover .showcase-card-media {
+.world-link:hover .world-media {
+  transform: scale(1.012);
   border-color: var(--border-strong);
   box-shadow: var(--shadow-lg);
 }
 
-.showcase-card-meta {
+.world-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 0.25rem 1rem;
+  gap: 0.25rem 0.85rem;
   margin-top: 0.85rem;
 }
 
-.showcase-card-title {
+.world-title {
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--text);
 }
 
-.showcase-card-sub {
+.world-sub {
   font-size: 0.82rem;
   color: var(--muted);
 }
 
-/* ============================================================
-   Cinematic (enhanced) state — desktop only, added by main.js
-   ============================================================ */
-.showcase.is-cinematic .showcase-stage {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-/* The pinned viewport: one screen tall, cards float within it. */
-.showcase.is-cinematic .showcase-track {
-  position: relative;
-  display: block;
-  max-width: none;
-  padding: 0;
-  min-height: 100dvh;
-  margin: 0;
-}
-
-.showcase.is-cinematic .showcase-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: var(--card-w, 34vw);
-  will-change: transform, opacity, filter;
-  /* transform + opacity + filter are driven by GSAP; keep them off the
-     main layout so no reflow happens per frame. */
-  transform: translate3d(0, -50%, 0);
-}
-
-.showcase.is-cinematic .showcase-card-media {
-  box-shadow:
-    0 2px 6px -2px rgba(23, 24, 26, 0.12),
-    0 30px 60px -24px rgba(23, 24, 26, 0.28);
-}
-
-.showcase.is-cinematic .showcase-card-media img {
-  aspect-ratio: var(--card-ar, 16 / 10);
-  height: auto;
-}
-
-/* Meta overlaid subtly at the base of each floating card. */
-.showcase.is-cinematic .showcase-card-meta {
-  margin-top: 0.75rem;
-  padding: 0 0.15rem;
-}
-
-/* Keyboard focus keeps a clear ring even while transformed. */
-.showcase-card-link:focus-visible {
+.world-link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: var(--radius-lg);
+}
+
+/* ============================================================
+   Camera state (added by main.js on capable viewports)
+   The viewport is pinned and clips; the .world is a large artboard
+   translated by GSAP. Objects sit at their world coordinates.
+   ============================================================ */
+.world-scene.is-camera .world-viewport {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.world-scene.is-camera .world {
+  position: absolute;
+  inset: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  will-change: transform;
+}
+
+.world-scene.is-camera .world-object {
+  position: absolute;
+  left: calc(var(--x) * 1vw);
+  /* Offset the whole world below the fixed nav so objects never slide under it. */
+  top: calc(var(--y) * 1vh + 5.5rem);
+  width: calc(var(--w) * 1vw);
+  align-self: auto;
+}
+
+/* Tablet width override for the camera world. */
+@media (max-width: 1024px) {
+  .world-scene.is-camera .world-object {
+    width: calc(var(--wt) * 1vw);
+  }
+}
+
+.world-scene.is-camera .world-media {
+  box-shadow:
+    0 2px 6px -2px rgba(23, 24, 26, 0.1),
+    0 34px 66px -26px rgba(23, 24, 26, 0.26);
+}
+
+.world-scene.is-camera .world-object--distant .world-media {
+  box-shadow:
+    0 1px 3px -1px rgba(23, 24, 26, 0.08),
+    0 18px 40px -20px rgba(23, 24, 26, 0.18);
+}
+
+.world-scene.is-camera .world-meta {
+  margin-top: 0.7rem;
+  padding: 0 0.1rem;
 }

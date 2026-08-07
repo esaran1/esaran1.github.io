@@ -179,153 +179,131 @@ const initAnimations = () => {
 };
 
 /**
- * Cinematic project showcase.
+ * Spatial project world.
  *
- * Progressive enhancement: the markup renders as a static editorial grid by
- * default (that is also the reduced-motion / no-JS / mobile experience). On
- * capable desktop viewports this upgrades the section into a pinned, scroll-
- * scrubbed spatial gallery where cards enter from the right, reach a readable
- * focal point, and recede to the left along varied trajectories.
+ * The projects are objects at fixed coordinates in a large 2D artboard. On
+ * capable viewports main.js pins the viewport and moves a "camera" (a single
+ * translate on the .world element) across BOTH X and Y through a hand-authored
+ * path, so scrolling feels like drifting through a spatial exhibition rather
+ * than flipping through slides. There is no active slide and no per-object
+ * enter/exit choreography: the whole world moves as one.
  *
- * One master GSAP timeline is driven by a single ScrollTrigger, so scroll
- * progress maps directly to composition progress (no per-frame React/DOM work
- * beyond the transforms GSAP applies).
+ * Without JS, on small screens, or under reduced motion, the same markup stays
+ * a readable static editorial stack in normal document flow.
  */
 
-// Deterministic per-card choreography. Values are intentionally varied so the
-// composition reads as a designed spatial gallery, not an evenly spaced row.
-// lane   : vertical center offset as a fraction of viewport height (-0.5..0.5)
-// width  : card width in vw at focus
-// scale  : scale multiplier at the focal point
-// rotate : tiny tilt in degrees (kept subtle)
-// depth  : blur (px) + opacity floor applied while far from focus
-// window : [enter, focus, exit] positions along normalized timeline progress
-const SHOWCASE_LAYOUT = [
-  { lane: -0.17, width: 30, scale: 1.0, rotate: -1.2, blur: 5, window: [0.03, 0.17, 0.38] },
-  { lane: 0.18, width: 25, scale: 0.9, rotate: 1.5, blur: 6, window: [0.14, 0.3, 0.5] },
-  { lane: -0.08, width: 33, scale: 1.05, rotate: 0.7, blur: 4, window: [0.27, 0.43, 0.62] },
-  { lane: 0.2, width: 27, scale: 0.94, rotate: -1.1, blur: 6, window: [0.4, 0.56, 0.74] },
-  { lane: -0.14, width: 31, scale: 1.02, rotate: 1.0, blur: 5, window: [0.53, 0.69, 0.86] },
-  { lane: 0.12, width: 26, scale: 0.92, rotate: -0.7, blur: 6, window: [0.66, 0.82, 0.96] }
+// Camera keyframes. `x`/`y` are the world translation (in vw/vh) applied at
+// each scroll progress `p`. They are tuned by eye so the camera frames each
+// cluster of the artboard in turn: ClearText (top-left) -> VolSurf (lower-left)
+// -> Divergent (lower-right) -> Cricket Coach / distant Frost chart (right).
+// World object coordinates live in the markup (inline --x / --y vars).
+const CAMERA_PATH = [
+  { p: 0.0, x: -2, y: 2 },
+  { p: 0.22, x: -6, y: -66 },
+  { p: 0.46, x: -58, y: -86 },
+  { p: 0.72, x: -104, y: -40 },
+  { p: 1.0, x: -128, y: 2 }
 ];
 
-const SHOWCASE_MIN_WIDTH = 1024; // below this, keep the static editorial grid
+const WORLD_MIN_WIDTH = 700; // below this, keep the static editorial stack
 
-const initShowcase = () => {
+const initWorld = () => {
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
-  const section = document.querySelector("[data-showcase]");
+  const section = document.querySelector("[data-world-scene]");
   if (!section) return;
 
-  const stage = section.querySelector("[data-showcase-stage]");
-  const track = section.querySelector("[data-showcase-track]");
-  const cards = Array.from(section.querySelectorAll("[data-showcase-card]"));
-  if (!stage || !track || cards.length === 0) return;
+  const viewport = section.querySelector("[data-world-viewport]");
+  const world = section.querySelector("[data-world]");
+  const objects = Array.from(section.querySelectorAll("[data-world-object]"));
+  if (!viewport || !world || objects.length === 0) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const finePointer = window.matchMedia("(pointer: fine)");
-
   gsap.registerPlugin(ScrollTrigger);
 
-  let ctx = null; // active gsap.context for the cinematic build
+  let ctx = null; // active gsap.context for the camera build
 
   const canEnhance = () =>
-    !reduceMotion.matches &&
-    finePointer.matches &&
-    window.innerWidth >= SHOWCASE_MIN_WIDTH;
+    !reduceMotion.matches && window.innerWidth >= WORLD_MIN_WIDTH;
 
   const teardown = () => {
     if (ctx) {
-      ctx.revert(); // kills timeline + ScrollTrigger and restores inline styles
+      ctx.revert(); // kills timeline + ScrollTrigger, restores inline styles
       ctx = null;
     }
-    section.classList.remove("is-cinematic");
-    cards.forEach((card) => card.removeAttribute("style"));
+    section.classList.remove("is-camera");
   };
 
   const build = () => {
-    if (ctx) return; // already cinematic
-    section.classList.add("is-cinematic");
+    if (ctx) return;
+    section.classList.add("is-camera");
 
     ctx = gsap.context(() => {
-      const vh = () => window.innerHeight;
+      const vw = () => window.innerWidth / 100;
+      const vh = () => window.innerHeight / 100;
 
-      // Scroll length scales with the number of cards and the viewport so the
-      // pace stays consistent across screen sizes (no magic vh number).
-      const pinLength = () => Math.round((cards.length + 1) * vh() * 0.9);
+      // Total camera travel (world units) drives the scroll length so pacing
+      // stays consistent across viewport sizes. No magic vh number.
+      const travelX = () =>
+        Math.abs(CAMERA_PATH[CAMERA_PATH.length - 1].x - CAMERA_PATH[0].x);
+      const pinLength = () =>
+        Math.round(Math.max(travelX() * vw() * 1.15, window.innerHeight * 3.2));
 
-      // Configure each card's resting geometry from its layout entry.
-      cards.forEach((card, i) => {
-        const cfg = SHOWCASE_LAYOUT[i % SHOWCASE_LAYOUT.length];
-        card.style.setProperty("--card-w", cfg.width + "vw");
-        gsap.set(card, {
-          xPercent: -50,
-          yPercent: -50,
-          y: () => cfg.lane * vh(),
-          zIndex: 10 + i
-        });
-      });
+      // Start the camera at its first keyframe so the entry frame is composed.
+      gsap.set(world, { x: CAMERA_PATH[0].x * vw(), y: CAMERA_PATH[0].y * vh() });
 
+      // ONE primary timeline + trigger drives the whole section: the world
+      // camera and the subtle per-object depth parallax all live on it.
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
-          trigger: stage,
+          trigger: viewport,
           start: "top top",
           end: () => "+=" + pinLength(),
           pin: true,
           pinSpacing: true,
-          scrub: 0.6,
+          scrub: 0.7,
           invalidateOnRefresh: true,
           anticipatePin: 1
         }
       });
 
-      // Build one continuous timeline. Each card occupies a normalized window
-      // [enter, focus, exit]; windows overlap so several cards are visible at
-      // once and each follows a slightly different trajectory.
-      cards.forEach((card, i) => {
-        const cfg = SHOWCASE_LAYOUT[i % SHOWCASE_LAYOUT.length];
-        const [enter, focus, exit] = cfg.window;
-
-        // Travel is expressed in vw so it tracks viewport width on refresh.
-        const fromX = () => window.innerWidth * 0.62; // start off to the right
-        const toX = () => -window.innerWidth * 0.62; // exit to the left
-
-        tl.fromTo(
-          card,
+      // Move the whole world through the camera keyframes. Segment durations are
+      // proportional to the gaps between keyframe progress values, so the mapping
+      // from scroll position to camera position is continuous and even.
+      const total = CAMERA_PATH[CAMERA_PATH.length - 1].p - CAMERA_PATH[0].p;
+      for (let i = 1; i < CAMERA_PATH.length; i++) {
+        const k = CAMERA_PATH[i];
+        tl.to(
+          world,
           {
-            x: fromX,
-            scale: cfg.scale * 0.7,
-            rotation: cfg.rotate * 0.4,
-            autoAlpha: 0,
-            filter: "blur(" + cfg.blur + "px)"
+            x: () => k.x * vw(),
+            y: () => k.y * vh(),
+            duration: k.p - CAMERA_PATH[i - 1].p
           },
-          {
-            x: 0,
-            scale: cfg.scale,
-            rotation: cfg.rotate,
-            autoAlpha: 1,
-            filter: "blur(0px)",
-            duration: focus - enter
-          },
-          enter
-        ).to(
-          card,
-          {
-            x: toX,
-            scale: cfg.scale * 0.82,
-            rotation: cfg.rotate * -0.3,
-            autoAlpha: 0,
-            filter: "blur(" + Math.min(cfg.blur, 4) + "px)",
-            duration: exit - focus
-          },
-          focus
+          CAMERA_PATH[i - 1].p
         );
+      }
+
+      // Very subtle depth parallax folded onto the same timeline: near objects
+      // drift slightly more than the world, distant ones slightly less. Kept
+      // tiny so everything stays anchored to one coherent world.
+      objects.forEach((obj) => {
+        const depth = parseFloat(obj.style.getPropertyValue("--depth")) || 1;
+        const drift = (depth - 1) * 6; // world units, tiny
+        if (drift !== 0) {
+          tl.fromTo(
+            obj,
+            { x: 0 },
+            { x: () => drift * vw(), duration: total },
+            0
+          );
+        }
       });
     }, section);
   };
 
-  // Wait for showcase images so pin measurements are correct, then refresh.
+  // Wait for the world images so pin measurements are correct, then refresh.
   const imgs = Array.from(section.querySelectorAll("img"));
   let settled = false;
   const settle = () => {
@@ -346,13 +324,10 @@ const initShowcase = () => {
       img.addEventListener("load", done, { once: true });
       img.addEventListener("error", done, { once: true });
     });
-    // Safety net so we never hang if an image never fires.
-    window.setTimeout(settle, 1500);
+    window.setTimeout(settle, 1500); // safety net
   }
 
-  // Re-evaluate on resize (debounced): rebuild or tear down as capability
-  // crosses the desktop threshold. GSAP's invalidateOnRefresh handles the
-  // measurement math within the cinematic state.
+  // Rebuild or tear down as the viewport crosses the capability threshold.
   let resizeTimer = null;
   const onResize = () => {
     window.clearTimeout(resizeTimer);
@@ -369,7 +344,7 @@ const initShowcase = () => {
   window.addEventListener("resize", onResize, { passive: true });
   window.addEventListener("orientationchange", onResize, { passive: true });
 
-  // If the user switches on reduced-motion at runtime, collapse to static.
+  // Honor a runtime reduced-motion change.
   const onMotionPref = () => {
     if (reduceMotion.matches) {
       teardown();
@@ -390,5 +365,5 @@ window.addEventListener("DOMContentLoaded", () => {
   initBlogFilters();
   initFooterYear();
   initAnimations();
-  initShowcase();
+  initWorld();
 });
