@@ -194,43 +194,44 @@ const initAnimations = () => {
 
 // Breakpoint-specific camera paths. x/y translate the single world in vw/vh.
 // Their turns are composed around clusters, not around an active card: several
-// projects can share the camera, and the final move opens onto the tiny distant
-// climate project. Coordinates for each matching artboard live in index.html.
+// projects can share the camera, and the final move opens onto two distant data
+// projects. Coordinates for each matching artboard live in index.html.
 const WORLD_LAYOUTS = {
   desktop: {
-    minScrollScreens: 3.2,
-    pace: 0.95,
+    minScrollScreens: 3.6,
+    pace: 1,
     path: [
       { p: 0, x: 0, y: 0 },
-      { p: 0.2, x: -4, y: -53 },
-      { p: 0.4, x: -10, y: -88 },
-      { p: 0.62, x: -55, y: -95 },
-      { p: 0.82, x: -105, y: -50 },
-      { p: 1, x: -138, y: 4 }
+      { p: 0.2, x: -10, y: -55 },
+      { p: 0.4, x: -46, y: -68 },
+      { p: 0.6, x: -78, y: -50 },
+      { p: 0.8, x: -116, y: -88 },
+      { p: 1, x: -142, y: -65 }
     ]
   },
   tablet: {
-    minScrollScreens: 3.1,
-    pace: 0.92,
+    minScrollScreens: 3.6,
+    pace: 0.98,
     path: [
       { p: 0, x: 0, y: 0 },
-      { p: 0.2, x: -4, y: -48 },
-      { p: 0.4, x: -4, y: -93 },
-      { p: 0.62, x: -49, y: -104 },
-      { p: 0.82, x: -83, y: -54 },
-      { p: 1, x: -112, y: 2 }
+      { p: 0.2, x: -3, y: -43 },
+      { p: 0.4, x: -18, y: -76 },
+      { p: 0.62, x: -54, y: -76 },
+      { p: 0.82, x: -84, y: -101 },
+      { p: 1, x: -112, y: -80 }
     ]
   },
   mobile: {
-    minScrollScreens: 3.2,
-    pace: 0.88,
+    minScrollScreens: 3.8,
+    pace: 0.94,
     path: [
       { p: 0, x: 0, y: 0 },
-      { p: 0.2, x: -8, y: -52 },
-      { p: 0.4, x: 0, y: -108 },
-      { p: 0.6, x: -13, y: -169 },
-      { p: 0.8, x: -36, y: -231 },
-      { p: 1, x: -4, y: -299 }
+      { p: 0.2, x: -7, y: -45 },
+      { p: 0.35, x: 0, y: -94 },
+      { p: 0.5, x: -10, y: -140 },
+      { p: 0.65, x: -14, y: -176 },
+      { p: 0.8, x: -8, y: -223 },
+      { p: 1, x: -4, y: -276 }
     ]
   }
 };
@@ -385,9 +386,34 @@ const initWorld = () => {
     resizeTimer = window.setTimeout(() => {
       if (canEnhance()) {
         const nextLayoutName = getWorldLayoutName();
-        if (ctx && nextLayoutName !== activeLayoutName) teardown();
-        if (!ctx) build();
-        ScrollTrigger.refresh();
+        if (ctx && nextLayoutName !== activeLayoutName) {
+          const previousTrigger = ScrollTrigger.getAll().find((item) => item.trigger === viewport);
+          const previousProgress = previousTrigger?.progress || 0;
+
+          // Remove the old pin first and let the document recover its natural
+          // geometry before measuring the new breakpoint composition.
+          teardown();
+          const root = document.documentElement;
+          const previousScrollBehavior = root.style.scrollBehavior;
+          root.style.scrollBehavior = "auto";
+          const naturalViewportTop = viewport.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, naturalViewportTop);
+          ScrollTrigger.refresh();
+          build();
+          ScrollTrigger.refresh();
+
+          // Keep the viewer at the same point in the journey after a breakpoint
+          // or orientation change, now using the freshly measured pin bounds.
+          const nextTrigger = ScrollTrigger.getAll().find((item) => item.trigger === viewport);
+          if (nextTrigger && previousProgress > 0 && previousProgress < 1) {
+            window.scrollTo(0, nextTrigger.start + (nextTrigger.end - nextTrigger.start) * previousProgress);
+            ScrollTrigger.update();
+          }
+          root.style.scrollBehavior = previousScrollBehavior;
+        } else {
+          if (!ctx) build();
+          ScrollTrigger.refresh();
+        }
       } else {
         teardown();
         ScrollTrigger.refresh();
