@@ -11,16 +11,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;450;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./assets/css/styles.css?v=202626" />
+    <link rel="stylesheet" href="./assets/css/styles.css?v=202640" />
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen home-page">
     <header class="glass">
-      <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="./index.html" class="font-semibold tracking-tight text-lg" data-bind="name">Your Name</a>
+      <div class="site-nav-shell">
+        <a href="./index.html" class="taste-brand">
+          <img src="./assets/images/evanpfp.png" alt="" width="32" height="32" />
+          <span data-bind="name">Your Name</span>
+        </a>
         <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Primary">
           <a class="hover:text-black text-[color:var(--muted)]" href="./index.html" aria-current="page">Home</a>
           <a class="hover:text-black text-[color:var(--muted)]" href="./blog/index.html">Blog</a>
@@ -51,235 +54,103 @@
     </header>
 
     <main>
-      <section>
-        <div class="container mx-auto px-6 py-20 lg:py-28 grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-start">
-          <div class="space-y-6">
-            <div class="flex flex-wrap gap-2">
-              <span class="badge">Open to collab</span>
-            </div>
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1.03] tracking-tight text-[color:var(--text)]">
-              <span data-bind="name">Your Name</span>
-            </h1>
-            <p class="text-sm font-semibold uppercase tracking-[0.14em] text-[color:var(--muted)]" data-bind="tagline">Senior Full-Stack Engineer & Designer</p>
-            <p class="text-lg text-[color:var(--text-soft)] max-w-2xl leading-relaxed" data-bind="bio">
+      <!-- Vertical orbital opener: the first viewport stays composed while
+           project previews rotate along a right-edge arc as the page scrolls. -->
+      <section id="showcase" class="taste-hero orbital-hero" aria-labelledby="landing-title" data-orbital-hero>
+        <div class="taste-hero-inner">
+          <div class="taste-hero-copy">
+            <span class="taste-announcement">Open to collab</span>
+            <h1 id="landing-title" class="taste-hero-title" data-bind="name">Your Name</h1>
+            <p class="taste-hero-accent" data-bind="tagline">AI • ML • Robotics</p>
+            <p class="taste-hero-bio" data-bind="bio">
               Short bio placeholder. Share your focus areas, what you love building, and the impact you want to make.
             </p>
-            <div class="flex flex-wrap gap-4">
+            <div class="taste-hero-actions">
               <a class="btn btn-primary" data-bind-href="github" href="https://github.com/your-handle">View GitHub</a>
               <a class="btn btn-outline" data-bind-href="linkedin" href="https://www.linkedin.com/in/your-handle">Connect on LinkedIn</a>
               <a class="btn btn-ghost" href="./blog/index.html">Read the blog</a>
             </div>
           </div>
-          <div class="flex flex-col items-center gap-5">
-            <div class="card p-8 flex flex-col items-center w-full">
-              <img
-                src="./assets/images/evanpfp.png"
-                alt="Photo of Evan Saran"
-                class="w-48 h-48 rounded-full object-cover object-[center_22%] border border-[color:var(--border)]"
-                loading="lazy"
-              />
+
+          <div class="orbital-stage" data-orbital-stage aria-label="Selected project previews">
+            <div class="orbital-wheel" data-orbital-wheel>
+              <a class="orbital-card" href="./projects/cleartext.html" data-orbital-card data-label="ClearText" data-subtitle="Document intelligence · 2026">
+                <img
+                  src="./assets/images/showcase/cleartext.jpg"
+                  alt="ClearText interface turning a dense document into cited, plain-language guidance"
+                  width="1280"
+                  height="797"
+                  loading="eager"
+                  decoding="async"
+                  fetchpriority="high"
+                />
+              </a>
+              <a class="orbital-card" href="./blog/posts/first-place-and-first-honors-gsef.html" data-orbital-card data-label="First place at GSEF" data-subtitle="Science fair · 2026">
+                <img
+                  src="./assets/images/showcase/gsef-win.jpg"
+                  alt="Evan at his science fair board holding first-place ribbons and certificates at GSEF"
+                  width="1400"
+                  height="933"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+              <a class="orbital-card" href="./projects/volsurf.html" data-orbital-card data-label="VolSurf" data-subtitle="Options and quantitative finance · 2026">
+                <img
+                  src="./assets/images/showcase/volsurf.jpg"
+                  alt="VolSurf dashboard showing an implied volatility surface with summary statistics"
+                  width="1280"
+                  height="454"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+              <a class="orbital-card" href="./blog/posts/divergent-teams-hackathon-shelfsync.html" data-orbital-card data-label="Divergent Teams Hackathon" data-subtitle="First place, finance · 2026">
+                <img
+                  src="./assets/images/showcase/divergent-win.jpg"
+                  alt="Evan and his teammate at the Microsoft Atlanta office after winning the Divergent Teams Hackathon"
+                  width="1275"
+                  height="850"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+              <a class="orbital-card orbital-card--graph" href="./projects/frost-drought-prediction-ml.html" data-orbital-card data-label="Frost &amp; Drought Prediction" data-subtitle="Climate machine learning · 2026">
+                <img
+                  src="./assets/images/showcase/frost-drought.jpg"
+                  alt="Feature importance chart from the frost and drought prediction models"
+                  width="1280"
+                  height="1097"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+              <a class="orbital-card" href="./projects/cricket-coach.html" data-orbital-card data-label="Cricket Coach" data-subtitle="Sports analytics · 2026">
+                <img
+                  src="./assets/images/showcase/cricket-coach.jpg"
+                  alt="Cricket Coach landing page for uploading a clip and getting technique feedback"
+                  width="1280"
+                  height="846"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
+            </div>
+            <div class="orbital-caption" aria-live="polite">
+              <span>Selected project</span>
+              <strong data-orbital-title>ClearText</strong>
+              <small data-orbital-subtitle>Document intelligence · 2026</small>
             </div>
           </div>
+          <noscript>
+            <div class="orbital-fallback">
+              <a href="./projects/cleartext.html">
+                <img src="./assets/images/showcase/cleartext.jpg" alt="ClearText interface" width="1280" height="797" />
+              </a>
+            </div>
+          </noscript>
         </div>
       </section>
-
-      <!-- Spatial project world: every project is anchored to one large 2D
-           artboard. Desktop, tablet, and mobile each have authored coordinates;
-           main.js pins this viewport and moves the single .world across X and Y.
-           Without JS or with reduced motion, the same links become an editorial
-           stack in normal document flow. -->
-      <section
-        id="showcase"
-        class="world-scene"
-        aria-labelledby="world-heading"
-        data-world-scene
-      >
-        <div class="world-intro container mx-auto px-6">
-          <p class="eyebrow">Selected work</p>
-          <h2 id="world-heading" class="section-title">A world of things I have built</h2>
-        </div>
-        <div class="world-viewport" data-world-viewport>
-          <ul class="world" data-world>
-            <li
-              class="world-object"
-              data-world-object
-              style="--dx: 8; --dy: 12; --dw: 32; --tx: 5; --ty: 7; --tw: 45; --mx: 5; --my: 3; --mw: 84; --depth: 1.015; --z: 3"
-            >
-              <a class="world-link" href="./projects/cleartext.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/showcase/cleartext.jpg"
-                    alt="ClearText interface turning a dense document into cited, plain-language guidance"
-                    width="1280"
-                    height="797"
-                    decoding="async"
-                    fetchpriority="high"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">ClearText</span>
-                  <span class="world-sub">Document intelligence · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object"
-              data-world-object
-              style="--dx: 65; --dy: 10; --dw: 19; --tx: 63; --ty: 20; --tw: 29; --mx: 51; --my: 55; --mw: 44; --depth: 0.965; --z: 2"
-            >
-              <a class="world-link" href="./blog/posts/first-place-and-first-honors-gsef.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/showcase/gsef-win.jpg"
-                    alt="Evan at his science fair board holding first-place ribbons and certificates at GSEF"
-                    width="1400"
-                    height="933"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">First place at GSEF</span>
-                  <span class="world-sub">Science fair · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object"
-              data-world-object
-              style="--dx: 18; --dy: 83; --dw: 36; --tx: 0; --ty: 77; --tw: 55; --mx: -2; --my: 103; --mw: 88; --depth: 1.035; --z: 4"
-            >
-              <a class="world-link" href="./projects/volsurf.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/showcase/volsurf.jpg"
-                    alt="VolSurf dashboard showing an implied volatility surface with summary statistics"
-                    width="1280"
-                    height="454"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">VolSurf</span>
-                  <span class="world-sub">Options &amp; quant · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object"
-              data-world-object
-              style="--dx: 105; --dy: 44; --dw: 14; --tx: 70; --ty: 64; --tw: 22; --mx: 50; --my: 146; --mw: 42; --depth: 1.01; --z: 2"
-            >
-              <a class="world-link" href="./projects/table-tennis-ai-referee.html">
-                <span class="world-media world-media--portrait">
-                  <img
-                    src="./assets/images/showcase/table-tennis-referee.jpg"
-                    alt="Evan and a teammate holding cameras used to prototype the Table Tennis AI Referee"
-                    width="900"
-                    height="1200"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">Table Tennis AI Referee</span>
-                  <span class="world-sub">Computer vision · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object"
-              data-world-object
-              style="--dx: 70; --dy: 104; --dw: 25; --tx: 38; --ty: 112; --tw: 43; --mx: 18; --my: 181; --mw: 72; --depth: 1.02; --z: 3"
-            >
-              <a class="world-link" href="./blog/posts/divergent-teams-hackathon-shelfsync.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/showcase/divergent-win.jpg"
-                    alt="Evan and his teammate at the Microsoft Atlanta office after winning the Divergent Teams Hackathon finance pathway"
-                    width="1275"
-                    height="850"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">Divergent Teams Hackathon</span>
-                  <span class="world-sub">First place, finance · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object"
-              data-world-object
-              style="--dx: 116; --dy: 78; --dw: 30; --tx: 92; --ty: 94; --tw: 42; --mx: 37; --my: 229; --mw: 76; --depth: 0.985; --z: 3"
-            >
-              <a class="world-link" href="./projects/cricket-coach.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/showcase/cricket-coach.jpg"
-                    alt="Cricket Coach landing page for uploading a clip and getting technique feedback"
-                    width="1280"
-                    height="846"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">Cricket Coach</span>
-                  <span class="world-sub">Sports analytics · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object world-object--distant"
-              data-world-object
-              style="--dx: 150; --dy: 70; --dw: 16; --tx: 129; --ty: 68; --tw: 23; --mx: 3; --my: 278; --mw: 48; --depth: 0.94; --z: 1"
-            >
-              <a class="world-link" href="./blog/posts/mit-zero-robotics-finals-third-place-alliance-10.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/Screenshot 2026-03-01 at 7.44.25 PM.png"
-                    alt="MIT Zero Robotics finals bracket showing Alliance 10 in third place internationally"
-                    width="1219"
-                    height="1014"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">MIT Zero Robotics</span>
-                  <span class="world-sub">Third internationally · 2026</span>
-                </span>
-              </a>
-            </li>
-            <li
-              class="world-object world-object--distant"
-              data-world-object
-              style="--dx: 162; --dy: 140; --dw: 11; --tx: 142; --ty: 140; --tw: 18; --mx: 54; --my: 318; --mw: 38; --depth: 0.92; --z: 1"
-            >
-              <a class="world-link" href="./projects/frost-drought-prediction-ml.html">
-                <span class="world-media">
-                  <img
-                    src="./assets/images/showcase/frost-drought.jpg"
-                    alt="Feature importance chart from the frost and drought prediction models"
-                    width="1280"
-                    height="1097"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="world-meta">
-                  <span class="world-title">Frost &amp; Drought Prediction</span>
-                  <span class="world-sub">Climate ML · 2026</span>
-                </span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
       <section id="projects" class="container mx-auto px-6 py-16 space-y-8">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div class="space-y-2">
@@ -456,6 +327,6 @@
 
     <script src="./assets/js/vendor/gsap.min.js"></script>
     <script src="./assets/js/vendor/ScrollTrigger.min.js"></script>
-    <script src="./assets/js/main.js?v=202627"></script>
+    <script src="./assets/js/main.js?v=202642"></script>
   </body>
 </html>

@@ -4,7 +4,7 @@ const siteData = {
   bio: "I am currently a Junior at Northview High School. I have done research at Stanford, Harvard, Yale, CMU, and Georgia Tech. Some of my hobbies are playing soccer and cricket.",
   location: "Johns Creek, Georgia",
   email: "evan.msaran@gmail.com",
-  emailUrl: "",
+  emailUrl: "mailto:evan.msaran@gmail.com",
   linkedinUrl: "https://www.linkedin.com/in/evan-saran-9211653b2/",
   githubUrl: "https://github.com/esaran1"
 };
@@ -179,270 +179,102 @@ const initAnimations = () => {
 };
 
 /**
- * Spatial project world.
+ * Vertical orbital project wheel.
  *
- * The projects are objects at fixed coordinates in a large 2D artboard. On
- * capable viewports main.js pins the viewport and moves a "camera" (a single
- * translate on the .world element) across BOTH X and Y through a hand-authored
- * path, so scrolling feels like drifting through a spatial exhibition rather
- * than flipping through slides. There is no active slide and no per-object
- * enter/exit choreography: the whole world moves as one.
- *
- * Without JS or under reduced motion, the same markup stays a readable static
- * editorial stack in normal document flow.
+ * A virtual circle is centered beyond the right edge, so its visible left arc
+ * reads as a vertical image track. Scroll changes the shared wheel phase; cards
+ * remain upright and receive restrained focus treatment near the left anchor.
  */
-
-// Breakpoint-specific camera paths. x/y translate the single world in vw/vh.
-// Their turns are composed around clusters, not around an active card: several
-// projects can share the camera, and the final move opens onto two distant data
-// projects. Coordinates for each matching artboard live in index.html.
-const WORLD_LAYOUTS = {
-  desktop: {
-    minScrollScreens: 3.6,
-    pace: 1,
-    path: [
-      { p: 0, x: 0, y: 0 },
-      { p: 0.2, x: -10, y: -55 },
-      { p: 0.4, x: -46, y: -68 },
-      { p: 0.6, x: -78, y: -50 },
-      { p: 0.8, x: -116, y: -88 },
-      { p: 1, x: -142, y: -65 }
-    ]
-  },
-  tablet: {
-    minScrollScreens: 3.6,
-    pace: 0.98,
-    path: [
-      { p: 0, x: 0, y: 0 },
-      { p: 0.2, x: -3, y: -43 },
-      { p: 0.4, x: -18, y: -76 },
-      { p: 0.62, x: -54, y: -76 },
-      { p: 0.82, x: -84, y: -101 },
-      { p: 1, x: -112, y: -80 }
-    ]
-  },
-  mobile: {
-    minScrollScreens: 3.8,
-    pace: 0.94,
-    path: [
-      { p: 0, x: 0, y: 0 },
-      { p: 0.2, x: -7, y: -45 },
-      { p: 0.35, x: 0, y: -94 },
-      { p: 0.5, x: -10, y: -140 },
-      { p: 0.65, x: -14, y: -176 },
-      { p: 0.8, x: -8, y: -223 },
-      { p: 1, x: -4, y: -276 }
-    ]
-  }
-};
-
-const getWorldLayoutName = () => {
-  if (window.innerWidth < 700) return "mobile";
-  if (window.innerWidth <= 1024) return "tablet";
-  return "desktop";
-};
-
-const initWorld = () => {
+const initOrbitalHero = () => {
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (window.innerWidth < 768) return;
 
-  const section = document.querySelector("[data-world-scene]");
-  if (!section) return;
+  const hero = document.querySelector("[data-orbital-hero]");
+  const stage = document.querySelector("[data-orbital-stage]");
+  const cards = Array.from(document.querySelectorAll("[data-orbital-card]"));
+  const title = document.querySelector("[data-orbital-title]");
+  const subtitle = document.querySelector("[data-orbital-subtitle]");
+  if (!hero || !stage || cards.length === 0) return;
 
-  const viewport = section.querySelector("[data-world-viewport]");
-  const world = section.querySelector("[data-world]");
-  const objects = Array.from(section.querySelectorAll("[data-world-object]"));
-  if (!viewport || !world || objects.length === 0) return;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   gsap.registerPlugin(ScrollTrigger);
 
-  let ctx = null; // active gsap.context for the camera build
-  let activeLayoutName = null;
+  const state = { progress: 0 };
+  let activeIndex = -1;
 
-  const canEnhance = () => !reduceMotion.matches;
+  const render = () => {
+    const stageWidth = stage.clientWidth;
+    const stageHeight = stage.clientHeight;
+    const cardWidth = cards[0].offsetWidth;
+    const cardHeight = cards[0].offsetHeight;
+    const centerX = stageWidth + Math.min(stageWidth * 0.17, 110);
+    const centerY = stageHeight * 0.5;
+    const radiusX = Math.max(stageWidth * 0.7, cardWidth * 1.35);
+    const radiusY = Math.max(stageHeight * 0.46, cardHeight * 1.75);
+    const spacing = 0.66;
+    const focusAngle = Math.PI;
+    const phase = state.progress * spacing * (cards.length - 1);
 
-  const teardown = () => {
-    if (ctx) {
-      ctx.revert(); // kills timeline + ScrollTrigger, restores inline styles
-      ctx = null;
-    }
-    activeLayoutName = null;
-    section.classList.remove("is-camera");
-  };
+    let nearestIndex = 0;
+    let nearestDistance = Infinity;
 
-  const build = () => {
-    if (ctx) return;
-    activeLayoutName = getWorldLayoutName();
-    const layout = WORLD_LAYOUTS[activeLayoutName];
-    const cameraPath = layout.path;
-    section.classList.add("is-camera");
+    cards.forEach((card, index) => {
+      const angle = focusAngle + index * spacing - phase;
+      const x = centerX + Math.cos(angle) * radiusX - cardWidth / 2;
+      const y = centerY + Math.sin(angle) * radiusY - cardHeight / 2;
+      const distance = Math.abs(Math.atan2(Math.sin(angle - focusAngle), Math.cos(angle - focusAngle)));
+      const focus = Math.max(0, 1 - distance / 1.22);
+      const isGraph = card.classList.contains("orbital-card--graph");
+      const scale = (0.76 + focus * 0.24) * (isGraph ? 1.12 : 1);
+      const brightness = 0.58 + focus * 0.42;
+      const saturation = 0.58 + focus * 0.42;
+      const blur = (1 - focus) * 2.3;
 
-    ctx = gsap.context(() => {
-      const vw = () => window.innerWidth / 100;
-      const vh = () => window.innerHeight / 100;
-
-      // Sum the full 2D path in pixels; both axes therefore contribute to the
-      // scroll length and pacing remains similar on tall and wide screens.
-      const pathDistance = () => {
-        let distance = 0;
-        for (let i = 1; i < cameraPath.length; i++) {
-          const previous = cameraPath[i - 1];
-          const current = cameraPath[i];
-          distance += Math.hypot(
-            (current.x - previous.x) * vw(),
-            (current.y - previous.y) * vh()
-          );
-        }
-        return distance;
-      };
-      const pinLength = () => Math.round(Math.max(
-        pathDistance() * layout.pace,
-        window.innerHeight * layout.minScrollScreens
-      ));
-
-      // Start the camera at its first keyframe so the entry frame is composed.
-      gsap.set(world, { x: cameraPath[0].x * vw(), y: cameraPath[0].y * vh() });
-
-      // ONE primary timeline + trigger drives the whole section: the world
-      // camera and the subtle per-object depth parallax all live on it.
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: viewport,
-          start: "top top",
-          end: () => "+=" + pinLength(),
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.7,
-          invalidateOnRefresh: true,
-          anticipatePin: 1
-        }
+      gsap.set(card, {
+        x,
+        y: y + (isGraph ? 18 : 0),
+        scale,
+        opacity: 0.28 + focus * 0.72,
+        zIndex: Math.round(focus * 100),
+        filter: `blur(${blur}px) brightness(${brightness}) saturate(${saturation})`
       });
 
-      // Move the whole world through the camera keyframes. Segment durations are
-      // proportional to the gaps between keyframe progress values, so the mapping
-      // from scroll position to camera position is continuous and even.
-      const total = cameraPath[cameraPath.length - 1].p - cameraPath[0].p;
-      for (let i = 1; i < cameraPath.length; i++) {
-        const k = cameraPath[i];
-        tl.to(
-          world,
-          {
-            x: () => k.x * vw(),
-            y: () => k.y * vh(),
-            duration: k.p - cameraPath[i - 1].p
-          },
-          cameraPath[i - 1].p
-        );
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
       }
-
-      // Very subtle depth parallax folded onto the same timeline: near objects
-      // drift slightly more than the world, distant ones slightly less. Kept
-      // tiny so everything stays anchored to one coherent world.
-      objects.forEach((obj) => {
-        const depth = parseFloat(obj.style.getPropertyValue("--depth")) || 1;
-        const drift = (depth - 1) * 6; // world units, tiny
-        if (drift !== 0) {
-          tl.fromTo(
-            obj,
-            { x: 0 },
-            { x: () => drift * vw(), duration: total },
-            0
-          );
-        }
-      });
-    }, section);
-  };
-
-  // Wait for the world images so pin measurements are correct, then refresh.
-  const imgs = Array.from(section.querySelectorAll("img"));
-  let settled = false;
-  const settle = () => {
-    if (settled) return;
-    settled = true;
-    if (canEnhance()) build();
-    ScrollTrigger.refresh();
-  };
-  const pending = imgs.filter((img) => !img.complete);
-  if (pending.length === 0) {
-    settle();
-  } else {
-    let left = pending.length;
-    const done = () => {
-      if (--left <= 0) settle();
-    };
-    pending.forEach((img) => {
-      img.addEventListener("load", done, { once: true });
-      img.addEventListener("error", done, { once: true });
     });
-    window.setTimeout(settle, 1500); // safety net
-  }
 
-  // Rebuild only when a resize crosses an authored layout breakpoint; ordinary
-  // resizes keep the same timeline and let invalidateOnRefresh remeasure it.
-  let resizeTimer = null;
-  const onResize = () => {
-    window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(() => {
-      if (canEnhance()) {
-        const nextLayoutName = getWorldLayoutName();
-        if (ctx && nextLayoutName !== activeLayoutName) {
-          const previousTrigger = ScrollTrigger.getAll().find((item) => item.trigger === viewport);
-          const previousProgress = previousTrigger?.progress || 0;
-
-          // Remove the old pin first and let the document recover its natural
-          // geometry before measuring the new breakpoint composition.
-          teardown();
-          const root = document.documentElement;
-          const previousScrollBehavior = root.style.scrollBehavior;
-          root.style.scrollBehavior = "auto";
-          const naturalViewportTop = viewport.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo(0, naturalViewportTop);
-          ScrollTrigger.refresh();
-          build();
-          ScrollTrigger.refresh();
-
-          // Keep the viewer at the same point in the journey after a breakpoint
-          // or orientation change, now using the freshly measured pin bounds.
-          const nextTrigger = ScrollTrigger.getAll().find((item) => item.trigger === viewport);
-          if (nextTrigger && previousProgress > 0 && previousProgress < 1) {
-            window.scrollTo(0, nextTrigger.start + (nextTrigger.end - nextTrigger.start) * previousProgress);
-            ScrollTrigger.update();
-          }
-          root.style.scrollBehavior = previousScrollBehavior;
-        } else {
-          if (!ctx) build();
-          ScrollTrigger.refresh();
-        }
-      } else {
-        teardown();
-        ScrollTrigger.refresh();
-      }
-    }, 200);
-  };
-  window.addEventListener("resize", onResize, { passive: true });
-  window.addEventListener("orientationchange", onResize, { passive: true });
-
-  // Honor a runtime reduced-motion change.
-  const onMotionPref = () => {
-    if (reduceMotion.matches) {
-      teardown();
-      ScrollTrigger.refresh();
-    } else if (canEnhance()) {
-      build();
-      ScrollTrigger.refresh();
+    if (nearestIndex !== activeIndex) {
+      activeIndex = nearestIndex;
+      const active = cards[activeIndex];
+      if (title) title.textContent = active.dataset.label || "Selected project";
+      if (subtitle) subtitle.textContent = active.dataset.subtitle || "Project preview";
     }
   };
-  if (reduceMotion.addEventListener) {
-    reduceMotion.addEventListener("change", onMotionPref);
-  }
-};
 
+  render();
+  gsap.to(state, {
+    progress: 1,
+    ease: "none",
+    onUpdate: render,
+    scrollTrigger: {
+      trigger: hero,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      invalidateOnRefresh: true
+    }
+  });
+
+  const onResize = () => render();
+  window.addEventListener("resize", onResize, { passive: true });
+};
 window.addEventListener("DOMContentLoaded", () => {
   initProfileBindings();
   initMobileNav();
   initBlogFilters();
   initFooterYear();
   initAnimations();
-  initWorld();
+  initOrbitalHero();
 });
