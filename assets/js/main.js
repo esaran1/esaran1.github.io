@@ -43,6 +43,25 @@ const initMobileNav = () => {
   });
 };
 
+const initProfileBrandScale = () => {
+  const brand = document.querySelector("[data-profile-brand]");
+  const hero = document.querySelector("[data-orbital-hero]");
+  if (!brand || !hero || typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.to(brand, {
+    scale: 1,
+    ease: "none",
+    scrollTrigger: {
+      trigger: hero,
+      start: "top top",
+      end: "+=320",
+      scrub: true,
+      invalidateOnRefresh: true
+    }
+  });
+};
+
 const initBlogFilters = () => {
   const postsList = document.getElementById("postsList");
   if (!postsList) return;
@@ -273,6 +292,7 @@ const initOrbitalHero = () => {
 window.addEventListener("DOMContentLoaded", () => {
   initProfileBindings();
   initMobileNav();
+  initProfileBrandScale();
   initBlogFilters();
   initFooterYear();
   initAnimations();
