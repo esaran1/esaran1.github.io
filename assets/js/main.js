@@ -218,7 +218,7 @@ const initOrbitalHero = () => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const state = { progress: 0 };
+  const state = { progress: 0, ambient: 0 };
   let activeIndex = -1;
 
   const render = () => {
@@ -232,7 +232,10 @@ const initOrbitalHero = () => {
     const radiusY = Math.max(stageHeight * 0.46, cardHeight * 1.75);
     const spacing = 0.66;
     const focusAngle = Math.PI;
-    const phase = state.progress * spacing * (cards.length - 1);
+    // Phase is driven by BOTH scroll (progress) and a continuous ambient drift,
+    // so the wheel keeps turning gently on its own even when the user is idle.
+    const phase =
+      state.progress * spacing * (cards.length - 1) + state.ambient;
 
     let nearestIndex = 0;
     let nearestDistance = Infinity;
@@ -285,6 +288,25 @@ const initOrbitalHero = () => {
       invalidateOnRefresh: true
     }
   });
+
+  // Continuous ambient drift: the wheel keeps turning gently on its own,
+  // seamlessly looping by advancing one card-spacing per cycle. Composed with
+  // the scroll phase above, so scrolling still moves through the sequence.
+  const spacing = 0.66;
+  const ambientTween = gsap.to(state, {
+    ambient: `+=${spacing}`,
+    duration: 7,
+    ease: "none",
+    repeat: -1,
+    onUpdate: render
+  });
+
+  // Pause the drift while the tab is hidden to save resources; resume on return.
+  const onVisibility = () => {
+    if (document.hidden) ambientTween.pause();
+    else ambientTween.resume();
+  };
+  document.addEventListener("visibilitychange", onVisibility);
 
   const onResize = () => render();
   window.addEventListener("resize", onResize, { passive: true });
