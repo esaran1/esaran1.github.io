@@ -289,22 +289,23 @@ const initOrbitalHero = () => {
     }
   });
 
-  // Continuous ambient drift: the wheel keeps turning gently on its own,
-  // seamlessly looping by advancing one card-spacing per cycle. Composed with
-  // the scroll phase above, so scrolling still moves through the sequence.
+  // Continuous ambient drift: advance the wheel phase by a fixed rate every
+  // frame so it keeps turning gently through ALL cards on its own, never
+  // resetting. Composed with the scroll phase above, so scrolling still moves
+  // through the sequence on top of the drift.
   const spacing = 0.66;
-  const ambientTween = gsap.to(state, {
-    ambient: `+=${spacing}`,
-    duration: 7,
-    ease: "none",
-    repeat: -1,
-    onUpdate: render
-  });
+  const driftRate = spacing / 4.5; // phase units per second (one card ~4.5s)
+  let driftPaused = false;
+  const driftTick = (_time, deltaMs) => {
+    if (driftPaused) return;
+    state.ambient += driftRate * (deltaMs / 1000);
+    render();
+  };
+  gsap.ticker.add(driftTick);
 
   // Pause the drift while the tab is hidden to save resources; resume on return.
   const onVisibility = () => {
-    if (document.hidden) ambientTween.pause();
-    else ambientTween.resume();
+    driftPaused = document.hidden;
   };
   document.addEventListener("visibilitychange", onVisibility);
 
